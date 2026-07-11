@@ -76,10 +76,10 @@ supabase/
 This project follows an 8-phase build plan where each phase ships fully working software:
 
 1. ✅ Foundation, Schema & Auth
-2. ⬜ Admin & Operator Setup
-3. ⬜ Traveler Search & Comparison
-4. ⬜ Reservation Engine
-5. ⬜ Payments
-6. ⬜ E-Ticket, Boarding & History
-7. ⬜ Settlement, Wallet & Disputes
-8. ⬜ Mobile Hardening & Launch Readiness
+2. ✅ Admin & Operator Setup
+3. ✅ Traveler Search & Comparison
+4. ✅ Reservation Engine
+5. ✅ Payments
+6. ✅ E-Ticket, Boarding & History
+7. ✅ Settlement, Wallet & Disputes
+8. ✅ Mobile Hardening & Launch Readiness
