@@ -14,7 +14,7 @@ export default function LandingPage() {
     <div className="min-h-screen flex flex-col bg-gradient-to-b from-mist via-white to-mist/30 dark:from-dark-surface dark:via-dark-bg dark:to-dark-surface">
       {/* Header */}
       <header className="px-4 sm:px-5 py-2 sm:py-4 flex items-center justify-between max-w-3xl mx-auto w-full">
-        <div className="scale-125 origin-left pl-2">
+        <div className="scale-90 origin-left pl-2 -ml-2">
           <Logo variant="full" size="sm" />
         </div>
         <div className="flex items-center gap-3">
