@@ -13,19 +13,21 @@ export default function LandingPage() {
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-b from-mist via-white to-mist/30 dark:from-dark-surface dark:via-dark-bg dark:to-dark-surface">
       {/* Header */}
-      <header className="px-5 py-4 flex items-center justify-between max-w-3xl mx-auto w-full">
-        <Logo variant="full" size="sm" />
+      <header className="px-4 sm:px-5 py-2 sm:py-4 flex items-center justify-between max-w-3xl mx-auto w-full">
+        <div className="scale-125 origin-left pl-2">
+          <Logo variant="full" size="sm" />
+        </div>
         <div className="flex items-center gap-3">
           <ThemeToggle />
           <Link
             href="/onboarding"
-            className="px-4 py-2 text-sm font-body font-medium text-foreground hover:text-pine dark:hover:text-emerald transition-colors"
+            className="px-2 sm:px-4 py-2 text-sm font-body font-medium text-foreground hover:text-pine dark:hover:text-emerald transition-colors whitespace-nowrap"
           >
             Log in
           </Link>
           <Link
             href="/onboarding"
-            className="px-4 py-2 text-sm font-body font-medium text-white bg-forest dark:bg-emerald dark:text-foreground rounded-xl hover:bg-pine dark:hover:bg-lime transition-colors"
+            className="px-3 sm:px-4 py-2 text-sm font-body font-medium text-white bg-forest dark:bg-emerald dark:text-foreground rounded-xl hover:bg-pine dark:hover:bg-lime transition-colors whitespace-nowrap"
           >
             Sign up
           </Link>
@@ -33,7 +35,7 @@ export default function LandingPage() {
       </header>
 
       {/* Hero */}
-      <main className="flex-1 flex flex-col items-center justify-center px-5 py-12 text-center">
+      <main className="flex-1 flex flex-col items-center justify-center px-5 py-2 sm:py-12 mt-4 sm:mt-0 text-center">
         <div className="max-w-md mx-auto">
           <div className="flex justify-center mb-6">
             <Logo variant="icon" size="lg" />
