@@ -1,26 +1,107 @@
 @import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+/* ============================================================================
+   ArriveLink - Design System Tokens
+   Source: Brand Kit / ArriveLink_Design_Direction.md
+   ============================================================================ */
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
+@layer base {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: #ffffff;
+    --foreground: #0A3D1F;
+  }
+
+  .dark {
+    --background: #1A1D1B;
+    --foreground: #f9fafb;
   }
 }
 
+@theme inline {
+  /* Brand Colors */
+  --color-forest: #0A3D1F;
+  --color-pine: #1A6B35;
+  --color-emerald: #2ECC71;
+  --color-lime: #7FE88A;
+  --color-mist: #E8FFF0;
+
+  /* Dark mode specific colors */
+  --color-dark-bg: #1A1D1B;
+  --color-dark-surface: #242724;
+
+  /* Semantic aliases */
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+
+  /* Typography - CSS variables set by next/font/google */
+  --font-display: var(--font-syne);
+  --font-body: var(--font-dm-sans);
+  --font-mono: var(--font-dm-mono);
+}
+
+/* ============================================================================
+   Base Styles
+   ============================================================================ */
+
+html {
+  scroll-behavior: smooth;
+}
+
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-background);
+  color: var(--color-foreground);
+  font-family: var(--font-body), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+::selection {
+  background-color: #0A3D1F;
+  color: #ffffff;
+}
+
+/* ============================================================================
+   Typography Utilities
+   ============================================================================ */
+
+.font-display {
+  font-family: var(--font-display), system-ui, sans-serif;
+}
+
+.font-body {
+  font-family: var(--font-body), system-ui, sans-serif;
+}
+
+.font-label {
+  font-family: var(--font-mono), monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-size: 0.75rem;
+}
+
+/* ============================================================================
+   Focus & Accessibility
+   ============================================================================ */
+
+*:focus-visible {
+  outline: 2px solid #1A6B35;
+  outline-offset: 2px;
+}
+
+/* ============================================================================
+   Scrollbar styling (subtle)
+   ============================================================================ */
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #1A6B35;
+  border-radius: 3px;
 }
