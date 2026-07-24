@@ -66,43 +66,20 @@ export async function createBooking(routeId: string, seatsRequested: number) {
     }
   }
 
-  // Check route availability
-  const { data: route } = await admin
-    .from('routes')
-    .select('id, seats_available, active')
-    .eq('id', routeId)
-    .single();
-
-  if (!route) return { error: 'Route not found' };
-  if (!route.active) return { error: 'This route is no longer active' };
-  if (route.seats_available < seatsRequested) {
-    return { error: `Only ${route.seats_available} seat(s) available` };
-  }
-
   // Set 15-minute payment window
   const expiresAt = new Date();
   expiresAt.setMinutes(expiresAt.getMinutes() + RESERVATION_WINDOW_MINUTES);
 
-  // Create booking with RESERVED status (no operator approval needed)
-  const { data: booking, error: bookingError } = await admin
-    .from('bookings')
-    .insert({
-      route_id: routeId,
-      traveler_id: user.id,
-      seats_requested: seatsRequested,
-      status: 'RESERVED',
-      payment_expires_at: expiresAt.toISOString(),
-    })
-    .select()
-    .single();
+  // Atomically hold the seats and create the RESERVED booking under a route
+  // row lock, so two simultaneous requests can never oversell the last seat.
+  const { data: booking, error: bookingError } = await admin.rpc('create_booking_atomic', {
+    p_route_id: routeId,
+    p_traveler_id: user.id,
+    p_seats: seatsRequested,
+    p_expires_at: expiresAt.toISOString(),
+  });
 
   if (bookingError) return { error: bookingError.message };
-
-  // Hold the seats immediately
-  await admin
-    .from('routes')
-    .update({ seats_available: route.seats_available - seatsRequested })
-    .eq('id', routeId);
 
   return { data: booking };
 }
@@ -127,7 +104,7 @@ export async function cancelBooking(bookingId: string) {
   // Cancel the booking
   await admin
     .from('bookings')
-    .update({ status: 'CANCELLED_TIMEOUT' })
+    .update({ status: 'CANCELLED' })
     .eq('id', bookingId);
 
   // Return seats

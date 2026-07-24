@@ -12,6 +12,7 @@ const STATUS_CONFIG: Record<string, { label: string; variant: 'live' | 'muted' |
   BOARDED: { label: 'Boarded', variant: 'verified' },
   COMPLETED: { label: 'Completed', variant: 'verified' },
   EXPIRED: { label: 'Expired', variant: 'muted' },
+  CANCELLED: { label: 'Cancelled', variant: 'muted' },
   CANCELLED_TIMEOUT: { label: 'Cancelled', variant: 'muted' },
   // Legacy
   REQUESTED: { label: 'Pending', variant: 'location' },

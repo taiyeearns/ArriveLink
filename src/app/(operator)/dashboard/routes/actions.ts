@@ -130,7 +130,7 @@ export async function checkActiveBookings(routeId: string) {
     .from('bookings')
     .select('id', { count: 'exact', head: true })
     .eq('route_id', routeId)
-    .not('status', 'in', '("REJECTED","CANCELLED_TIMEOUT")');
+    .not('status', 'in', '("REJECTED","CANCELLED_TIMEOUT","CANCELLED","EXPIRED")');
 
   if (error) return false;
   return (count || 0) > 0;
