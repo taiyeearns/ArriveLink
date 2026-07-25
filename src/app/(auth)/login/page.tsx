@@ -26,13 +26,28 @@ function LoginForm() {
     try {
       const supabase = createClient();
 
-      const { error: authError } = await supabase.auth.signInWithPassword({
+      const { data: authData, error: authError } = await supabase.auth.signInWithPassword({
         email,
         password,
       });
 
       if (authError) {
         setError(authError.message);
+        setLoading(false);
+        return;
+      }
+
+      // Role-scoped enforcement: each login surface only accepts its intended role.
+      const accountRole = authData.user?.user_metadata?.role || 'traveler';
+      if (type === 'traveler' && accountRole !== 'traveler') {
+        await supabase.auth.signOut();
+        setError("This account isn't registered as a traveler.");
+        setLoading(false);
+        return;
+      }
+      if (type === 'operator' && accountRole !== 'operator_rep') {
+        await supabase.auth.signOut();
+        setError("This account isn't registered as an operator.");
         setLoading(false);
         return;
       }
