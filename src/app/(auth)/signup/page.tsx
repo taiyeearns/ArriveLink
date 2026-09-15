@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { createClient } from '@/lib/supabase/client';
@@ -52,6 +52,43 @@ export default function SignupPage() {
     }
   }
 
+  // Resend confirmation email logic
+  const RESEND_COOLDOWN = 60;
+  const [resendCooldown, setResendCooldown] = useState(0);
+  const [resendLoading, setResendLoading] = useState(false);
+  const [resendMessage, setResendMessage] = useState('');
+
+  useEffect(() => {
+    if (resendCooldown <= 0) return;
+    const timer = setTimeout(() => setResendCooldown((c) => c - 1), 1000);
+    return () => clearTimeout(timer);
+  }, [resendCooldown]);
+
+  const handleResendEmail = useCallback(async () => {
+    if (resendCooldown > 0 || resendLoading) return;
+    setResendLoading(true);
+    setResendMessage('');
+
+    try {
+      const supabase = createClient();
+      const { error: resendError } = await supabase.auth.resend({
+        type: 'signup',
+        email,
+      });
+
+      if (resendError) {
+        setResendMessage(resendError.message);
+      } else {
+        setResendMessage('Verification email sent. Check your inbox.');
+        setResendCooldown(RESEND_COOLDOWN);
+      }
+    } catch {
+      setResendMessage('Something went wrong. Please try again.');
+    } finally {
+      setResendLoading(false);
+    }
+  }, [email, resendCooldown, resendLoading]);
+
   if (success) {
     return (
       <Card>
@@ -68,13 +105,35 @@ export default function SignupPage() {
           <h2 className="font-display text-xl font-bold text-foreground mb-2">
             Check your email
           </h2>
-          <p className="text-sm text-gray-500 dark:text-gray-400 font-body mb-6">
+          <p className="text-sm text-foreground/60 font-body mb-6">
             We sent a verification link to <span className="font-medium text-foreground">{email}</span>.
             Click it to activate your account.
           </p>
-          <Button variant="secondary" onClick={() => router.push('/login')}>
-            Back to Login
-          </Button>
+
+          {resendMessage && (
+            <p className={`text-sm font-body mb-4 ${
+              resendMessage.includes('sent') ? 'text-emerald' : 'text-red-600'
+            }`}>
+              {resendMessage}
+            </p>
+          )}
+
+          <div className="flex flex-col gap-3">
+            <button
+              onClick={handleResendEmail}
+              disabled={resendCooldown > 0 || resendLoading}
+              className="text-sm font-body font-medium text-foreground hover:text-pine dark:hover:text-lime transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {resendLoading
+                ? 'Sending...'
+                : resendCooldown > 0
+                  ? `Resend in ${resendCooldown}s`
+                  : "Didn't get the email? Resend it"}
+            </button>
+            <Button variant="secondary" onClick={() => router.push('/login')}>
+              Back to Login
+            </Button>
+          </div>
         </CardContent>
       </Card>
     );

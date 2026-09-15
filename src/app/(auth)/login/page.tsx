@@ -103,6 +103,17 @@ function LoginForm() {
             autoComplete="current-password"
           />
 
+          {type !== 'admin' && (
+            <div className="text-right -mt-2">
+              <Link
+                href="/forgot-password"
+                className="text-sm font-body text-foreground/60 hover:text-pine dark:hover:text-lime transition-colors"
+              >
+                Forgot password?
+              </Link>
+            </div>
+          )}
+
           {error && (
             <div className="p-3 rounded-xl bg-red-50 border border-red-200">
               <p className="text-sm text-red-600 font-body">{error}</p>

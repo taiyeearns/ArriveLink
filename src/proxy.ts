@@ -2,7 +2,7 @@ import { type NextRequest, NextResponse } from 'next/server';
 import { updateSession } from '@/lib/supabase/middleware';
 
 // Routes that don't require authentication
-const PUBLIC_ROUTES = ['/login', '/signup', '/callback', '/api', '/about', '/terms', '/privacy', '/landing', '/onboarding', '/search'];
+const PUBLIC_ROUTES = ['/login', '/signup', '/callback', '/api', '/about', '/terms', '/privacy', '/landing', '/onboarding', '/search', '/forgot-password', '/reset-password'];
 
 // Role home dashboard path
 const ROLE_HOME: Record<string, string> = {
