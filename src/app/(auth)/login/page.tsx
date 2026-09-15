@@ -38,6 +38,7 @@ function LoginForm() {
       }
 
       // Role-scoped enforcement: each login surface only accepts its intended role.
+      // type=admin bypasses this check (admin login is unlinked and internal-only).
       const accountRole = authData.user?.user_metadata?.role || 'traveler';
       if (type === 'traveler' && accountRole !== 'traveler') {
         await supabase.auth.signOut();
@@ -48,6 +49,12 @@ function LoginForm() {
       if (type === 'operator' && accountRole !== 'operator_rep') {
         await supabase.auth.signOut();
         setError("This account isn't registered as an operator.");
+        setLoading(false);
+        return;
+      }
+      if (type === 'admin' && accountRole !== 'admin') {
+        await supabase.auth.signOut();
+        setError("This account doesn't have admin access.");
         setLoading(false);
         return;
       }
@@ -112,7 +119,11 @@ function LoginForm() {
           </Button>
         </form>
 
-        {type === 'operator' ? (
+        {type === 'admin' ? (
+          <p className="text-center text-xs text-gray-400 dark:text-gray-500 font-body mt-6">
+            Internal access only.
+          </p>
+        ) : type === 'operator' ? (
           <p className="text-center text-sm text-gray-500 dark:text-gray-400 font-body mt-6">
             Want to become an operator?{' '}
             <a href="mailto:support@arrivelink.com" className="text-foreground font-semibold hover:text-pine dark:hover:text-lime transition-colors">

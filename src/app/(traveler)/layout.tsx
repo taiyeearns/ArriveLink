@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
 import { Logo } from '@/components/ui/logo';
 import { ThemeToggle } from '@/components/ui/theme-toggle';
 import { createClient } from '@/lib/supabase/client';
@@ -43,8 +44,14 @@ export default function TravelerLayout({
 }) {
   const pathname = usePathname();
   const router = useRouter();
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
 
-
+  useEffect(() => {
+    const supabase = createClient();
+    supabase.auth.getUser().then(({ data }) => {
+      setIsAuthenticated(!!data.user);
+    });
+  }, []);
 
   return (
     <div className="min-h-screen flex flex-col bg-white dark:bg-dark-bg">
@@ -64,7 +71,7 @@ export default function TravelerLayout({
       </main>
 
       {/* Bottom navigation - mobile-native feel */}
-      {!pathname.startsWith('/booking') && !pathname.startsWith('/payment') && (
+      {isAuthenticated && !pathname.startsWith('/booking') && !pathname.startsWith('/payment') && (
         <nav className="sticky bottom-0 z-40 bg-white dark:bg-dark-surface border-t border-gray-100 dark:border-white/5">
           <div className="max-w-lg mx-auto flex items-center justify-around h-16">
             {navItems.map((item) => {

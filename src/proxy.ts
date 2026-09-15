@@ -2,7 +2,7 @@ import { type NextRequest, NextResponse } from 'next/server';
 import { updateSession } from '@/lib/supabase/middleware';
 
 // Routes that don't require authentication
-const PUBLIC_ROUTES = ['/login', '/signup', '/callback', '/api', '/about', '/terms', '/privacy', '/landing', '/onboarding'];
+const PUBLIC_ROUTES = ['/login', '/signup', '/callback', '/api', '/about', '/terms', '/privacy', '/landing', '/onboarding', '/search'];
 
 // Role home dashboard path
 const ROLE_HOME: Record<string, string> = {
@@ -53,8 +53,14 @@ export async function proxy(request: NextRequest) {
     return supabaseResponse;
   }
 
-  // Allow public routes
-  const isPublicRoute = PUBLIC_ROUTES.some((route) => pathname.startsWith(route));
+  // Allow public routes.
+  // The payment verify route (/payment/[bookingId]/verify) is intentionally public.
+  // Paystack redirects here from an external site, so the session may not be present on
+  // the first request. The page needs no user session: it works off the Paystack
+  // reference via the admin client and is idempotent (the webhook also finalizes the
+  // booking). Gating it would bounce a just-paid user to login and drop the reference.
+  const isPaymentVerifyRoute = /^\/payment\/[^/]+\/verify$/.test(pathname);
+  const isPublicRoute = isPaymentVerifyRoute || PUBLIC_ROUTES.some((route) => pathname.startsWith(route));
 
   if (isPublicRoute) {
     // Redirect authenticated users away from auth pages (login/signup only)
@@ -68,10 +74,10 @@ export async function proxy(request: NextRequest) {
     return supabaseResponse;
   }
 
-  // Not logged in -> login
+  // Not logged in -> login (preserve the full path + query so re-login returns to the exact URL)
   if (!user) {
     const loginUrl = new URL('/login', request.url);
-    loginUrl.searchParams.set('redirect', pathname);
+    loginUrl.searchParams.set('redirect', pathname + request.nextUrl.search);
     return NextResponse.redirect(loginUrl);
   }
 
