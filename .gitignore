@@ -51,5 +51,7 @@ issue5.md
 # page content
 page_content.md
 
-# claude
+# agent config
+.agents/
+AGENTS.md
 CLAUDE.md
