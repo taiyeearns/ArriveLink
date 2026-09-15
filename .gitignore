@@ -43,7 +43,13 @@ next-env.d.ts
 
 # issues 
 issue1.md
-issue2.md
+issue2.md 
 issue3.md
 issue4.md
 issue5.md
+
+# page content
+page_content.md
+
+# claude
+CLAUDE.md
