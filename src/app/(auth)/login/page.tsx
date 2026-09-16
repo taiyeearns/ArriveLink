@@ -16,7 +16,8 @@ function LoginForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const redirect = searchParams.get('redirect');
-  const type = searchParams.get('type');
+  const typeParam = searchParams.get('type');
+  const surface = typeParam || (redirect?.startsWith('/dashboard') ? 'operator' : redirect?.startsWith('/admin') ? 'admin' : 'traveler');
 
   async function handleLogin(e: React.FormEvent) {
     e.preventDefault();
@@ -37,31 +38,51 @@ function LoginForm() {
         return;
       }
 
-      // Role-scoped enforcement: each login surface only accepts its intended role.
-      // type=admin bypasses this check (admin login is unlinked and internal-only).
-      const accountRole = authData.user?.user_metadata?.role || 'traveler';
-      if (type === 'traveler' && accountRole !== 'traveler') {
-        await supabase.auth.signOut();
-        setError("This account isn't registered as a traveler.");
+      if (!authData.user) {
+        setError('Authentication failed. Please try again.');
         setLoading(false);
         return;
       }
-      if (type === 'operator' && accountRole !== 'operator_rep') {
+
+      // Authoritative role lookup from public.users with fallback to user_metadata
+      let accountRole = authData.user.user_metadata?.role || 'traveler';
+      try {
+        const { data: profile } = await supabase
+          .from('users')
+          .select('role')
+          .eq('id', authData.user.id)
+          .single();
+        if (profile?.role) {
+          accountRole = profile.role;
+        }
+      } catch {
+        // Fall back to accountRole from metadata
+      }
+
+      // Role-scoped enforcement: each login surface only accepts its intended role.
+      if (surface === 'operator' && accountRole !== 'operator_rep') {
         await supabase.auth.signOut();
         setError("This account isn't registered as an operator.");
         setLoading(false);
         return;
       }
-      if (type === 'admin' && accountRole !== 'admin') {
+
+      if (surface === 'traveler' && accountRole !== 'traveler') {
+        await supabase.auth.signOut();
+        setError("This account isn't registered as a traveler.");
+        setLoading(false);
+        return;
+      }
+
+      if (surface === 'admin' && accountRole !== 'admin') {
         await supabase.auth.signOut();
         setError("This account doesn't have admin access.");
         setLoading(false);
         return;
       }
 
-      // After successful login, navigate to root.
-      // The proxy (server-side) handles role-based redirection.
-      const destination = redirect || '/';
+      // After successful login, navigate to destination.
+      const destination = redirect || (surface === 'operator' ? '/dashboard' : surface === 'admin' ? '/admin' : '/');
       router.push(destination);
       router.refresh();
     } catch {
@@ -75,10 +96,18 @@ function LoginForm() {
       <CardContent className="pt-8 pb-8">
         <div className="text-center mb-8">
           <h1 className="font-display text-2xl font-bold text-foreground">
-            Welcome back
+            {surface === 'operator'
+              ? 'Operator Sign In'
+              : surface === 'admin'
+              ? 'Admin Access'
+              : 'Welcome back'}
           </h1>
           <p className="text-sm text-foreground/50 dark:text-foreground/40 font-body mt-2">
-            Sign in to your ArriveLink account
+            {surface === 'operator'
+              ? 'Sign in to your operator dashboard'
+              : surface === 'admin'
+              ? 'Internal administration portal'
+              : 'Sign in to your ArriveLink account'}
           </p>
         </div>
 
@@ -103,7 +132,7 @@ function LoginForm() {
             autoComplete="current-password"
           />
 
-          {type !== 'admin' && (
+          {surface !== 'admin' && (
             <div className="text-right -mt-2">
               <Link
                 href="/forgot-password"
@@ -130,11 +159,11 @@ function LoginForm() {
           </Button>
         </form>
 
-        {type === 'admin' ? (
+        {surface === 'admin' ? (
           <p className="text-center text-xs text-foreground/40 dark:text-foreground/50 font-body mt-6">
             Internal access only.
           </p>
-        ) : type === 'operator' ? (
+        ) : surface === 'operator' ? (
           <p className="text-center text-sm text-foreground/50 dark:text-foreground/40 font-body mt-6">
             Want to become an operator?{' '}
             <a href="mailto:support@arrivelink.com" className="text-foreground font-semibold hover:text-pine dark:hover:text-lime transition-colors">

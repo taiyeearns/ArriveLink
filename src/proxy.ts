@@ -1,5 +1,6 @@
 import { type NextRequest, NextResponse } from 'next/server';
 import { updateSession } from '@/lib/supabase/middleware';
+import type { User } from '@supabase/supabase-js';
 
 // Routes that don't require authentication
 const PUBLIC_ROUTES = ['/login', '/signup', '/callback', '/api', '/about', '/terms', '/privacy', '/landing', '/onboarding', '/search', '/forgot-password', '/reset-password'];
@@ -22,7 +23,7 @@ const ROLE_ALLOWED_PREFIXES: Record<string, string[]> = {
  * Get the user's role from their JWT metadata.
  * This is synchronous and avoids a slow database fetch on every request.
  */
-function getUserRole(user: any): string | null {
+function getUserRole(user: User | null): string | null {
   if (!user) return null;
   return user.user_metadata?.role || 'traveler';
 }
@@ -77,6 +78,11 @@ export async function proxy(request: NextRequest) {
   // Not logged in -> login (preserve the full path + query so re-login returns to the exact URL)
   if (!user) {
     const loginUrl = new URL('/login', request.url);
+    if (pathname.startsWith('/dashboard')) {
+      loginUrl.searchParams.set('type', 'operator');
+    } else if (pathname.startsWith('/admin')) {
+      loginUrl.searchParams.set('type', 'admin');
+    }
     loginUrl.searchParams.set('redirect', pathname + request.nextUrl.search);
     return NextResponse.redirect(loginUrl);
   }
