@@ -50,6 +50,46 @@ const brandColorsPlugin = {
         };
       },
     },
+    "no-em-dash": {
+      meta: {
+        type: "problem",
+        docs: {
+          description: "Prohibit em dashes (—) anywhere in code, JSX text, strings, and page metadata. Use a standard hyphen (-) instead.",
+        },
+        messages: {
+          noEmDash: "Em dashes (—) are strictly prohibited in the ArriveLink codebase (titles, metadata, JSX text, and code strings). Use a standard hyphen (-) instead.",
+        },
+        schema: [],
+      },
+      create(context) {
+        return {
+          Literal(node) {
+            if (typeof node.value === "string" && node.value.includes("—")) {
+              context.report({
+                node,
+                messageId: "noEmDash",
+              });
+            }
+          },
+          TemplateElement(node) {
+            if (node.value && node.value.raw && node.value.raw.includes("—")) {
+              context.report({
+                node,
+                messageId: "noEmDash",
+              });
+            }
+          },
+          JSXText(node) {
+            if (node.value && node.value.includes("—")) {
+              context.report({
+                node,
+                messageId: "noEmDash",
+              });
+            }
+          },
+        };
+      },
+    },
   },
 };
 
@@ -62,6 +102,7 @@ const eslintConfig = defineConfig([
     },
     rules: {
       "brand-guard/no-raw-colors": "warn",
+      "brand-guard/no-em-dash": "error",
     },
   },
   // Override default ignores of eslint-config-next.

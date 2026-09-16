@@ -4,7 +4,7 @@ import { ThemeToggle } from '@/components/ui/theme-toggle';
 import { SearchForm } from '@/app/(traveler)/search-form';
 
 export const metadata = {
-  title: 'ArriveLink — Stop Going From Park to Park',
+  title: 'ArriveLink - Stop Going From Park to Park',
   description:
     'ArriveLink shows you every transport company, verified prices, and real departure times before you leave your house.',
 };
@@ -152,7 +152,7 @@ export default function LandingPage() {
                 &ldquo;I woke at 5AM to catch a 6AM bus from Benin City to Kaduna. I went from terminal to terminal. Nobody was going there. By the time I found the right park, the bus was gone. I waited until 11AM and broke my journey across two days. This happens to millions of Nigerians every week. It doesn&rsquo;t have to.&rdquo;
               </p>
               <footer className="mt-5 text-sm text-foreground/60 font-body">
-                <span className="text-forest dark:text-emerald font-semibold">— Praise Obasi</span>, Founder of ArriveLink
+                <span className="text-forest dark:text-emerald font-semibold">- Praise Obasi</span>, Founder of ArriveLink
               </footer>
             </blockquote>
           </div>

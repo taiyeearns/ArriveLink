@@ -1,7 +1,7 @@
 {
   "name": "ArriveLink",
   "short_name": "ArriveLink",
-  "description": "Plan It. Book It. Arrive. — Find and compare transport routes across Nigeria.",
+  "description": "Plan It. Book It. Arrive. - Find and compare transport routes across Nigeria.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#FFFFFF",
