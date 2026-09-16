@@ -29,7 +29,7 @@ export default async function HistoryPage() {
     <div className="space-y-5">
       <div>
         <h1 className="font-display text-xl font-bold text-foreground">My Bookings</h1>
-        <p className="text-sm text-gray-400 font-body mt-0.5">
+        <p className="text-sm text-foreground/40 font-body mt-0.5">
           {bookings.length} booking{bookings.length !== 1 ? 's' : ''}
         </p>
       </div>
@@ -43,7 +43,7 @@ export default async function HistoryPage() {
               </svg>
             </div>
             <h2 className="font-display text-base font-semibold text-foreground mb-1">No bookings yet</h2>
-            <p className="text-sm text-gray-500 font-body mb-4">
+            <p className="text-sm text-foreground/50 font-body mb-4">
               Search for a route and book your first trip.
             </p>
             <Link href="/" className="text-sm text-emerald font-medium font-body hover:text-pine transition-colors">
@@ -78,7 +78,7 @@ export default async function HistoryPage() {
             const minutesLeft = expiresAt ? Math.max(0, Math.ceil((expiresAt.getTime() - Date.now()) / 60000)) : null;
 
             return (
-              <Card key={booking.id} className={`hover:shadow-md transition-shadow ${isReserved ? 'ring-2 ring-emerald/40 dark:ring-gray-100' : ''}`}>
+              <Card key={booking.id} className={`hover:shadow-md transition-shadow ${isReserved ? 'ring-2 ring-emerald/40 dark:ring-white/20' : ''}`}>
                 <CardContent className="py-4">
                   <div className="flex items-start justify-between gap-2 mb-2">
                     <Badge variant="verified">{route?.operator?.business_name || 'Operator'}</Badge>
@@ -87,7 +87,7 @@ export default async function HistoryPage() {
 
                   {/* Countdown for reserved */}
                   {isReserved && minutesLeft !== null && (
-                    <div className="flex items-center gap-1.5 mb-2 p-2 rounded-lg bg-emerald/10 border border-emerald/30 dark:border-gray-100/20">
+                    <div className="flex items-center gap-1.5 mb-2 p-2 rounded-lg bg-emerald/10 border border-emerald/30 dark:border-mist/20">
                       <svg className="w-3.5 h-3.5 text-emerald shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                       </svg>
@@ -99,13 +99,13 @@ export default async function HistoryPage() {
 
                   <div className="flex items-center gap-2 mb-1">
                     <span className="text-sm font-medium text-foreground font-body truncate">{originLabel}</span>
-                    <svg className="w-4 h-4 text-gray-300 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg className="w-4 h-4 text-foreground/30 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                     </svg>
                     <span className="text-sm font-medium text-foreground font-body truncate">{destLabel}</span>
                   </div>
 
-                  <div className="flex items-center gap-3 text-xs text-gray-400 font-body mb-3">
+                  <div className="flex items-center gap-3 text-xs text-foreground/40 font-body mb-3">
                     <span>{route?.departure_time ? formatTime(route.departure_time) : ''}</span>
                     <span>·</span>
                     <span>{booking.seats_requested} seat{booking.seats_requested !== 1 ? 's' : ''}</span>
@@ -114,7 +114,7 @@ export default async function HistoryPage() {
                   </div>
 
                   <div className="flex items-center justify-between">
-                    <p className="text-[10px] text-gray-400 font-body">
+                    <p className="text-[10px] text-foreground/40 font-body">
                       {new Date(booking.created_at).toLocaleDateString('en-NG', {
                         month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit',
                       })}

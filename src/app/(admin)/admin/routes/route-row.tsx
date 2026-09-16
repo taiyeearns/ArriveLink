@@ -43,14 +43,14 @@ export function RouteRow({ route }: RouteRowProps) {
   }
 
   return (
-    <tr className="border-b border-gray-100 last:border-0">
+    <tr className="border-b border-mist last:border-0">
       <td className="py-3 px-4">
         <p className="font-body text-sm font-medium text-foreground">
           {route.origin_city}, {route.origin_state}
         </p>
       </td>
       <td className="py-3 px-4">
-        <span className="text-gray-400 text-xs">→</span>
+        <span className="text-foreground/40 text-xs">→</span>
       </td>
       <td className="py-3 px-4">
         <p className="font-body text-sm font-medium text-foreground">
@@ -81,7 +81,7 @@ export function RouteRow({ route }: RouteRowProps) {
             Delete
           </Button>
         </div>
-        {error && <p className="text-xs text-red-500 mt-1">{error}</p>}
+        {error && <p className="text-xs text-error mt-1">{error}</p>}
       </td>
     </tr>
   );

@@ -14,7 +14,7 @@ export default function NotFound() {
           <h1 className="font-display text-xl font-bold text-foreground mb-2">
             Page not found
           </h1>
-          <p className="text-sm text-gray-500 font-body">
+          <p className="text-sm text-foreground/50 font-body">
             The page you&apos;re looking for doesn&apos;t exist or has been moved.
           </p>
         </div>
@@ -26,7 +26,7 @@ export default function NotFound() {
             </button>
           </Link>
           <Link href="/history">
-            <button className="w-full px-5 py-3 bg-gray-100 text-foreground rounded-xl font-body text-sm font-medium hover:bg-gray-200 transition-colors cursor-pointer">
+            <button className="w-full px-5 py-3 bg-muted-bg text-foreground rounded-xl font-body text-sm font-medium hover:bg-mist transition-colors cursor-pointer">
               View My Bookings
             </button>
           </Link>

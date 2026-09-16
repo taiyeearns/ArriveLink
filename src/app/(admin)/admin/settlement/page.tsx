@@ -14,7 +14,7 @@ export default async function SettlementPage() {
   return (
     <div className="space-y-6">
       <div>
-        <p className="font-label text-gray-400 mb-1">Financial Management</p>
+        <p className="font-label text-foreground/40 mb-1">Financial Management</p>
         <h1 className="font-display text-2xl font-bold text-foreground">Settlements</h1>
       </div>
 
@@ -36,12 +36,12 @@ export default async function SettlementPage() {
 
       {/* Operator list */}
       <div>
-        <p className="font-label text-gray-400 mb-3">Operators</p>
+        <p className="font-label text-foreground/40 mb-3">Operators</p>
 
         {operators.length === 0 ? (
           <Card>
             <CardContent className="py-8 text-center">
-              <p className="text-sm text-gray-500 font-body">No operators with wallet activity.</p>
+              <p className="text-sm text-foreground/50 font-body">No operators with wallet activity.</p>
             </CardContent>
           </Card>
         ) : (

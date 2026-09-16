@@ -112,7 +112,7 @@ export default function SignupPage() {
 
           {resendMessage && (
             <p className={`text-sm font-body mb-4 ${
-              resendMessage.includes('sent') ? 'text-emerald' : 'text-red-600'
+              resendMessage.includes('sent') ? 'text-emerald' : 'text-error'
             }`}>
               {resendMessage}
             </p>
@@ -146,7 +146,7 @@ export default function SignupPage() {
           <h1 className="font-display text-2xl font-bold text-foreground">
             Create your account
           </h1>
-          <p className="text-sm text-gray-500 dark:text-gray-400 font-body mt-2">
+          <p className="text-sm text-foreground/50 dark:text-foreground/40 font-body mt-2">
             Start booking verified transport across Nigeria
           </p>
         </div>
@@ -194,8 +194,8 @@ export default function SignupPage() {
           />
 
           {error && (
-            <div className="p-3 rounded-xl bg-red-50 border border-red-200">
-              <p className="text-sm text-red-600 font-body">{error}</p>
+            <div className="p-3 rounded-xl bg-error-bg border border-error-border">
+              <p className="text-sm text-error font-body">{error}</p>
             </div>
           )}
 
@@ -205,9 +205,9 @@ export default function SignupPage() {
               type="checkbox"
               checked={agreed}
               onChange={(e) => setAgreed(e.target.checked)}
-              className="mt-1 w-4 h-4 rounded border-gray-300 text-foreground dark:accent-emerald focus:ring-emerald accent-forest cursor-pointer"
+              className="mt-1 w-4 h-4 rounded border-mist text-foreground accent-forest accent-forest dark:accent-emerald focus:ring-emerald accent-forest cursor-pointer"
             />
-            <span className="text-xs text-gray-500 dark:text-gray-400 font-body leading-relaxed">
+            <span className="text-xs text-foreground/50 dark:text-foreground/40 font-body leading-relaxed">
               By signing up, I agree that I have read and understood the{' '}
               <Link href="/terms" target="_blank" className="text-foreground font-medium hover:text-pine dark:hover:text-lime transition-colors underline">
                 Terms of Service
@@ -230,7 +230,7 @@ export default function SignupPage() {
           </Button>
         </form>
 
-        <p className="text-center text-sm text-gray-500 dark:text-gray-400 font-body mt-6">
+        <p className="text-center text-sm text-foreground/50 dark:text-foreground/40 font-body mt-6">
           Already have an account?{' '}
             <Link href="/login" className="text-foreground font-semibold hover:text-pine dark:hover:text-lime transition-colors">
               Log in

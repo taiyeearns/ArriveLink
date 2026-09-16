@@ -57,7 +57,7 @@ export function DuplicateRouteModal({ routeId, originalTime, isOpen, onClose }: 
         <Card className="shadow-2xl border-0 overflow-hidden">
           <CardContent className="pt-6 pb-6">
             <h3 className="font-display text-lg font-bold text-foreground mb-1">Duplicate Route</h3>
-            <p className="text-sm font-body text-gray-500 mb-5">
+            <p className="text-sm font-body text-foreground/50 mb-5">
               Copy this route with a new time or bus number.
             </p>
 
@@ -80,8 +80,8 @@ export function DuplicateRouteModal({ routeId, originalTime, isOpen, onClose }: 
               />
 
               {error && (
-                <div className="p-3 rounded-xl bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-900">
-                  <p className="text-sm text-red-600 dark:text-red-400 font-body">{error}</p>
+                <div className="p-3 rounded-xl bg-error-bg dark:bg-error-bg border border-error-border dark:border-error-border">
+                  <p className="text-sm text-error dark:text-error font-body">{error}</p>
                 </div>
               )}
 

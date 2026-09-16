@@ -55,7 +55,7 @@ export function CreateRouteButton() {
   return (
     <Card>
       <CardContent className="pt-5 pb-5">
-        <p className="font-label text-gray-400 mb-4">New Bus Entry</p>
+        <p className="font-label text-foreground/40 mb-4">New Bus Entry</p>
         <form onSubmit={handleSubmit} className="space-y-4">
           {/* General Route selector */}
           <div className="flex flex-col gap-1.5">
@@ -63,7 +63,7 @@ export function CreateRouteButton() {
             <select
               name="general_route_id"
               required
-              className="w-full px-4 py-3 rounded-xl border border-gray-200 bg-white text-sm font-body text-foreground focus:outline-none focus:ring-2 focus:ring-pine/20 focus:border-pine"
+              className="w-full px-4 py-3 rounded-xl border border-mist bg-white text-sm font-body text-foreground focus:outline-none focus:ring-2 focus:ring-pine/20 focus:border-pine"
             >
               <option value="">Select a route corridor</option>
               {generalRoutes.map((gr) => (
@@ -95,8 +95,8 @@ export function CreateRouteButton() {
           <Input label="Total Seats" name="seats_total" type="number" min="1" required />
 
           {error && (
-            <div className="p-3 rounded-xl bg-red-50 border border-red-200">
-              <p className="text-sm text-red-600 font-body">{error}</p>
+            <div className="p-3 rounded-xl bg-error-bg border border-error-border">
+              <p className="text-sm text-error font-body">{error}</p>
             </div>
           )}
 

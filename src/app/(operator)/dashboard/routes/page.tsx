@@ -14,9 +14,9 @@ export default async function OperatorRoutesPage() {
     <div className="space-y-6">
       <div className="flex items-start justify-between gap-4 flex-wrap">
         <div>
-          <p className="font-label text-gray-400 mb-1">Bus Management</p>
+          <p className="font-label text-foreground/40 mb-1">Bus Management</p>
           <h1 className="font-display text-2xl font-bold text-foreground">Your Buses</h1>
-          <p className="text-sm text-gray-500 font-body mt-1">
+          <p className="text-sm text-foreground/50 font-body mt-1">
             {routes.length} bus{routes.length !== 1 ? 'es' : ''}
             {activeCount < routes.length && `, ${activeCount} active`}
           </p>
@@ -33,7 +33,7 @@ export default async function OperatorRoutesPage() {
               </svg>
             </div>
             <h2 className="font-display text-lg font-semibold text-foreground mb-1">No buses yet</h2>
-            <p className="text-sm text-gray-500 font-body mb-4">
+            <p className="text-sm text-foreground/50 font-body mb-4">
               Add your first bus so travelers can find and book your services.
             </p>
             <CreateRouteButton />

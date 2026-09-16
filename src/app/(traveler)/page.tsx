@@ -16,7 +16,7 @@ export default function TravelerHomePage() {
           Plan It. Book It. <br />
           <span className="text-emerald dark:text-lime">Arrive.</span>
         </h1>
-        <p className="text-sm text-gray-500 dark:text-gray-400 font-body mt-2 max-w-xs mx-auto">
+        <p className="text-sm text-foreground/50 dark:text-foreground/40 font-body mt-2 max-w-xs mx-auto">
           Find and compare transport routes across Nigeria. Pre-pay your seat, skip the terminal chaos.
         </p>
       </div>
@@ -24,7 +24,7 @@ export default function TravelerHomePage() {
       {/* Search card */}
       <Card className="shadow-lg border-0">
         <CardContent className="pt-6 pb-6">
-          <p className="font-label text-gray-400 mb-4">Find your ride</p>
+          <p className="font-label text-foreground/40 mb-4">Find your ride</p>
           <SearchForm />
         </CardContent>
       </Card>

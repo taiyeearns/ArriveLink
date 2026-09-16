@@ -40,7 +40,7 @@ export function CreateRouteForm() {
   return (
     <Card>
       <CardContent className="pt-5 pb-5">
-        <p className="font-label text-gray-400 mb-4">New Route Corridor</p>
+        <p className="font-label text-foreground/40 mb-4">New Route Corridor</p>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="grid grid-cols-2 gap-3">
             <Input label="Origin City" name="origin_city" placeholder="e.g. Benin City" required />
@@ -53,8 +53,8 @@ export function CreateRouteForm() {
           </div>
 
           {error && (
-            <div className="p-3 rounded-xl bg-red-50 border border-red-200">
-              <p className="text-sm text-red-600 font-body">{error}</p>
+            <div className="p-3 rounded-xl bg-error-bg border border-error-border">
+              <p className="text-sm text-error font-body">{error}</p>
             </div>
           )}
 

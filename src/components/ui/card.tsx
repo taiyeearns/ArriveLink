@@ -13,7 +13,7 @@ function Card({ tinted = false, children, className = '', ...props }: CardProps)
   return (
     <div
       className={`
-        rounded-2xl border border-gray-100 dark:border-white/5 shadow-sm
+        rounded-2xl border border-mist dark:border-white/5 shadow-sm
         ${tinted ? 'bg-mist dark:bg-emerald/10' : 'bg-white dark:bg-dark-surface'}
         ${className}
       `}
@@ -46,7 +46,7 @@ function CardContent({ children, className = '' }: { children: ReactNode; classN
 
 function CardFooter({ children, className = '' }: { children: ReactNode; className?: string }) {
   return (
-    <div className={`px-6 pb-6 pt-2 border-t border-gray-100 dark:border-white/5 ${className}`}>
+    <div className={`px-6 pb-6 pt-2 border-t border-mist dark:border-white/5 ${className}`}>
       {children}
     </div>
   );

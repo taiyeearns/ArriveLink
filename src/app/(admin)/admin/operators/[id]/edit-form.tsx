@@ -54,7 +54,7 @@ export function EditOperatorForm({ operator }: EditOperatorFormProps) {
         <select
           name="status"
           defaultValue={operator.status}
-          className="w-full px-4 py-3 rounded-xl border border-gray-200 font-body text-base text-foreground bg-white focus:outline-none focus:ring-2 focus:ring-pine/30 focus:border-pine transition-all duration-200"
+          className="w-full px-4 py-3 rounded-xl border border-mist font-body text-base text-foreground bg-white focus:outline-none focus:ring-2 focus:ring-pine/30 focus:border-pine transition-all duration-200"
         >
           <option value="active">Active</option>
           <option value="inactive">Inactive</option>
@@ -63,8 +63,8 @@ export function EditOperatorForm({ operator }: EditOperatorFormProps) {
       </div>
 
       {error && (
-        <div className="p-3 rounded-xl bg-red-50 border border-red-200">
-          <p className="text-sm text-red-600 font-body">{error}</p>
+        <div className="p-3 rounded-xl bg-error-bg border border-error-border">
+          <p className="text-sm text-error font-body">{error}</p>
         </div>
       )}
 

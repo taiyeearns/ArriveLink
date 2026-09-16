@@ -41,7 +41,7 @@ export function BookingForm({ routeId, fare, seatsAvailable }: BookingFormProps)
   return (
     <Card className="shadow-lg border-0">
       <CardContent className="pt-5 pb-5">
-        <p className="font-label text-gray-400 mb-4">Book your seats</p>
+        <p className="font-label text-foreground/40 mb-4">Book your seats</p>
 
         {/* Seat selector */}
         <div className="flex items-center justify-between mb-4">
@@ -51,7 +51,7 @@ export function BookingForm({ routeId, fare, seatsAvailable }: BookingFormProps)
               type="button"
               onClick={() => setSeats(Math.max(1, seats - 1))}
               disabled={seats <= 1}
-              className="w-9 h-9 rounded-full bg-gray-100 dark:bg-dark-bg dark:border dark:border-white/5 flex items-center justify-center text-foreground hover:bg-gray-200 dark:hover:bg-white/5 transition-colors disabled:opacity-30 cursor-pointer"
+              className="w-9 h-9 rounded-full bg-muted-bg dark:bg-dark-bg dark:border dark:border-white/5 flex items-center justify-center text-foreground hover:bg-mist dark:hover:bg-white/5 transition-colors disabled:opacity-30 cursor-pointer"
             >
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 12H4" />
@@ -62,7 +62,7 @@ export function BookingForm({ routeId, fare, seatsAvailable }: BookingFormProps)
               type="button"
               onClick={() => setSeats(Math.min(seatsAvailable, seats + 1))}
               disabled={seats >= seatsAvailable}
-              className="w-9 h-9 rounded-full bg-gray-100 dark:bg-dark-bg dark:border dark:border-white/5 flex items-center justify-center text-foreground hover:bg-gray-200 dark:hover:bg-white/5 transition-colors disabled:opacity-30 cursor-pointer"
+              className="w-9 h-9 rounded-full bg-muted-bg dark:bg-dark-bg dark:border dark:border-white/5 flex items-center justify-center text-foreground hover:bg-mist dark:hover:bg-white/5 transition-colors disabled:opacity-30 cursor-pointer"
             >
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
@@ -74,11 +74,11 @@ export function BookingForm({ routeId, fare, seatsAvailable }: BookingFormProps)
         {/* Total */}
         <div className="p-4 rounded-xl bg-mist dark:bg-dark-bg dark:border dark:border-white/5 mb-4">
           <div className="flex justify-between text-sm font-body mb-1">
-            <span className="text-gray-500">₦{fare.toLocaleString()} × {seats} seat{seats !== 1 ? 's' : ''}</span>
+            <span className="text-foreground/50">₦{fare.toLocaleString()} × {seats} seat{seats !== 1 ? 's' : ''}</span>
             <span className="text-foreground">₦{totalFare.toLocaleString()}</span>
           </div>
           <div className="flex justify-between text-sm font-body mb-2">
-            <span className="text-gray-500">Convenience fee</span>
+            <span className="text-foreground/50">Convenience fee</span>
             <span className="text-foreground">₦{CONVENIENCE_FEE.toLocaleString()}</span>
           </div>
           <div className="border-t border-emerald/20 dark:border-white/5 pt-2 flex justify-between">
@@ -98,8 +98,8 @@ export function BookingForm({ routeId, fare, seatsAvailable }: BookingFormProps)
         </div>
 
         {error && (
-          <div className="p-3 rounded-xl bg-red-50 border border-red-200 mb-4">
-            <p className="text-sm text-red-600 font-body">{error}</p>
+          <div className="p-3 rounded-xl bg-error-bg border border-error-border mb-4">
+            <p className="text-sm text-error font-body">{error}</p>
           </div>
         )}
 

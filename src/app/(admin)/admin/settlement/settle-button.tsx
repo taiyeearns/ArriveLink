@@ -51,8 +51,8 @@ export function SettleButton({ operatorId, pendingBalance, operatorName }: Settl
   }
 
   return (
-    <div className="space-y-3 pt-2 border-t border-gray-100">
-      <p className="text-xs text-gray-500 font-body">
+    <div className="space-y-3 pt-2 border-t border-mist">
+      <p className="text-xs text-foreground/50 font-body">
         Settle funds for <strong>{operatorName}</strong>
       </p>
       <Input
@@ -66,7 +66,7 @@ export function SettleButton({ operatorId, pendingBalance, operatorName }: Settl
       />
 
       {error && (
-        <p className="text-xs text-red-600 font-body">{error}</p>
+        <p className="text-xs text-error font-body">{error}</p>
       )}
 
       <div className="flex gap-2">

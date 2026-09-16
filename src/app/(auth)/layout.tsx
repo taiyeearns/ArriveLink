@@ -21,7 +21,7 @@ export default function AuthLayout({
       </div>
 
       {/* Footer */}
-      <p className="mt-12 text-xs text-gray-400 font-body text-center">
+      <p className="mt-12 text-xs text-foreground/40 font-body text-center">
         Plan It. Book It. Arrive.
       </p>
     </div>

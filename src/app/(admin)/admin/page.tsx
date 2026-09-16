@@ -24,14 +24,14 @@ export default async function AdminDashboardPage() {
     { label: 'Operators', value: operatorsRes.count ?? 0, href: '/admin/operators', color: 'text-pine' },
     { label: 'Route Corridors', value: routesRes.count ?? 0, href: '/admin/routes', color: 'text-pine' },
     { label: 'Bookings', value: bookingsRes.count ?? 0, href: '/admin/bookings', color: 'text-pine' },
-    { label: 'Open Disputes', value: disputesRes.count ?? 0, href: '/admin/disputes', color: 'text-red-500' },
+    { label: 'Open Disputes', value: disputesRes.count ?? 0, href: '/admin/disputes', color: 'text-error' },
     { label: 'Pending Settlement', value: `₦${totalPending.toLocaleString()}`, href: '/admin/settlement', color: 'text-amber-500' },
   ];
 
   return (
     <div className="space-y-8">
       <div>
-        <p className="font-label text-gray-400 mb-1">Admin Dashboard</p>
+        <p className="font-label text-foreground/40 mb-1">Admin Dashboard</p>
         <h1 className="font-display text-2xl font-bold text-foreground">Platform Overview</h1>
       </div>
 
@@ -41,7 +41,7 @@ export default async function AdminDashboardPage() {
             <Card key={stat.label} className={stat.href ? 'hover:shadow-md transition-shadow cursor-pointer' : ''}>
               <CardContent className="py-5">
                 <p className={`font-display text-2xl font-bold ${stat.color}`}>{stat.value}</p>
-                <p className="text-sm text-gray-500 font-body mt-0.5">{stat.label}</p>
+                <p className="text-sm text-foreground/50 font-body mt-0.5">{stat.label}</p>
               </CardContent>
             </Card>
           );
@@ -59,7 +59,7 @@ export default async function AdminDashboardPage() {
           <Card>
             <CardContent className="py-5">
               <h3 className="font-display text-sm font-semibold text-foreground mb-2">Manage Operators</h3>
-              <p className="text-xs text-gray-500 font-body mb-4">Create operator accounts and rep credentials.</p>
+              <p className="text-xs text-foreground/50 font-body mb-4">Create operator accounts and rep credentials.</p>
               <Link href="/admin/operators">
                 <Button size="sm" variant="secondary">Go to Operators →</Button>
               </Link>
@@ -68,7 +68,7 @@ export default async function AdminDashboardPage() {
           <Card>
             <CardContent className="py-5">
               <h3 className="font-display text-sm font-semibold text-foreground mb-2">Settle Funds</h3>
-              <p className="text-xs text-gray-500 font-body mb-4">Move pending earnings to operator available balance.</p>
+              <p className="text-xs text-foreground/50 font-body mb-4">Move pending earnings to operator available balance.</p>
               <Link href="/admin/settlement">
                 <Button size="sm" variant="secondary">Go to Settlements →</Button>
               </Link>
@@ -77,7 +77,7 @@ export default async function AdminDashboardPage() {
           <Card>
             <CardContent className="py-5">
               <h3 className="font-display text-sm font-semibold text-foreground mb-2">Resolve Disputes</h3>
-              <p className="text-xs text-gray-500 font-body mb-4">Review and resolve traveler complaints.</p>
+              <p className="text-xs text-foreground/50 font-body mb-4">Review and resolve traveler complaints.</p>
               <Link href="/admin/disputes">
                 <Button size="sm" variant="secondary">Go to Disputes →</Button>
               </Link>

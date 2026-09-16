@@ -14,7 +14,7 @@ const variantClasses: Record<BadgeVariant, string> = {
   live:
     'text-emerald bg-emerald/10 border border-emerald/20',
   muted:
-    'text-gray-400 bg-gray-100 dark:bg-dark-surface border border-gray-200 dark:border-white/5',
+    'text-foreground/40 bg-muted-bg dark:bg-dark-surface border border-mist dark:border-white/5',
   location:
     'text-foreground bg-white dark:bg-dark-surface border border-forest/20 dark:border-white/5',
   status:

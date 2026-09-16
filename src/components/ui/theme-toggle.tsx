@@ -12,7 +12,7 @@ export function ThemeToggle() {
 
   if (!mounted) {
     return (
-      <div className="w-14 h-8 rounded-full bg-gray-100 dark:bg-white/5 animate-pulse" />
+      <div className="w-14 h-8 rounded-full bg-muted-bg dark:bg-white/5 animate-pulse" />
     );
   }
 

@@ -39,8 +39,8 @@ export function PayButton({ bookingId, amount }: PayButtonProps) {
   return (
     <div>
       {error && (
-        <div className="p-3 rounded-xl bg-red-50 border border-red-200 mb-4">
-          <p className="text-sm text-red-600 font-body">{error}</p>
+        <div className="p-3 rounded-xl bg-error-bg border border-error-border mb-4">
+          <p className="text-sm text-error font-body">{error}</p>
         </div>
       )}
 

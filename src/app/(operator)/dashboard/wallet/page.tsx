@@ -14,7 +14,7 @@ export default async function OperatorWalletPage() {
   return (
     <div className="space-y-6">
       <div>
-        <p className="font-label text-gray-400 mb-1">Earnings</p>
+        <p className="font-label text-foreground/40 mb-1">Earnings</p>
         <h1 className="font-display text-2xl font-bold text-foreground">Wallet</h1>
       </div>
 
@@ -30,9 +30,9 @@ export default async function OperatorWalletPage() {
 
         <Card>
           <CardContent className="pt-5 pb-5">
-            <p className="text-xs text-gray-400 font-body mb-1">Pending Settlement</p>
+            <p className="text-xs text-foreground/40 font-body mb-1">Pending Settlement</p>
             <p className="font-display text-3xl font-bold text-foreground">₦{pending.toLocaleString()}</p>
-            <p className="text-xs text-gray-400 font-body mt-2">Awaiting admin settlement</p>
+            <p className="text-xs text-foreground/40 font-body mt-2">Awaiting admin settlement</p>
           </CardContent>
         </Card>
       </div>
@@ -42,7 +42,7 @@ export default async function OperatorWalletPage() {
         <CardContent className="pt-4 pb-4">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-xs text-gray-400 font-body">Total Earned</p>
+              <p className="text-xs text-foreground/40 font-body">Total Earned</p>
               <p className="font-display text-xl font-bold text-foreground">
                 ₦{(pending + available).toLocaleString()}
               </p>
@@ -58,12 +58,12 @@ export default async function OperatorWalletPage() {
 
       {/* Recent transactions */}
       <div>
-        <p className="font-label text-gray-400 mb-3">Recent Earnings</p>
+        <p className="font-label text-foreground/40 mb-3">Recent Earnings</p>
 
         {transactions.length === 0 ? (
           <Card>
             <CardContent className="py-8 text-center">
-              <p className="text-sm text-gray-500 font-body">No earnings yet. Earnings appear when travelers pay for bookings.</p>
+              <p className="text-sm text-foreground/50 font-body">No earnings yet. Earnings appear when travelers pay for bookings.</p>
             </CardContent>
           </Card>
         ) : (
@@ -86,7 +86,7 @@ export default async function OperatorWalletPage() {
                           <p className="text-sm font-medium text-foreground font-body">
                             {route?.general_route?.origin_city} → {route?.general_route?.destination_city}
                           </p>
-                          <p className="text-xs text-gray-400 font-body">
+                          <p className="text-xs text-foreground/40 font-body">
                             {tx.traveler?.name || 'Traveler'} · {tx.seats_requested} seat{tx.seats_requested !== 1 ? 's' : ''}
                           </p>
                         </div>
@@ -95,7 +95,7 @@ export default async function OperatorWalletPage() {
                         <p className="text-sm font-semibold text-emerald font-body">
                           +₦{amount.toLocaleString()}
                         </p>
-                        <p className="text-[10px] text-gray-400 font-body">
+                        <p className="text-[10px] text-foreground/40 font-body">
                           {tx.paid_at ? new Date(tx.paid_at).toLocaleDateString('en-NG', {
                             month: 'short', day: 'numeric',
                           }) : ''}

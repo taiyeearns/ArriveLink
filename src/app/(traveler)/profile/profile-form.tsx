@@ -56,16 +56,16 @@ export function ProfileForm({ name, phone, email }: ProfileFormProps) {
       />
 
       <div className="flex flex-col gap-1.5">
-        <label className="font-body text-sm font-medium text-gray-400">Email</label>
-        <p className="px-4 py-3 rounded-xl bg-gray-50 dark:bg-pine/10 border border-transparent dark:border-pine/20 text-sm text-gray-500 dark:text-emerald font-body">
+        <label className="font-body text-sm font-medium text-foreground/40">Email</label>
+        <p className="px-4 py-3 rounded-xl bg-muted-bg dark:bg-pine/10 border border-transparent dark:border-pine/20 text-sm text-foreground/50 dark:text-emerald font-body">
           {email}
         </p>
-        <p className="text-xs text-gray-400 font-body">Email cannot be changed</p>
+        <p className="text-xs text-foreground/40 font-body">Email cannot be changed</p>
       </div>
 
       {error && (
-        <div className="p-3 rounded-xl bg-gray-50 dark:bg-dark-surface border border-gray-200 dark:border-white/5">
-          <p className="text-sm text-gray-600 dark:text-gray-400 font-body">{error}</p>
+        <div className="p-3 rounded-xl bg-muted-bg dark:bg-dark-surface border border-mist dark:border-white/5">
+          <p className="text-sm text-foreground/60 dark:text-foreground/40 font-body">{error}</p>
         </div>
       )}
 

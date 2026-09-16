@@ -13,7 +13,7 @@ export default async function ProfilePage() {
       <div className="space-y-4">
         <Card>
           <CardContent className="py-10 text-center">
-            <p className="text-sm text-gray-500 font-body">Unable to load profile.</p>
+            <p className="text-sm text-foreground/50 font-body">Unable to load profile.</p>
           </CardContent>
         </Card>
       </div>
@@ -23,7 +23,7 @@ export default async function ProfilePage() {
   return (
     <div className="space-y-6">
       <div>
-        <p className="font-label text-gray-400 mb-1">Account</p>
+        <p className="font-label text-foreground/40 mb-1">Account</p>
         <h1 className="font-display text-2xl font-bold text-foreground">Profile</h1>
       </div>
 
@@ -40,7 +40,7 @@ export default async function ProfilePage() {
               <h2 className="font-display text-lg font-bold text-foreground">
                 {profile.name || 'Traveler'}
               </h2>
-              <p className="text-sm text-gray-400 font-body">{profile.email}</p>
+              <p className="text-sm text-foreground/40 font-body">{profile.email}</p>
               <p className="text-xs text-emerald font-body mt-1 capitalize">
                 {profile.role === 'operator_rep' ? 'Operator Rep' : profile.role}
               </p>
@@ -52,7 +52,7 @@ export default async function ProfilePage() {
       {/* Edit form */}
       <Card>
         <CardContent className="pt-5 pb-5">
-          <p className="font-label text-gray-400 mb-4">Edit Details</p>
+          <p className="font-label text-foreground/40 mb-4">Edit Details</p>
           <ProfileForm
             name={profile.name || ''}
             phone={profile.phone || ''}
@@ -64,10 +64,10 @@ export default async function ProfilePage() {
       {/* Account info */}
       <Card>
         <CardContent className="pt-4 pb-4">
-          <p className="font-label text-gray-400 mb-3">Account Info</p>
+          <p className="font-label text-foreground/40 mb-3">Account Info</p>
           <div className="space-y-2 text-sm font-body">
             <div className="flex justify-between">
-              <span className="text-gray-500">Member since</span>
+              <span className="text-foreground/50">Member since</span>
               <span className="text-foreground">
                 {new Date(profile.created_at).toLocaleDateString('en-NG', {
                   month: 'long', year: 'numeric',
@@ -75,8 +75,8 @@ export default async function ProfilePage() {
               </span>
             </div>
             <div className="flex justify-between">
-              <span className="text-gray-500">User ID</span>
-              <span className="font-mono text-xs text-gray-400">{profile.id.slice(0, 8)}</span>
+              <span className="text-foreground/50">User ID</span>
+              <span className="font-mono text-xs text-foreground/40">{profile.id.slice(0, 8)}</span>
             </div>
           </div>
         </CardContent>

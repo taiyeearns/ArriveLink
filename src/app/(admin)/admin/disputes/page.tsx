@@ -13,11 +13,11 @@ export default async function AdminDisputesPage() {
   return (
     <div className="space-y-6">
       <div>
-        <p className="font-label text-gray-400 mb-1">Support</p>
+        <p className="font-label text-foreground/40 mb-1">Support</p>
         <h1 className="font-display text-2xl font-bold text-foreground">Disputes</h1>
-        <p className="text-sm text-gray-500 font-body mt-1">
+        <p className="text-sm text-foreground/50 font-body mt-1">
           {disputes.length} total
-          {openCount > 0 && <span className="text-red-500 font-medium"> · {openCount} open</span>}
+          {openCount > 0 && <span className="text-error font-medium"> · {openCount} open</span>}
         </p>
       </div>
 
@@ -30,7 +30,7 @@ export default async function AdminDisputesPage() {
               </svg>
             </div>
             <h2 className="font-display text-base font-semibold text-foreground mb-1">No disputes</h2>
-            <p className="text-sm text-gray-500 font-body">All clear! No issues reported.</p>
+            <p className="text-sm text-foreground/50 font-body">All clear! No issues reported.</p>
           </CardContent>
         </Card>
       ) : (
@@ -41,13 +41,13 @@ export default async function AdminDisputesPage() {
             const isOpen = !dispute.resolved_at;
 
             return (
-              <Card key={dispute.id} className={isOpen ? 'ring-2 ring-red-200' : ''}>
+              <Card key={dispute.id} className={isOpen ? 'ring-2 ring-error/30' : ''}>
                 <CardContent className="py-4">
                   <div className="flex items-start justify-between gap-2 mb-2">
                     <Badge variant={isOpen ? 'location' : 'verified'}>
                       {isOpen ? 'Open' : 'Resolved'}
                     </Badge>
-                    <p className="text-[10px] text-gray-400 font-body">
+                    <p className="text-[10px] text-foreground/40 font-body">
                       {new Date(dispute.created_at).toLocaleDateString('en-NG', {
                         month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit',
                       })}
@@ -60,23 +60,23 @@ export default async function AdminDisputesPage() {
                   </p>
 
                   {/* Booking context */}
-                  <p className="text-xs text-gray-400 font-body mb-2">
+                  <p className="text-xs text-foreground/40 font-body mb-2">
                     {route?.general_route?.origin_city} → {route?.general_route?.destination_city} · {route?.operator?.business_name}
                     {' · '}{booking?.seats_requested} seat{booking?.seats_requested !== 1 ? 's' : ''}
                   </p>
 
                   {/* Reason */}
-                  <div className="p-3 rounded-xl bg-red-50 border border-red-100 mb-3">
-                    <p className="text-xs text-gray-400 font-body mb-1">Reason</p>
-                    <p className="text-sm text-red-700 font-body">{dispute.reason}</p>
+                  <div className="p-3 rounded-xl bg-error-bg border border-error-border mb-3">
+                    <p className="text-xs text-foreground/40 font-body mb-1">Reason</p>
+                    <p className="text-sm text-error font-body">{dispute.reason}</p>
                   </div>
 
                   {/* Resolution */}
                   {dispute.resolution && (
                     <div className="p-3 rounded-xl bg-emerald/5 border border-emerald/10 mb-3">
-                      <p className="text-xs text-gray-400 font-body mb-1">Resolution</p>
+                      <p className="text-xs text-foreground/40 font-body mb-1">Resolution</p>
                       <p className="text-sm text-foreground font-body">{dispute.resolution}</p>
-                      <p className="text-[10px] text-gray-400 font-body mt-1">
+                      <p className="text-[10px] text-foreground/40 font-body mt-1">
                         Resolved {new Date(dispute.resolved_at).toLocaleDateString('en-NG', {
                           month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit',
                         })}

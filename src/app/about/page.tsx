@@ -13,7 +13,7 @@ export default function AboutPage() {
         <div className="flex-1">
           {/* Header */}
         <div className="flex items-center gap-3 mb-8">
-          <Link href="/" className="w-8 h-8 rounded-full bg-white dark:bg-dark-surface border border-gray-200 dark:border-white/10 flex items-center justify-center hover:bg-gray-50 dark:hover:bg-white/5 transition-colors">
+          <Link href="/" className="w-8 h-8 rounded-full bg-white dark:bg-dark-surface border border-mist dark:border-white/10 flex items-center justify-center hover:bg-muted-bg dark:hover:bg-white/5 transition-colors">
             <svg className="w-4 h-4 text-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
             </svg>
@@ -26,7 +26,7 @@ export default function AboutPage() {
           <Logo variant="icon" size="lg" />
         </div>
 
-        <div className="space-y-6 font-body text-sm text-gray-600 dark:text-gray-300 leading-relaxed">
+        <div className="space-y-6 font-body text-sm text-foreground/60 dark:text-foreground/70 leading-relaxed">
           <p>
             <span className="font-semibold text-foreground">ArriveLink</span> is a transport booking platform built for Nigerian intercity travel. We connect travelers with verified bus operators, making it easy to compare fares, pre-pay for your seat, and skip the chaos at the motor park.
           </p>
@@ -76,7 +76,7 @@ export default function AboutPage() {
         </div>
 
         {/* Footer links */}
-        <div className="mt-10 pt-6 border-t border-gray-200 dark:border-white/5 flex items-center justify-center gap-6 text-xs text-gray-400 font-body">
+        <div className="mt-10 pt-6 border-t border-mist dark:border-white/5 flex items-center justify-center gap-6 text-xs text-foreground/40 font-body">
           <Link href="/terms" className="hover:text-foreground transition-colors">Terms</Link>
           <Link href="/privacy" className="hover:text-foreground transition-colors">Privacy</Link>
           <Link href="/" className="hover:text-foreground transition-colors">Home</Link>

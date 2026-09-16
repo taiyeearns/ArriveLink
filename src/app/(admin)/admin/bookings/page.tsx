@@ -31,7 +31,7 @@ export default async function AdminBookingsPage() {
   return (
     <div className="space-y-6">
       <div>
-        <p className="font-label text-gray-400 mb-1">Platform Overview</p>
+        <p className="font-label text-foreground/40 mb-1">Platform Overview</p>
         <h1 className="font-display text-2xl font-bold text-foreground">All Bookings</h1>
       </div>
 
@@ -40,19 +40,19 @@ export default async function AdminBookingsPage() {
         <Card>
           <CardContent className="py-3 text-center">
             <p className="font-display text-2xl font-bold text-foreground">{stats.total}</p>
-            <p className="text-xs text-gray-400 font-body">Total</p>
+            <p className="text-xs text-foreground/40 font-body">Total</p>
           </CardContent>
         </Card>
         <Card>
           <CardContent className="py-3 text-center">
             <p className="font-display text-2xl font-bold text-emerald">{stats.paid}</p>
-            <p className="text-xs text-gray-400 font-body">Paid</p>
+            <p className="text-xs text-foreground/40 font-body">Paid</p>
           </CardContent>
         </Card>
         <Card>
           <CardContent className="py-3 text-center">
             <p className="font-display text-2xl font-bold text-amber-500">{stats.pending}</p>
-            <p className="text-xs text-gray-400 font-body">Pending</p>
+            <p className="text-xs text-foreground/40 font-body">Pending</p>
           </CardContent>
         </Card>
       </div>
@@ -61,7 +61,7 @@ export default async function AdminBookingsPage() {
       {bookings.length === 0 ? (
         <Card>
           <CardContent className="py-8 text-center">
-            <p className="text-sm text-gray-500 font-body">No bookings yet.</p>
+            <p className="text-sm text-foreground/50 font-body">No bookings yet.</p>
           </CardContent>
         </Card>
       ) : (
@@ -78,13 +78,13 @@ export default async function AdminBookingsPage() {
                       <p className="text-sm font-medium text-foreground font-body truncate">
                         {route?.general_route?.origin_city} → {route?.general_route?.destination_city}
                       </p>
-                      <p className="text-xs text-gray-400 font-body">
+                      <p className="text-xs text-foreground/40 font-body">
                         {route?.operator?.business_name} · {booking.traveler?.name || booking.traveler?.email}
                       </p>
                     </div>
                     <Badge variant={status.variant}>{status.label}</Badge>
                   </div>
-                  <div className="flex items-center gap-3 text-xs text-gray-400 font-body">
+                  <div className="flex items-center gap-3 text-xs text-foreground/40 font-body">
                     <span>{booking.seats_requested} seat{booking.seats_requested !== 1 ? 's' : ''}</span>
                     <span>·</span>
                     <span>₦{(Number(route?.fare || 0) * booking.seats_requested).toLocaleString()}</span>

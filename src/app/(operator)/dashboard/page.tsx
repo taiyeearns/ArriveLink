@@ -61,7 +61,7 @@ export default async function OperatorDashboardPage() {
 
   const stats = [
     { label: 'Active Routes', value: routeCount.toString(), color: 'bg-emerald/10 text-emerald' },
-    { label: "Today's Bookings", value: bookingCount.toString(), color: 'bg-blue-50 text-blue-600' },
+    { label: "Today's Bookings", value: bookingCount.toString(), color: 'bg-mist text-pine dark:bg-white/5 dark:text-lime' },
   ];
 
   return (
@@ -69,7 +69,7 @@ export default async function OperatorDashboardPage() {
       {/* Header */}
       <div className="flex items-start justify-between">
         <div>
-          <p className="font-label text-gray-400 mb-1">Operator Dashboard</p>
+          <p className="font-label text-foreground/40 mb-1">Operator Dashboard</p>
           <h1 className="font-display text-2xl font-bold text-foreground">
             {operatorName}
           </h1>
@@ -82,7 +82,7 @@ export default async function OperatorDashboardPage() {
         {stats.map((stat) => (
           <Card key={stat.label}>
             <CardContent className="py-5">
-              <p className="font-label text-gray-400 mb-2">{stat.label}</p>
+              <p className="font-label text-foreground/40 mb-2">{stat.label}</p>
               <p className={`font-display text-3xl font-bold ${stat.color} inline-block px-3 py-1 rounded-xl`}>
                 {stat.value}
               </p>
@@ -95,7 +95,7 @@ export default async function OperatorDashboardPage() {
       {!operatorId && (
         <Card>
           <CardContent className="py-8 text-center">
-            <p className="text-sm text-gray-500 font-body">
+            <p className="text-sm text-foreground/50 font-body">
               Your account is not linked to an operator. Contact your administrator.
             </p>
           </CardContent>

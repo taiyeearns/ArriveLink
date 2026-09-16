@@ -22,9 +22,9 @@ export default async function AdminOperatorsPage() {
       {/* Header */}
       <div className="flex items-start justify-between gap-4 flex-wrap">
         <div>
-          <p className="font-label text-gray-400 mb-1">Management</p>
+          <p className="font-label text-foreground/40 mb-1">Management</p>
           <h1 className="font-display text-2xl font-bold text-foreground">Operators</h1>
-          <p className="text-sm text-gray-500 font-body mt-1">
+          <p className="text-sm text-foreground/50 font-body mt-1">
             {operators.length} operator{operators.length !== 1 ? 's' : ''} registered
           </p>
         </div>
@@ -41,7 +41,7 @@ export default async function AdminOperatorsPage() {
               </svg>
             </div>
             <h2 className="font-display text-lg font-semibold text-foreground mb-1">No operators yet</h2>
-            <p className="text-sm text-gray-500 font-body">
+            <p className="text-sm text-foreground/50 font-body">
               Create your first transport operator to get started.
             </p>
           </CardContent>
@@ -63,7 +63,7 @@ export default async function AdminOperatorsPage() {
                         <h3 className="font-display text-sm font-semibold text-foreground">
                           {op.business_name}
                         </h3>
-                        <p className="text-xs text-gray-400 font-body">
+                        <p className="text-xs text-foreground/40 font-body">
                           Onboarded {new Date(op.onboarded_at).toLocaleDateString('en-NG', { 
                             month: 'short', day: 'numeric', year: 'numeric' 
                           })}
@@ -74,7 +74,7 @@ export default async function AdminOperatorsPage() {
                       <Badge variant={statusVariant(op.status)}>
                         {op.status}
                       </Badge>
-                      <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <svg className="w-4 h-4 text-foreground/40" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                       </svg>
                     </div>

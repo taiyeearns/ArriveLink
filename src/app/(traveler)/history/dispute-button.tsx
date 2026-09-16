@@ -46,7 +46,7 @@ export function DisputeButton({ bookingId }: DisputeButtonProps) {
     return (
       <button
         onClick={() => setOpen(true)}
-        className="text-xs text-gray-400 hover:text-foreground font-body transition-colors cursor-pointer"
+        className="text-xs text-foreground/40 hover:text-foreground font-body transition-colors cursor-pointer"
       >
         Report Issue
       </button>
@@ -54,16 +54,16 @@ export function DisputeButton({ bookingId }: DisputeButtonProps) {
   }
 
   return (
-    <div className="space-y-2 mt-2 pt-2 border-t border-gray-100 dark:border-white/5">
+    <div className="space-y-2 mt-2 pt-2 border-t border-mist dark:border-white/5">
       <textarea
         placeholder="Describe the issue..."
         value={reason}
         onChange={(e) => setReason(e.target.value)}
         rows={2}
-        className="w-full px-3 py-2 rounded-lg border border-gray-200 dark:border-white/5 font-body text-xs text-foreground bg-white dark:bg-dark-surface focus:outline-none focus:ring-2 focus:ring-pine/30 focus:border-pine transition-all duration-200 resize-none"
+        className="w-full px-3 py-2 rounded-lg border border-mist dark:border-white/5 font-body text-xs text-foreground bg-white dark:bg-dark-surface focus:outline-none focus:ring-2 focus:ring-pine/30 focus:border-pine transition-all duration-200 resize-none"
       />
 
-      {error && <p className="text-xs text-gray-500 font-body">{error}</p>}
+      {error && <p className="text-xs text-foreground/50 font-body">{error}</p>}
 
       <div className="flex gap-2">
         <Button size="sm" variant="ghost" onClick={() => setOpen(false)}>

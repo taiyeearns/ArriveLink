@@ -30,9 +30,9 @@ export default async function OperatorBookingsPage() {
   return (
     <div className="space-y-6">
       <div>
-        <p className="font-label text-gray-400 mb-1">Booking Management</p>
+        <p className="font-label text-foreground/40 mb-1">Booking Management</p>
         <h1 className="font-display text-2xl font-bold text-foreground">Bookings</h1>
-        <p className="text-sm text-gray-500 font-body mt-1">
+        <p className="text-sm text-foreground/50 font-body mt-1">
           {bookings.length} total
           {activeCount > 0 && (
             <span className="text-emerald font-medium"> , {activeCount} active</span>
@@ -49,7 +49,7 @@ export default async function OperatorBookingsPage() {
               </svg>
             </div>
             <h2 className="font-display text-base font-semibold text-foreground mb-1">No bookings yet</h2>
-            <p className="text-sm text-gray-500 font-body">
+            <p className="text-sm text-foreground/50 font-body">
               Bookings will appear here when travelers reserve seats on your buses.
             </p>
           </CardContent>
@@ -80,7 +80,7 @@ export default async function OperatorBookingsPage() {
                   <div className="flex items-start justify-between gap-2 mb-3">
                     <Badge variant={status.variant}>{status.label}</Badge>
                     <div className="text-right">
-                      <p className="text-[10px] text-gray-400 font-body">
+                      <p className="text-[10px] text-foreground/40 font-body">
                         {new Date(booking.created_at).toLocaleDateString('en-NG', {
                           month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit',
                         })}
@@ -104,19 +104,19 @@ export default async function OperatorBookingsPage() {
                       <p className="text-sm font-medium text-foreground font-body">
                         {traveler?.name || 'Traveler'}
                       </p>
-                      <p className="text-[10px] text-gray-400 font-body">{traveler?.email}</p>
+                      <p className="text-[10px] text-foreground/40 font-body">{traveler?.email}</p>
                     </div>
                   </div>
 
                   {/* Route */}
-                  <div className="flex items-center gap-2 text-xs text-gray-500 font-body mb-1">
+                  <div className="flex items-center gap-2 text-xs text-foreground/50 font-body mb-1">
                     <span>{originLabel}</span>
                     <span>→</span>
                     <span>{destLabel}</span>
                   </div>
 
                   {/* Details */}
-                  <div className="flex items-center gap-3 text-xs text-gray-400 font-body mb-3">
+                  <div className="flex items-center gap-3 text-xs text-foreground/40 font-body mb-3">
                     <span>{booking.seats_requested} seat{booking.seats_requested !== 1 ? 's' : ''}</span>
                     <span>·</span>
                     <span>₦{(Number(route?.fare || 0) * booking.seats_requested).toLocaleString()}</span>

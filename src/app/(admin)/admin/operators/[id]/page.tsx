@@ -21,10 +21,10 @@ export default async function OperatorDetailPage({ params }: Props) {
     <div className="space-y-6">
       {/* Breadcrumb */}
       <div className="flex items-center gap-2 text-sm font-body">
-        <Link href="/admin/operators" className="text-gray-400 hover:text-foreground transition-colors">
+        <Link href="/admin/operators" className="text-foreground/40 hover:text-foreground transition-colors">
           Operators
         </Link>
-        <svg className="w-3.5 h-3.5 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <svg className="w-3.5 h-3.5 text-foreground/30" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
         </svg>
         <span className="text-foreground font-medium">{operator.business_name}</span>
@@ -42,7 +42,7 @@ export default async function OperatorDetailPage({ params }: Props) {
             <h1 className="font-display text-2xl font-bold text-foreground">
               {operator.business_name}
             </h1>
-            <p className="text-sm text-gray-500 font-body">
+            <p className="text-sm text-foreground/50 font-body">
               Onboarded {new Date(operator.onboarded_at).toLocaleDateString('en-NG', {
                 month: 'long', day: 'numeric', year: 'numeric'
               })}
@@ -74,7 +74,7 @@ export default async function OperatorDetailPage({ params }: Props) {
               <h2 className="font-display text-base font-semibold text-foreground">
                 Representatives
               </h2>
-              <p className="text-xs text-gray-500 font-body mt-0.5">
+              <p className="text-xs text-foreground/50 font-body mt-0.5">
                 {reps.length} rep{reps.length !== 1 ? 's' : ''} assigned
               </p>
             </div>
@@ -84,7 +84,7 @@ export default async function OperatorDetailPage({ params }: Props) {
         <CardContent>
           {reps.length === 0 ? (
             <div className="py-8 text-center">
-              <p className="text-sm text-gray-400 font-body">
+              <p className="text-sm text-foreground/40 font-body">
                 No representatives yet. Add one so they can manage routes and bookings.
               </p>
             </div>
@@ -93,7 +93,7 @@ export default async function OperatorDetailPage({ params }: Props) {
               {reps.map((rep: any) => (
                 <div
                   key={rep.id}
-                  className="flex items-center justify-between p-3 rounded-xl border border-gray-100 bg-gray-50/50"
+                  className="flex items-center justify-between p-3 rounded-xl border border-mist bg-muted-bg/50"
                 >
                   <div className="flex items-center gap-3">
                     <div className="w-9 h-9 rounded-full bg-pine/10 flex items-center justify-center">
@@ -105,7 +105,7 @@ export default async function OperatorDetailPage({ params }: Props) {
                       <p className="text-sm font-medium text-foreground font-body">
                         {rep.user?.name || 'Unknown'}
                       </p>
-                      <p className="text-xs text-gray-400 font-body">
+                      <p className="text-xs text-foreground/40 font-body">
                         {rep.email || rep.user?.email}
                         {rep.phone && ` · ${rep.phone}`}
                       </p>

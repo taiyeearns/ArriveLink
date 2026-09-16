@@ -41,7 +41,7 @@ export default function OnboardingPage() {
           <h1 className="font-display text-2xl sm:text-3xl font-bold text-foreground mb-2 text-center">
             How are you using ArriveLink?
           </h1>
-          <p className="text-sm text-gray-500 dark:text-gray-400 font-body mb-10 text-center">
+          <p className="text-sm text-foreground/50 dark:text-foreground/40 font-body mb-10 text-center">
             Choose your path to get started
           </p>
 
@@ -56,9 +56,9 @@ export default function OnboardingPage() {
                 </div>
                 <div className="flex-1">
                   <h3 className="font-display text-lg font-semibold text-foreground group-hover:text-emerald transition-colors">Traveller</h3>
-                  <p className="text-sm text-gray-500 dark:text-gray-400 font-body">Book trips, pay easily, get e-tickets</p>
+                  <p className="text-sm text-foreground/50 dark:text-foreground/40 font-body">Book trips, pay easily, get e-tickets</p>
                 </div>
-                <div className="text-gray-300 dark:text-gray-600 group-hover:text-emerald transition-colors">
+                <div className="text-foreground/30 dark:text-foreground/60 group-hover:text-emerald transition-colors">
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                   </svg>
@@ -76,9 +76,9 @@ export default function OnboardingPage() {
                 </div>
                 <div className="flex-1">
                   <h3 className="font-display text-lg font-semibold text-foreground group-hover:text-emerald transition-colors">Operator</h3>
-                  <p className="text-sm text-gray-500 dark:text-gray-400 font-body">Manage routes, verify tickets, scale operations</p>
+                  <p className="text-sm text-foreground/50 dark:text-foreground/40 font-body">Manage routes, verify tickets, scale operations</p>
                 </div>
-                <div className="text-gray-300 dark:text-gray-600 group-hover:text-emerald transition-colors">
+                <div className="text-foreground/30 dark:text-foreground/60 group-hover:text-emerald transition-colors">
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                   </svg>

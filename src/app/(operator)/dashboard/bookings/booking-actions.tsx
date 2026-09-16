@@ -42,7 +42,7 @@ export function BookingActions({ bookingId, status }: BookingActionsProps) {
 
   if (status === 'TICKET_ISSUED') {
     return (
-      <div className="pt-2 border-t border-gray-100">
+      <div className="pt-2 border-t border-mist">
         <Button
           size="sm"
           onClick={handleBoard}
@@ -60,7 +60,7 @@ export function BookingActions({ bookingId, status }: BookingActionsProps) {
 
   if (status === 'BOARDED') {
     return (
-      <div className="pt-2 border-t border-gray-100">
+      <div className="pt-2 border-t border-mist">
         <Button
           size="sm"
           variant="secondary"

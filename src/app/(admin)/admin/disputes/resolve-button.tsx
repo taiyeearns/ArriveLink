@@ -42,16 +42,16 @@ export function ResolveButton({ disputeId }: ResolveButtonProps) {
   }
 
   return (
-    <div className="space-y-3 pt-2 border-t border-gray-100">
+    <div className="space-y-3 pt-2 border-t border-mist">
       <textarea
         placeholder="Describe the resolution..."
         value={resolution}
         onChange={(e) => setResolution(e.target.value)}
         rows={3}
-        className="w-full px-4 py-3 rounded-xl border border-gray-200 font-body text-sm text-foreground bg-white focus:outline-none focus:ring-2 focus:ring-pine/30 focus:border-pine transition-all duration-200 resize-none"
+        className="w-full px-4 py-3 rounded-xl border border-mist font-body text-sm text-foreground bg-white focus:outline-none focus:ring-2 focus:ring-pine/30 focus:border-pine transition-all duration-200 resize-none"
       />
 
-      {error && <p className="text-xs text-red-600 font-body">{error}</p>}
+      {error && <p className="text-xs text-error font-body">{error}</p>}
 
       <div className="flex gap-2">
         <Button size="sm" variant="secondary" onClick={() => setOpen(false)} className="flex-1">

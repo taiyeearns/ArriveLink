@@ -53,7 +53,7 @@ export function RouteCard({ route }: RouteCardProps) {
             <p className="font-display text-sm font-bold text-foreground">
               {gr.origin_city} → {gr.destination_city}
             </p>
-            <p className="text-xs text-gray-400 font-body">
+            <p className="text-xs text-foreground/40 font-body">
               {gr.origin_state} → {gr.destination_state}
             </p>
           </div>
@@ -64,12 +64,12 @@ export function RouteCard({ route }: RouteCardProps) {
 
         {/* Terminal info */}
         <div className="space-y-1 mb-3">
-          <p className="text-xs font-body text-gray-500">
-            <span className="text-gray-400">Pickup:</span> {route.pickup_terminal || 'Not set'}
+          <p className="text-xs font-body text-foreground/50">
+            <span className="text-foreground/40">Pickup:</span> {route.pickup_terminal || 'Not set'}
           </p>
           {route.dropoff_terminal && (
-            <p className="text-xs font-body text-gray-500">
-              <span className="text-gray-400">Dropoff:</span> {route.dropoff_terminal}
+            <p className="text-xs font-body text-foreground/50">
+              <span className="text-foreground/40">Dropoff:</span> {route.dropoff_terminal}
             </p>
           )}
         </div>
@@ -77,17 +77,17 @@ export function RouteCard({ route }: RouteCardProps) {
         {/* Details grid */}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-3">
           <div>
-            <p className="text-[10px] text-gray-400 font-label">Fare</p>
+            <p className="text-[10px] text-foreground/40 font-label">Fare</p>
             <p className="font-display text-sm font-bold text-foreground">
               ₦{Number(route.fare).toLocaleString()}
             </p>
           </div>
           <div>
-            <p className="text-[10px] text-gray-400 font-label">Departure</p>
+            <p className="text-[10px] text-foreground/40 font-label">Departure</p>
             <p className="font-body text-sm text-foreground">{route.departure_time}</p>
           </div>
           <div>
-            <p className="text-[10px] text-gray-400 font-label">Seats</p>
+            <p className="text-[10px] text-foreground/40 font-label">Seats</p>
             <p className="font-body text-sm text-foreground">
               {route.seats_available}/{route.seats_total}
               {booked > 0 && <span className="text-emerald ml-1">({booked} booked)</span>}
@@ -95,14 +95,14 @@ export function RouteCard({ route }: RouteCardProps) {
           </div>
           {route.bus_number && (
             <div>
-              <p className="text-[10px] text-gray-400 font-label">Bus #</p>
+              <p className="text-[10px] text-foreground/40 font-label">Bus #</p>
               <p className="font-mono text-sm text-foreground">{route.bus_number}</p>
             </div>
           )}
         </div>
 
         {/* Actions */}
-        <div className="flex gap-2 pt-2 border-t border-gray-100">
+        <div className="flex gap-2 pt-2 border-t border-mist">
           <Button
             size="sm"
             variant="ghost"

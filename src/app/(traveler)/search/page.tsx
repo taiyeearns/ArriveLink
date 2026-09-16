@@ -17,7 +17,7 @@ export default async function SearchResultsPage({ searchParams }: Props) {
   return (
     <div className="space-y-6">
       <div className="flex items-center gap-2">
-        <Link href="/" className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center hover:bg-gray-200 transition-colors">
+        <Link href="/" className="w-8 h-8 rounded-full bg-muted-bg flex items-center justify-center hover:bg-mist transition-colors">
           <svg className="w-4 h-4 text-forest" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
           </svg>
@@ -51,9 +51,9 @@ export default async function SearchResultsPage({ searchParams }: Props) {
             <Card key={i}>
               <CardContent className="py-5">
                 <div className="animate-pulse space-y-3">
-                  <div className="h-4 bg-gray-100 rounded-lg w-3/4" />
-                  <div className="h-3 bg-gray-100 rounded-lg w-1/2" />
-                  <div className="h-8 bg-gray-100 rounded-lg w-1/3" />
+                  <div className="h-4 bg-muted-bg rounded-lg w-3/4" />
+                  <div className="h-3 bg-muted-bg rounded-lg w-1/2" />
+                  <div className="h-8 bg-muted-bg rounded-lg w-1/3" />
                 </div>
               </CardContent>
             </Card>
@@ -71,7 +71,7 @@ async function SearchResults({ routeId }: { routeId: string }) {
     return (
       <Card>
         <CardContent className="py-8 text-center">
-          <p className="text-sm text-gray-500 font-body">Select a route to search for available buses.</p>
+          <p className="text-sm text-foreground/50 font-body">Select a route to search for available buses.</p>
         </CardContent>
       </Card>
     );
@@ -83,13 +83,13 @@ async function SearchResults({ routeId }: { routeId: string }) {
     return (
       <Card>
         <CardContent className="py-10 text-center">
-          <div className="w-14 h-14 rounded-2xl bg-gray-100 flex items-center justify-center mx-auto mb-4">
-            <svg className="w-7 h-7 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div className="w-14 h-14 rounded-2xl bg-muted-bg flex items-center justify-center mx-auto mb-4">
+            <svg className="w-7 h-7 text-foreground/40" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
           </div>
           <h2 className="font-display text-base font-semibold text-foreground mb-1">No buses found</h2>
-          <p className="text-sm text-gray-500 font-body">
+          <p className="text-sm text-foreground/50 font-body">
             No available buses on this route right now. Try a different route.
           </p>
         </CardContent>
@@ -101,7 +101,7 @@ async function SearchResults({ routeId }: { routeId: string }) {
 
   return (
     <div className="space-y-3">
-      <p className="text-xs text-gray-400 font-body">
+      <p className="text-xs text-foreground/40 font-body">
         {routes.length} bus{routes.length !== 1 ? 'es' : ''} found, sorted by lowest fare
       </p>
 
@@ -127,19 +127,19 @@ async function SearchResults({ routeId }: { routeId: string }) {
 
               <div className="flex items-center gap-2 mb-1">
                 <span className="text-sm font-medium text-foreground font-body">{gr.origin_city}</span>
-                <svg className="w-4 h-4 text-gray-300 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-4 h-4 text-foreground/30 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                 </svg>
                 <span className="text-sm font-medium text-foreground font-body">{gr.destination_city}</span>
               </div>
 
               {/* Terminal info */}
-              <p className="text-xs text-gray-400 font-body mb-3">
+              <p className="text-xs text-foreground/40 font-body mb-3">
                 {route.pickup_terminal && <>Pickup: {route.pickup_terminal}</>}
                 {route.dropoff_terminal && <> · Dropoff: {route.dropoff_terminal}</>}
               </p>
 
-              <div className="flex items-center gap-4 text-xs text-gray-500 font-body mb-4">
+              <div className="flex items-center gap-4 text-xs text-foreground/50 font-body mb-4">
                 <span>Departs {formatTime(route.departure_time)}</span>
                 <span>·</span>
                 <span>{route.seats_available} seat{route.seats_available !== 1 ? 's' : ''} left</span>
@@ -150,7 +150,7 @@ async function SearchResults({ routeId }: { routeId: string }) {
                   <p className="font-display text-2xl font-bold text-foreground">
                     ₦{Number(route.fare).toLocaleString()}
                   </p>
-                  <p className="text-[10px] text-gray-400 font-body">per seat + ₦200 fee</p>
+                  <p className="text-[10px] text-foreground/40 font-body">per seat + ₦200 fee</p>
                 </div>
                 <Link href={`/booking/${route.id}`}>
                   <button className="px-5 py-2.5 bg-forest text-white rounded-xl font-body text-sm font-medium hover:bg-pine transition-colors cursor-pointer">

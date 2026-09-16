@@ -56,7 +56,7 @@ export default function TravelerLayout({
   return (
     <div className="min-h-screen flex flex-col bg-white dark:bg-dark-bg">
       {/* Header */}
-      <header className="sticky top-0 z-40 bg-white/80 dark:bg-dark-bg/80 backdrop-blur-md border-b border-gray-100 dark:border-white/5">
+      <header className="sticky top-0 z-40 bg-white/80 dark:bg-dark-bg/80 backdrop-blur-md border-b border-mist dark:border-white/5">
         <div className="max-w-lg mx-auto px-4 h-14 flex items-center justify-between">
           <Logo variant="full" size="sm" />
           <div className="flex items-center gap-4">
@@ -72,7 +72,7 @@ export default function TravelerLayout({
 
       {/* Bottom navigation - mobile-native feel */}
       {isAuthenticated && !pathname.startsWith('/booking') && !pathname.startsWith('/payment') && (
-        <nav className="sticky bottom-0 z-40 bg-white dark:bg-dark-surface border-t border-gray-100 dark:border-white/5">
+        <nav className="sticky bottom-0 z-40 bg-white dark:bg-dark-surface border-t border-mist dark:border-white/5">
           <div className="max-w-lg mx-auto flex items-center justify-around h-16">
             {navItems.map((item) => {
               const isActive = pathname === item.href || (item.href === '/' && pathname.startsWith('/search'));
@@ -85,7 +85,7 @@ export default function TravelerLayout({
                     transition-colors duration-200
                     ${isActive
                       ? 'text-foreground'
-                      : 'text-gray-400 hover:text-pine dark:hover:text-mist'
+                      : 'text-foreground/40 hover:text-pine dark:hover:text-mist'
                     }
                   `}
                 >

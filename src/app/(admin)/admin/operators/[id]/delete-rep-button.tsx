@@ -36,7 +36,7 @@ export function DeleteRepButton({ repId, userId, operatorId, repName }: DeleteRe
     <button
       onClick={handleDelete}
       disabled={loading}
-      className="text-xs text-gray-400 hover:text-red-500 transition-colors font-body cursor-pointer disabled:opacity-50"
+      className="text-xs text-foreground/40 hover:text-error transition-colors font-body cursor-pointer disabled:opacity-50"
     >
       {loading ? 'Removing...' : 'Remove'}
     </button>

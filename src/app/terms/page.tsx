@@ -12,7 +12,7 @@ export default function TermsPage() {
         <div className="flex-1">
         {/* Header */}
         <div className="flex items-center gap-3 mb-8">
-          <Link href="/" className="w-8 h-8 rounded-full bg-white dark:bg-dark-surface border border-gray-200 dark:border-white/10 flex items-center justify-center hover:bg-gray-50 dark:hover:bg-white/5 transition-colors">
+          <Link href="/" className="w-8 h-8 rounded-full bg-white dark:bg-dark-surface border border-mist dark:border-white/10 flex items-center justify-center hover:bg-muted-bg dark:hover:bg-white/5 transition-colors">
             <svg className="w-4 h-4 text-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
             </svg>
@@ -20,9 +20,9 @@ export default function TermsPage() {
           <h1 className="font-display text-xl font-bold text-foreground">Terms of Service</h1>
         </div>
 
-        <p className="text-xs text-gray-400 font-body mb-6">Last updated: July 2026</p>
+        <p className="text-xs text-foreground/40 font-body mb-6">Last updated: July 2026</p>
 
-        <div className="space-y-5 font-body text-sm text-gray-600 dark:text-gray-300 leading-relaxed">
+        <div className="space-y-5 font-body text-sm text-foreground/60 dark:text-foreground/70 leading-relaxed">
           <section>
             <h2 className="font-display text-base font-bold text-foreground mb-2">1. Acceptance of Terms</h2>
             <p>
@@ -88,7 +88,7 @@ export default function TermsPage() {
         </div>
 
         {/* Footer links */}
-        <div className="mt-10 pt-6 border-t border-gray-200 dark:border-white/5 flex items-center justify-center gap-6 text-xs text-gray-400 font-body">
+        <div className="mt-10 pt-6 border-t border-mist dark:border-white/5 flex items-center justify-center gap-6 text-xs text-foreground/40 font-body">
           <Link href="/about" className="hover:text-foreground transition-colors">About</Link>
           <Link href="/privacy" className="hover:text-foreground transition-colors">Privacy</Link>
           <Link href="/" className="hover:text-foreground transition-colors">Home</Link>

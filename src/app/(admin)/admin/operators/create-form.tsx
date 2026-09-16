@@ -59,8 +59,8 @@ export function CreateOperatorForm() {
           />
 
           {error && (
-            <div className="p-3 rounded-xl bg-red-50 border border-red-200">
-              <p className="text-sm text-red-600 font-body">{error}</p>
+            <div className="p-3 rounded-xl bg-error-bg border border-error-border">
+              <p className="text-sm text-error font-body">{error}</p>
             </div>
           )}
 

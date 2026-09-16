@@ -77,7 +77,7 @@ function LoginForm() {
           <h1 className="font-display text-2xl font-bold text-foreground">
             Welcome back
           </h1>
-          <p className="text-sm text-gray-500 dark:text-gray-400 font-body mt-2">
+          <p className="text-sm text-foreground/50 dark:text-foreground/40 font-body mt-2">
             Sign in to your ArriveLink account
           </p>
         </div>
@@ -115,8 +115,8 @@ function LoginForm() {
           )}
 
           {error && (
-            <div className="p-3 rounded-xl bg-red-50 border border-red-200">
-              <p className="text-sm text-red-600 font-body">{error}</p>
+            <div className="p-3 rounded-xl bg-error-bg border border-error-border">
+              <p className="text-sm text-error font-body">{error}</p>
             </div>
           )}
 
@@ -131,18 +131,18 @@ function LoginForm() {
         </form>
 
         {type === 'admin' ? (
-          <p className="text-center text-xs text-gray-400 dark:text-gray-500 font-body mt-6">
+          <p className="text-center text-xs text-foreground/40 dark:text-foreground/50 font-body mt-6">
             Internal access only.
           </p>
         ) : type === 'operator' ? (
-          <p className="text-center text-sm text-gray-500 dark:text-gray-400 font-body mt-6">
+          <p className="text-center text-sm text-foreground/50 dark:text-foreground/40 font-body mt-6">
             Want to become an operator?{' '}
             <a href="mailto:support@arrivelink.com" className="text-foreground font-semibold hover:text-pine dark:hover:text-lime transition-colors">
               Contact us
             </a>
           </p>
         ) : (
-          <p className="text-center text-sm text-gray-500 dark:text-gray-400 font-body mt-6">
+          <p className="text-center text-sm text-foreground/50 dark:text-foreground/40 font-body mt-6">
             Don&apos;t have an account?{' '}
             <Link href="/signup" className="text-foreground font-semibold hover:text-pine dark:hover:text-lime transition-colors">
               Create one
@@ -160,10 +160,10 @@ export default function LoginPage() {
       <Card>
         <CardContent className="py-12 text-center">
           <div className="animate-pulse space-y-4">
-            <div className="h-8 bg-gray-100 rounded-xl w-48 mx-auto" />
-            <div className="h-4 bg-gray-100 rounded-lg w-64 mx-auto" />
-            <div className="h-12 bg-gray-100 rounded-xl" />
-            <div className="h-12 bg-gray-100 rounded-xl" />
+            <div className="h-8 bg-muted-bg rounded-xl w-48 mx-auto" />
+            <div className="h-4 bg-muted-bg rounded-lg w-64 mx-auto" />
+            <div className="h-12 bg-muted-bg rounded-xl" />
+            <div className="h-12 bg-muted-bg rounded-xl" />
             <div className="h-12 bg-forest/20 rounded-xl" />
           </div>
         </CardContent>

@@ -52,7 +52,7 @@ export function CreateRepForm({ operatorId }: CreateRepFormProps) {
         <h2 className="font-display text-lg font-bold text-foreground mb-1">
           Add Representative
         </h2>
-        <p className="text-xs text-gray-500 font-body mb-4">
+        <p className="text-xs text-foreground/50 font-body mb-4">
           This will create a login account for them. They&apos;ll be able to manage routes and bookings.
         </p>
 
@@ -87,8 +87,8 @@ export function CreateRepForm({ operatorId }: CreateRepFormProps) {
           />
 
           {error && (
-            <div className="p-3 rounded-xl bg-red-50 border border-red-200">
-              <p className="text-sm text-red-600 font-body">{error}</p>
+            <div className="p-3 rounded-xl bg-error-bg border border-error-border">
+              <p className="text-sm text-error font-body">{error}</p>
             </div>
           )}
 

@@ -10,11 +10,19 @@
   :root {
     --background: #ffffff;
     --foreground: #0A3D1F;
+    --error: #dc2626;
+    --error-bg: #fef2f2;
+    --error-border: #fecaca;
+    --muted-bg: #E8FFF0;
   }
 
   .dark {
     --background: #1A1D1B;
     --foreground: #f9fafb;
+    --error: #f87171;
+    --error-bg: rgba(127, 29, 29, 0.15);
+    --error-border: rgba(127, 29, 29, 0.3);
+    --muted-bg: rgba(255, 255, 255, 0.05);
   }
 }
 
@@ -29,6 +37,14 @@
   /* Dark mode specific colors */
   --color-dark-bg: #1A1D1B;
   --color-dark-surface: #242724;
+
+  /* Error states */
+  --color-error: var(--error);
+  --color-error-bg: var(--error-bg);
+  --color-error-border: var(--error-border);
+
+  /* Muted backgrounds */
+  --color-muted-bg: var(--muted-bg);
 
   /* Semantic aliases */
   --color-background: var(--background);

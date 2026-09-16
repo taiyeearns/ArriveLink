@@ -24,22 +24,22 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
           ref={ref}
           id={inputId}
           className={`
-            w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-white/5
-            font-body text-base text-foreground placeholder:text-gray-400
+            w-full px-4 py-3 rounded-xl border border-mist dark:border-white/5
+            font-body text-base text-foreground placeholder:text-foreground/30
             bg-white dark:bg-dark-surface
             focus:outline-none focus:ring-2 focus:ring-pine/30 focus:border-pine
             transition-all duration-200
-            disabled:bg-gray-50 dark:disabled:bg-gray-900/50 disabled:text-gray-400 dark:disabled:text-gray-500 disabled:cursor-not-allowed
-            ${error ? 'border-red-400 focus:ring-red-200 focus:border-red-400' : ''}
+            disabled:bg-muted-bg disabled:text-foreground/40 disabled:cursor-not-allowed
+            ${error ? 'border-error focus:ring-error/20 focus:border-error' : ''}
             ${className}
           `}
           {...props}
         />
         {hint && !error && (
-          <p className="text-xs text-gray-400 font-body">{hint}</p>
+          <p className="text-xs text-foreground/40 font-body">{hint}</p>
         )}
         {error && (
-          <p className="text-xs text-red-500 font-body flex items-center gap-1">
+          <p className="text-xs text-error font-body flex items-center gap-1">
             <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20">
               <path
                 fillRule="evenodd"
