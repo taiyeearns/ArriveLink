@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import { Logo } from '@/components/ui/logo';
 import { ThemeToggle } from '@/components/ui/theme-toggle';
 import { SearchForm } from '@/app/(traveler)/search-form';
@@ -62,6 +63,20 @@ export default function LandingPage() {
                 </li>
               ))}
             </ul>
+          </div>
+
+          {/* Hero image */}
+          <div className="mt-12 sm:mt-16 max-w-5xl mx-auto">
+            <div className="relative w-full overflow-hidden rounded-2xl shadow-xl border border-mist dark:border-white/10">
+              <Image
+                src="/hero.png"
+                alt="ArriveLink - Plan your trip with verified transport companies across Nigeria"
+                width={1200}
+                height={675}
+                className="w-full h-auto object-cover"
+                priority
+              />
+            </div>
           </div>
         </section>
 
