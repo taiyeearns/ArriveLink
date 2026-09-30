@@ -13,9 +13,17 @@ interface ComboboxProps {
   options: ComboboxOption[];
   placeholder?: string;
   disabled?: boolean;
+  forceLight?: boolean;
 }
 
-export function Combobox({ value, onChange, options, placeholder = 'Select an option', disabled = false }: ComboboxProps) {
+export function Combobox({
+  value,
+  onChange,
+  options,
+  placeholder = 'Select an option',
+  disabled = false,
+  forceLight = false,
+}: ComboboxProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [query, setQuery] = useState('');
   const [highlightedIndex, setHighlightedIndex] = useState(-1);
@@ -129,9 +137,15 @@ export function Combobox({ value, onChange, options, placeholder = 'Select an op
           onKeyDown={handleKeyDown}
           placeholder={placeholder}
           disabled={disabled}
-          className="w-full px-4 py-3.5 pr-10 rounded-xl border border-mist dark:border-white/5 font-body text-base text-foreground bg-white dark:bg-dark-surface focus:outline-none focus:ring-2 focus:ring-pine/30 focus:border-pine transition-all duration-200 disabled:opacity-50"
+          className={`w-full px-4 py-3.5 pr-10 rounded-xl font-body text-base focus:outline-none focus:ring-2 focus:ring-pine/30 focus:border-pine transition-all duration-200 disabled:opacity-50 ${
+            forceLight
+              ? 'border border-mist text-forest bg-white'
+              : 'border border-mist dark:border-white/5 text-foreground bg-white dark:bg-dark-surface'
+          }`}
         />
-        <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-foreground/40">
+        <div className={`absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none ${
+          forceLight ? 'text-forest/40' : 'text-foreground/40'
+        }`}>
           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
           </svg>
@@ -141,10 +155,16 @@ export function Combobox({ value, onChange, options, placeholder = 'Select an op
       {isOpen && !disabled && (
         <ul
           ref={listRef}
-          className="absolute z-50 w-full mt-1 py-1 max-h-60 overflow-auto rounded-xl border border-mist dark:border-white/5 bg-white dark:bg-dark-surface shadow-lg"
+          className={`absolute z-50 w-full mt-1 py-1 max-h-60 overflow-auto rounded-xl shadow-lg ${
+            forceLight
+              ? 'border border-mist bg-white'
+              : 'border border-mist dark:border-white/5 bg-white dark:bg-dark-surface'
+          }`}
         >
           {filteredOptions.length === 0 ? (
-            <li className="px-4 py-3 text-sm text-foreground/50 dark:text-foreground/40 font-body text-center">
+            <li className={`px-4 py-3 text-sm font-body text-center ${
+              forceLight ? 'text-forest/50' : 'text-foreground/50 dark:text-foreground/40'
+            }`}>
               No routes found
             </li>
           ) : (
@@ -158,10 +178,20 @@ export function Combobox({ value, onChange, options, placeholder = 'Select an op
                   onClick={() => handleSelect(option.id)}
                   onMouseEnter={() => setHighlightedIndex(index)}
                   className={`px-4 py-2.5 text-sm font-body cursor-pointer transition-colors ${
-                    isHighlighted
-                      ? 'bg-mist dark:bg-dark-bg text-foreground'
-                      : 'text-foreground hover:bg-mist/50 dark:hover:bg-dark-bg/50'
-                  } ${isSelected ? 'font-semibold text-pine dark:text-emerald' : ''}`}
+                    forceLight
+                      ? isHighlighted
+                        ? 'bg-mist text-forest'
+                        : 'text-forest hover:bg-mist/50'
+                      : isHighlighted
+                        ? 'bg-mist dark:bg-dark-bg text-foreground'
+                        : 'text-foreground hover:bg-mist/50 dark:hover:bg-dark-bg/50'
+                  } ${
+                    isSelected
+                      ? forceLight
+                        ? 'font-semibold text-pine'
+                        : 'font-semibold text-pine dark:text-emerald'
+                      : ''
+                  }`}
                 >
                   {option.label}
                 </li>

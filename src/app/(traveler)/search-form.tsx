@@ -14,7 +14,13 @@ interface GeneralRoute {
   destination_state: string;
 }
 
-export function SearchForm({ defaultRoute }: { defaultRoute?: string }) {
+export function SearchForm({
+  defaultRoute,
+  forceLight = false,
+}: {
+  defaultRoute?: string;
+  forceLight?: boolean;
+}) {
   const [routes, setRoutes] = useState<GeneralRoute[]>([]);
   const [loading, setLoading] = useState(true);
   const [routeId, setRouteId] = useState(defaultRoute || '');
@@ -36,7 +42,9 @@ export function SearchForm({ defaultRoute }: { defaultRoute?: string }) {
   return (
     <form onSubmit={handleSearch} className="space-y-4">
       <div className="flex flex-col gap-1.5">
-        <label className="font-body text-sm font-medium text-foreground">Where are you going?</label>
+        <label className={`font-body text-sm font-medium ${forceLight ? 'text-forest' : 'text-foreground'}`}>
+          Where are you going?
+        </label>
         <Combobox
           value={routeId}
           onChange={setRouteId}
@@ -46,12 +54,13 @@ export function SearchForm({ defaultRoute }: { defaultRoute?: string }) {
           }))}
           placeholder="Select a route"
           disabled={loading}
+          forceLight={forceLight}
         />
       </div>
 
       <Button
         type="submit"
-        className="w-full"
+        className={`w-full ${forceLight ? 'dark:bg-forest dark:hover:bg-pine dark:text-white' : ''}`}
         size="lg"
         disabled={!routeId}
       >

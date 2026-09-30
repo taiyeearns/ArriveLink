@@ -31,28 +31,39 @@ export default function LandingPage() {
 
       <main className="flex-1">
         {/* Hero */}
-        <section className="px-5 pt-14 sm:pt-20 pb-16 sm:pb-24">
-          <div className="max-w-2xl mx-auto text-center">
-            <p className="inline-flex items-center gap-2 text-xs uppercase tracking-widest font-semibold text-emerald bg-mist dark:bg-pine/20 px-3 py-1.5 rounded-full mb-5">
+        <section className="relative overflow-hidden bg-white text-forest px-5 pt-14 sm:pt-20 pb-16 sm:pb-24">
+          {/* Hero background image */}
+          <div className="absolute inset-0 pointer-events-none select-none">
+            <Image
+              src="/hero.png"
+              alt="ArriveLink hero background"
+              fill
+              priority
+              className="object-cover object-center"
+            />
+          </div>
+
+          <div className="relative z-10 max-w-2xl mx-auto text-center">
+            <p className="inline-flex items-center gap-2 text-xs uppercase tracking-widest font-semibold text-emerald bg-mist px-3 py-1.5 rounded-full mb-5 shadow-xs">
               <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
               </svg>
               Verified by ArriveLink
             </p>
-            <h1 className="font-display text-4xl sm:text-6xl text-forest dark:text-emerald leading-[1.05] mb-5">
+            <h1 className="font-display text-4xl sm:text-6xl text-forest leading-[1.05] mb-5">
               Stop Going From Park to Park.
             </h1>
-            <p className="text-lg sm:text-xl text-foreground/70 font-body leading-relaxed mb-10">
+            <p className="text-lg sm:text-xl text-forest/80 font-body leading-relaxed mb-10">
               ArriveLink shows you every transport company, verified prices, and real departure times, before you leave your house.
             </p>
 
             {/* Search form */}
-            <div className="bg-white dark:bg-dark-surface border border-mist dark:border-white/10 rounded-2xl p-5 shadow-sm text-left">
-              <SearchForm />
+            <div className="bg-white/95 backdrop-blur-sm border border-mist rounded-2xl p-5 shadow-md text-left">
+              <SearchForm forceLight />
             </div>
 
             {/* Trust chips */}
-            <ul className="mt-8 flex flex-wrap items-center justify-center gap-x-6 gap-y-3 text-sm text-foreground/60 font-body">
+            <ul className="mt-8 flex flex-wrap items-center justify-center gap-x-6 gap-y-3 text-sm text-forest/75 font-body">
               {['Verified prices', 'Real departure times', 'Terminal locations confirmed'].map((label) => (
                 <li key={label} className="inline-flex items-center gap-1.5">
                   <svg className="w-4 h-4 text-emerald flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -63,20 +74,6 @@ export default function LandingPage() {
                 </li>
               ))}
             </ul>
-          </div>
-
-          {/* Hero image */}
-          <div className="mt-12 sm:mt-16 max-w-5xl mx-auto">
-            <div className="relative w-full overflow-hidden rounded-2xl shadow-xl border border-mist dark:border-white/10">
-              <Image
-                src="/hero.png"
-                alt="ArriveLink - Plan your trip with verified transport companies across Nigeria"
-                width={1200}
-                height={675}
-                className="w-full h-auto object-cover"
-                priority
-              />
-            </div>
           </div>
         </section>
 
