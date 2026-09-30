@@ -1,8 +1,8 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { Logo } from '@/components/ui/logo';
-import { ThemeToggle } from '@/components/ui/theme-toggle';
 import { SearchForm } from '@/app/(traveler)/search-form';
+import { LandingHeader } from './landing-header';
 
 export const metadata = {
   title: 'ArriveLink - Stop Going From Park to Park',
@@ -13,43 +13,24 @@ export const metadata = {
 export default function LandingPage() {
   return (
     <div className="min-h-screen flex flex-col bg-white dark:bg-dark-bg">
-      {/* Header */}
-      <header className="sticky top-0 z-40 bg-white/90 dark:bg-dark-bg/90 backdrop-blur border-b border-mist dark:border-white/5">
-        <div className="max-w-5xl mx-auto px-5 h-16 flex items-center justify-between">
-          <Logo variant="full" size="sm" />
-          <div className="flex items-center gap-3">
-            <ThemeToggle />
-            <Link
-              href="/onboarding"
-              className="text-sm font-body font-medium text-foreground hover:text-pine dark:hover:text-emerald transition-colors"
-            >
-              Sign in
-            </Link>
-          </div>
-        </div>
-      </header>
+      {/* Header with transparent on load and opaque on scroll */}
+      <LandingHeader />
 
       <main className="flex-1">
         {/* Hero */}
-        <section className="relative overflow-hidden bg-white text-forest px-5 pt-14 sm:pt-20 pb-16 sm:pb-24">
-          {/* Hero background image */}
+        <section className="relative overflow-hidden bg-white text-forest px-5 pt-28 sm:pt-36 pb-20 sm:pb-28">
+          {/* Hero background image - uncropped full image filling container */}
           <div className="absolute inset-0 pointer-events-none select-none">
             <Image
               src="/hero.png"
               alt="ArriveLink hero background"
               fill
               priority
-              className="object-cover object-center"
+              className="w-full h-full object-fill"
             />
           </div>
 
           <div className="relative z-10 max-w-2xl mx-auto text-center">
-            <p className="inline-flex items-center gap-2 text-xs uppercase tracking-widest font-semibold text-emerald bg-mist px-3 py-1.5 rounded-full mb-5 shadow-xs">
-              <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-              </svg>
-              Verified by ArriveLink
-            </p>
             <h1 className="font-display text-4xl sm:text-6xl text-forest leading-[1.05] mb-5">
               Stop Going From Park to Park.
             </h1>
@@ -63,10 +44,25 @@ export default function LandingPage() {
             </div>
 
             {/* Trust chips */}
-            <ul className="mt-8 flex flex-wrap items-center justify-center gap-x-6 gap-y-3 text-sm text-forest/75 font-body">
-              {['Verified prices', 'Real departure times', 'Terminal locations confirmed'].map((label) => (
-                <li key={label} className="inline-flex items-center gap-1.5">
-                  <svg className="w-4 h-4 text-emerald flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <ul className="mt-8 flex flex-wrap items-center justify-center gap-x-6 gap-y-3 text-sm font-body">
+              {[
+                { label: 'Verified prices', isWhite: true },
+                { label: 'Real departure times', isWhite: true },
+                { label: 'Terminal locations confirmed', isWhite: false },
+              ].map(({ label, isWhite }) => (
+                <li
+                  key={label}
+                  className={`inline-flex items-center gap-1.5 font-medium ${
+                    isWhite ? 'text-white drop-shadow-sm' : 'text-forest/75'
+                  }`}
+                >
+                  <svg
+                    className={`w-4 h-4 flex-shrink-0 ${isWhite ? 'text-white drop-shadow-sm' : 'text-emerald'}`}
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    aria-hidden="true"
+                  >
                     <circle cx="12" cy="12" r="10" strokeWidth={2} />
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4" />
                   </svg>
