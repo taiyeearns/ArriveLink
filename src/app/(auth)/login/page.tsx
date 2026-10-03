@@ -9,12 +9,12 @@ import { Input } from '@/components/ui/input';
 import { Card, CardContent } from '@/components/ui/card';
 
 function LoginForm() {
-  const [email, setEmail] = useState('');
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const [email, setEmail] = useState(searchParams.get('email') || '');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-  const router = useRouter();
-  const searchParams = useSearchParams();
   const redirect = searchParams.get('redirect');
   const typeParam = searchParams.get('type');
   const surface = typeParam || (redirect?.startsWith('/dashboard') ? 'operator' : redirect?.startsWith('/admin') ? 'admin' : 'traveler');
@@ -33,7 +33,10 @@ function LoginForm() {
       });
 
       if (authError) {
-        setError(authError.message);
+        const msg = authError.message && authError.message !== '{}'
+          ? authError.message
+          : 'Authentication failed. Please check your credentials or try again.';
+        setError(msg);
         setLoading(false);
         return;
       }

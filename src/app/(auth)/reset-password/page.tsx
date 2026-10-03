@@ -75,7 +75,10 @@ function ResetPasswordForm() {
       });
 
       if (updateError) {
-        setError(updateError.message);
+        const msg = updateError.message && updateError.message !== '{}'
+          ? updateError.message
+          : 'Failed to update password. Please try again.';
+        setError(msg);
         setLoading(false);
         return;
       }

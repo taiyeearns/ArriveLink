@@ -27,7 +27,7 @@ export default function SignupPage() {
     try {
       const supabase = createClient();
 
-      const { error: authError } = await supabase.auth.signUp({
+      const { data: authData, error: authError } = await supabase.auth.signUp({
         email,
         password,
         options: {
@@ -40,8 +40,31 @@ export default function SignupPage() {
       });
 
       if (authError) {
-        setError(authError.message);
+        let msg = authError.message;
+        if (!msg || msg === '{}') {
+          msg = 'Unable to complete signup. An account with this email may already exist, or the email service encountered an issue. Please try logging in or resetting your password.';
+        } else if (msg.includes('users_email_key') || msg.includes('already exists') || msg.includes('already registered')) {
+          msg = 'An account with this email address already exists. Please log in instead or reset your password.';
+        }
+        setError(msg);
         setLoading(false);
+        return;
+      }
+
+      // Supabase Email Enumeration Protection:
+      // When a user already exists in auth.users, Supabase returns error = null but an empty identities array [].
+      if (
+        authData?.user &&
+        Array.isArray(authData.user.identities) &&
+        authData.user.identities.length === 0
+      ) {
+        setError('An account with this email address already exists. Please log in instead or reset your password.');
+        setLoading(false);
+        return;
+      }
+
+      if (authData?.session) {
+        router.push('/');
         return;
       }
 
@@ -77,7 +100,10 @@ export default function SignupPage() {
       });
 
       if (resendError) {
-        setResendMessage(resendError.message);
+        const msg = resendError.message && resendError.message !== '{}'
+          ? resendError.message
+          : 'Failed to resend confirmation email. Please verify email settings.';
+        setResendMessage(msg);
       } else {
         setResendMessage('Verification email sent. Check your inbox.');
         setResendCooldown(RESEND_COOLDOWN);
@@ -194,8 +220,25 @@ export default function SignupPage() {
           />
 
           {error && (
-            <div className="p-3 rounded-xl bg-error-bg border border-error-border">
+            <div className="p-3 rounded-xl bg-error-bg border border-error-border space-y-1.5">
               <p className="text-sm text-error font-body">{error}</p>
+              {error.includes('already exists') && (
+                <div className="flex items-center gap-3 text-xs font-body pt-1">
+                  <Link
+                    href={`/login${email ? `?email=${encodeURIComponent(email)}` : ''}`}
+                    className="text-foreground font-semibold underline hover:text-pine dark:hover:text-lime transition-colors"
+                  >
+                    Log In
+                  </Link>
+                  <span className="text-foreground/40">-</span>
+                  <Link
+                    href={`/forgot-password${email ? `?email=${encodeURIComponent(email)}` : ''}`}
+                    className="text-foreground font-semibold underline hover:text-pine dark:hover:text-lime transition-colors"
+                  >
+                    Reset Password
+                  </Link>
+                </div>
+              )}
             </div>
           )}
 

@@ -25,7 +25,10 @@ export default function ForgotPasswordPage() {
       });
 
       if (resetError) {
-        setError(resetError.message);
+        const msg = resetError.message && resetError.message !== '{}'
+          ? resetError.message
+          : 'Failed to send password reset email. Please try again later or contact support.';
+        setError(msg);
         setLoading(false);
         return;
       }
