@@ -15,6 +15,8 @@ function LoginForm() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const isVerified = searchParams.get('verified') === 'true';
+  const authErrorParam = searchParams.get('error') === 'auth';
   const redirect = searchParams.get('redirect');
   const typeParam = searchParams.get('type');
   const surface = typeParam || (redirect?.startsWith('/dashboard') ? 'operator' : redirect?.startsWith('/admin') ? 'admin' : 'traveler');
@@ -113,6 +115,22 @@ function LoginForm() {
               : 'Sign in to your ArriveLink account'}
           </p>
         </div>
+
+        {isVerified && (
+          <div className="mb-6 p-4 rounded-xl bg-mist dark:bg-pine/20 border border-emerald/30 text-center">
+            <p className="text-sm font-body font-medium text-emerald">
+              Email verified successfully! Please sign in to continue.
+            </p>
+          </div>
+        )}
+
+        {authErrorParam && (
+          <div className="mb-6 p-4 rounded-xl bg-error-bg border border-error-border text-center">
+            <p className="text-sm font-body text-error">
+              The verification link was invalid or has expired. Please try logging in or request a new link.
+            </p>
+          </div>
+        )}
 
         <form onSubmit={handleLogin} className="space-y-5">
           <Input

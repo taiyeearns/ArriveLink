@@ -27,10 +27,15 @@ export default function SignupPage() {
     try {
       const supabase = createClient();
 
+      const redirectUrl = typeof window !== 'undefined'
+        ? `${window.location.origin}/callback`
+        : undefined;
+
       const { data: authData, error: authError } = await supabase.auth.signUp({
         email,
         password,
         options: {
+          emailRedirectTo: redirectUrl,
           data: {
             name,
             phone,
@@ -94,9 +99,16 @@ export default function SignupPage() {
 
     try {
       const supabase = createClient();
+      const redirectUrl = typeof window !== 'undefined'
+        ? `${window.location.origin}/callback`
+        : undefined;
+
       const { error: resendError } = await supabase.auth.resend({
         type: 'signup',
         email,
+        options: {
+          emailRedirectTo: redirectUrl,
+        },
       });
 
       if (resendError) {

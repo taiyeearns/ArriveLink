@@ -24,11 +24,18 @@ export async function GET(request: Request) {
           return NextResponse.redirect(`${origin}/admin`);
         } else if (profile?.role === 'operator_rep') {
           return NextResponse.redirect(`${origin}/dashboard`);
+        } else {
+          // Traveler: sign out and redirect to confirm page so they see confirmation and can log in cleanly
+          await supabase.auth.signOut();
+          const emailParam = user.email ? `?email=${encodeURIComponent(user.email)}` : '';
+          return NextResponse.redirect(`${origin}/confirm${emailParam}`);
         }
       }
 
-      // Default: traveler or fallback
-      return NextResponse.redirect(`${origin}${next}`);
+      if (next && next !== '/') {
+        return NextResponse.redirect(`${origin}${next}`);
+      }
+      return NextResponse.redirect(`${origin}/confirm`);
     }
   }
 
