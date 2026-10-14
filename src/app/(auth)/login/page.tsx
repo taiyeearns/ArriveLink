@@ -87,9 +87,10 @@ function LoginForm() {
       }
 
       // After successful login, navigate to destination.
+      // Use full-page navigation to avoid middleware race condition
+      // (router.refresh on /login would trigger the "redirect authenticated users away from auth pages" rule)
       const destination = redirect || (surface === 'operator' ? '/dashboard' : surface === 'admin' ? '/admin' : '/');
-      router.push(destination);
-      router.refresh();
+      window.location.href = destination;
     } catch {
       setError('An unexpected error occurred. Please try again.');
       setLoading(false);
