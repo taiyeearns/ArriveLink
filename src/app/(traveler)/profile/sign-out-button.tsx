@@ -9,8 +9,7 @@ export function SignOutButton() {
   async function handleLogout() {
     const supabase = createClient();
     await supabase.auth.signOut();
-    router.push('/onboarding');
-    router.refresh();
+    window.location.href = '/';
   }
 
   return (
