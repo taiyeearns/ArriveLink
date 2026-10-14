@@ -45,19 +45,13 @@ export default function LandingPage() {
 
             {/* Trust chips */}
             <ul className="mt-8 flex flex-wrap items-center justify-center gap-x-6 gap-y-3 text-sm font-body">
-              {[
-                { label: 'Verified prices', isWhite: true },
-                { label: 'Real departure times', isWhite: true },
-                { label: 'Terminal locations confirmed', isWhite: false },
-              ].map(({ label, isWhite }) => (
+              {['Verified prices', 'Real departure times', 'Terminal locations confirmed'].map((label) => (
                 <li
                   key={label}
-                  className={`inline-flex items-center gap-1.5 font-medium ${
-                    isWhite ? 'text-white drop-shadow-sm' : 'text-forest/75'
-                  }`}
+                  className="inline-flex items-center gap-1.5 font-medium text-white drop-shadow-sm"
                 >
                   <svg
-                    className={`w-4 h-4 flex-shrink-0 ${isWhite ? 'text-white drop-shadow-sm' : 'text-emerald'}`}
+                    className="w-4 h-4 flex-shrink-0 text-white drop-shadow-sm"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
