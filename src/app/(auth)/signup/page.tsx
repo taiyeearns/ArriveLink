@@ -1,14 +1,16 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
-import { useRouter } from 'next/navigation';
+import { Suspense, useState, useEffect, useCallback } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { createClient } from '@/lib/supabase/client';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent } from '@/components/ui/card';
 
-export default function SignupPage() {
+function SignupForm() {
+  const searchParams = useSearchParams();
+  const redirect = searchParams.get('redirect');
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
@@ -28,7 +30,7 @@ export default function SignupPage() {
       const supabase = createClient();
 
       const redirectUrl = typeof window !== 'undefined'
-        ? `${window.location.origin}/callback`
+        ? `${window.location.origin}/callback${redirect ? `?redirect=${encodeURIComponent(redirect)}` : ''}`
         : undefined;
 
       const { data: authData, error: authError } = await supabase.auth.signUp({
@@ -69,7 +71,7 @@ export default function SignupPage() {
       }
 
       if (authData?.session) {
-        router.push('/');
+        router.push(redirect || '/');
         return;
       }
 
@@ -100,7 +102,7 @@ export default function SignupPage() {
     try {
       const supabase = createClient();
       const redirectUrl = typeof window !== 'undefined'
-        ? `${window.location.origin}/callback`
+        ? `${window.location.origin}/callback${redirect ? `?redirect=${encodeURIComponent(redirect)}` : ''}`
         : undefined;
 
       const { error: resendError } = await supabase.auth.resend({
@@ -168,7 +170,7 @@ export default function SignupPage() {
                   ? `Resend in ${resendCooldown}s`
                   : "Didn't get the email? Resend it"}
             </button>
-            <Button variant="secondary" onClick={() => router.push('/login')}>
+            <Button variant="secondary" onClick={() => router.push(`/login${redirect ? `?redirect=${encodeURIComponent(redirect)}` : ''}`)}>
               Back to Login
             </Button>
           </div>
@@ -237,7 +239,7 @@ export default function SignupPage() {
               {error.includes('already exists') && (
                 <div className="flex items-center gap-3 text-xs font-body pt-1">
                   <Link
-                    href={`/login${email ? `?email=${encodeURIComponent(email)}` : ''}`}
+                    href={`/login${email ? `?email=${encodeURIComponent(email)}` : ''}${redirect ? `${email ? '&' : '?'}redirect=${encodeURIComponent(redirect)}` : ''}`}
                     className="text-foreground font-semibold underline hover:text-pine dark:hover:text-lime transition-colors"
                   >
                     Log In
@@ -287,11 +289,32 @@ export default function SignupPage() {
 
         <p className="text-center text-sm text-foreground/50 dark:text-foreground/40 font-body mt-6">
           Already have an account?{' '}
-            <Link href="/login" className="text-foreground font-semibold hover:text-pine dark:hover:text-lime transition-colors">
+            <Link href={`/login${redirect ? `?redirect=${encodeURIComponent(redirect)}` : ''}`} className="text-foreground font-semibold hover:text-pine dark:hover:text-lime transition-colors">
               Log in
             </Link>
         </p>
       </CardContent>
     </Card>
+  );
+}
+
+export default function SignupPage() {
+  return (
+    <Suspense fallback={
+      <Card>
+        <CardContent className="py-12 text-center">
+          <div className="animate-pulse space-y-4">
+            <div className="h-8 bg-muted-bg rounded-xl w-48 mx-auto" />
+            <div className="h-4 bg-muted-bg rounded-lg w-64 mx-auto" />
+            <div className="h-12 bg-muted-bg rounded-xl" />
+            <div className="h-12 bg-muted-bg rounded-xl" />
+            <div className="h-12 bg-muted-bg rounded-xl" />
+            <div className="h-12 bg-forest/20 rounded-xl" />
+          </div>
+        </CardContent>
+      </Card>
+    }>
+      <SignupForm />
+    </Suspense>
   );
 }

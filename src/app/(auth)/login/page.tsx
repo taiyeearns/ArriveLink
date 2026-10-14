@@ -156,7 +156,7 @@ function LoginForm() {
           {surface !== 'admin' && (
             <div className="text-right -mt-2">
               <Link
-                href="/forgot-password"
+                href={`/forgot-password${redirect ? `?redirect=${encodeURIComponent(redirect)}` : ''}`}
                 className="text-sm font-body text-foreground/60 hover:text-pine dark:hover:text-lime transition-colors"
               >
                 Forgot password?
@@ -194,7 +194,7 @@ function LoginForm() {
         ) : (
           <p className="text-center text-sm text-foreground/50 dark:text-foreground/40 font-body mt-6">
             Don&apos;t have an account?{' '}
-            <Link href="/signup" className="text-foreground font-semibold hover:text-pine dark:hover:text-lime transition-colors">
+            <Link href={`/signup${redirect ? `?redirect=${encodeURIComponent(redirect)}` : ''}`} className="text-foreground font-semibold hover:text-pine dark:hover:text-lime transition-colors">
               Create one
             </Link>
           </p>

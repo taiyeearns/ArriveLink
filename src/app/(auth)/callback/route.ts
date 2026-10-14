@@ -5,6 +5,7 @@ export async function GET(request: Request) {
   const { searchParams, origin } = new URL(request.url);
   const code = searchParams.get('code');
   const next = searchParams.get('next') ?? '/';
+  const redirect = searchParams.get('redirect');
 
   if (code) {
     const supabase = await createClient();
@@ -27,18 +28,21 @@ export async function GET(request: Request) {
         } else {
           // Traveler: sign out and redirect to confirm page so they see confirmation and can log in cleanly
           await supabase.auth.signOut();
-          const emailParam = user.email ? `?email=${encodeURIComponent(user.email)}` : '';
-          return NextResponse.redirect(`${origin}/confirm${emailParam}`);
+          const params = new URLSearchParams();
+          if (user.email) params.set('email', user.email);
+          if (redirect) params.set('redirect', redirect);
+          const qs = params.toString();
+          return NextResponse.redirect(`${origin}/confirm${qs ? `?${qs}` : ''}`);
         }
       }
 
       if (next && next !== '/') {
         return NextResponse.redirect(`${origin}${next}`);
       }
-      return NextResponse.redirect(`${origin}/confirm`);
+      return NextResponse.redirect(`${origin}/confirm${redirect ? `?redirect=${encodeURIComponent(redirect)}` : ''}`);
     }
   }
 
   // Auth code error - redirect to login with error
-  return NextResponse.redirect(`${origin}/login?error=auth`);
+  return NextResponse.redirect(`${origin}/login?error=auth${redirect ? `&redirect=${encodeURIComponent(redirect)}` : ''}`);
 }

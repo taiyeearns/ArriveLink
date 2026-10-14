@@ -10,9 +10,14 @@ function ConfirmContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const email = searchParams.get('email') || '';
+  const redirect = searchParams.get('redirect');
   const [countdown, setCountdown] = useState(5);
 
-  const loginUrl = `/login?verified=true${email ? `&email=${encodeURIComponent(email)}` : ''}`;
+  const loginParams = new URLSearchParams();
+  loginParams.set('verified', 'true');
+  if (email) loginParams.set('email', email);
+  if (redirect) loginParams.set('redirect', redirect);
+  const loginUrl = `/login?${loginParams.toString()}`;
 
   useEffect(() => {
     if (countdown <= 0) {
