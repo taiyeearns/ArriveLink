@@ -65,6 +65,9 @@ export async function createRoute(formData: FormData) {
   const fare = parseFloat(formData.get('fare') as string);
   const departureTime = formData.get('departure_time') as string;
   const seatsTotal = parseInt(formData.get('seats_total') as string, 10);
+  const durationHours = parseInt(formData.get('duration_hours') as string || '1', 10);
+  const durationMinutes = parseInt(formData.get('duration_minutes') as string || '0', 10);
+  const expectedDuration = (isNaN(durationHours) ? 1 : durationHours) * 60 + (isNaN(durationMinutes) ? 0 : durationMinutes);
 
   if (!generalRouteId) return { error: 'Select a route corridor' };
   if (!pickupTerminal?.trim()) return { error: 'Pickup terminal is required' };
@@ -88,6 +91,7 @@ export async function createRoute(formData: FormData) {
       departure_time: departureTime,
       seats_total: seatsTotal,
       seats_available: seatsTotal,
+      expected_duration_minutes: expectedDuration || 60,
       active: true,
     })
     .select()

@@ -4,6 +4,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { SearchForm } from '../search-form';
 import Link from 'next/link';
+import { SearchResultsList } from './search-results-list';
 
 export const dynamic = 'force-dynamic';
 
@@ -97,71 +98,6 @@ async function SearchResults({ routeId }: { routeId: string }) {
     );
   }
 
-  const cheapest = Math.min(...routes.map((r: any) => Number(r.fare)));
-
-  return (
-    <div className="space-y-3">
-      <p className="text-xs text-foreground/40 font-body">
-        {routes.length} bus{routes.length !== 1 ? 'es' : ''} found, sorted by lowest fare
-      </p>
-
-      {routes.map((route: any) => {
-        const isCheapest = Number(route.fare) === cheapest && routes.length > 1;
-        const gr = route.general_route;
-        const formatTime = (t: string) => {
-          const [h, m] = t.split(':');
-          const hour = parseInt(h);
-          const ampm = hour >= 12 ? 'PM' : 'AM';
-          const displayHour = hour % 12 || 12;
-          return `${displayHour}:${m} ${ampm}`;
-        };
-
-        return (
-          <Card key={route.id} className={`${isCheapest ? 'ring-2 ring-emerald/30 shadow-md' : ''} hover:shadow-md transition-shadow`}>
-            <CardContent className="py-4">
-              <div className="flex items-center gap-2 mb-3">
-                <Badge variant="verified">{route.operator.business_name}</Badge>
-                {isCheapest && <Badge variant="live">Cheapest</Badge>}
-                {route.bus_number && <Badge variant="muted">{route.bus_number}</Badge>}
-              </div>
-
-              <div className="flex items-center gap-2 mb-1">
-                <span className="text-sm font-medium text-foreground font-body">{gr.origin_city}</span>
-                <svg className="w-4 h-4 text-foreground/30 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                </svg>
-                <span className="text-sm font-medium text-foreground font-body">{gr.destination_city}</span>
-              </div>
-
-              {/* Terminal info */}
-              <p className="text-xs text-foreground/40 font-body mb-3">
-                {route.pickup_terminal && <>Pickup: {route.pickup_terminal}</>}
-                {route.dropoff_terminal && <> · Dropoff: {route.dropoff_terminal}</>}
-              </p>
-
-              <div className="flex items-center gap-4 text-xs text-foreground/50 font-body mb-4">
-                <span>Departs {formatTime(route.departure_time)}</span>
-                <span>·</span>
-                <span>{route.seats_available} seat{route.seats_available !== 1 ? 's' : ''} left</span>
-              </div>
-
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="font-display text-2xl font-bold text-foreground">
-                    ₦{Number(route.fare).toLocaleString()}
-                  </p>
-                  <p className="text-[10px] text-foreground/40 font-body">per seat + ₦200 fee</p>
-                </div>
-                <Link href={`/booking/${route.id}`}>
-                  <button className="px-5 py-2.5 bg-forest text-white rounded-xl font-body text-sm font-medium hover:bg-pine transition-colors cursor-pointer">
-                    Book Now
-                  </button>
-                </Link>
-              </div>
-            </CardContent>
-          </Card>
-        );
-      })}
-    </div>
-  );
+  return <SearchResultsList routes={routes} />;
 }
+

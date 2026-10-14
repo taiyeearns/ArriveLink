@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import crypto from 'crypto';
 import { createAdminClient } from '@/lib/supabase/admin';
-import { CONVENIENCE_FEE } from '@/lib/constants';
+import { sendPaymentSuccessEmail } from '@/lib/email';
 
 export async function POST(req: NextRequest) {
   const paystackSecret = process.env.PAYSTACK_SECRET_KEY;
@@ -58,12 +58,17 @@ export async function POST(req: NextRequest) {
     .update({ status: 'success' })
     .eq('paystack_reference', reference);
 
-  // Update booking to PAID
+  // Generate a unique 6-char boarding code
+  const { data: boardingCodeResult } = await admin.rpc('generate_boarding_code');
+  const boardingCode = boardingCodeResult || crypto.randomBytes(3).toString('hex').slice(0, 6);
+
+  // Update booking to PAID (auto-confirmed) with boarding code
   await admin
     .from('bookings')
     .update({
       status: 'PAID',
       paid_at: new Date().toISOString(),
+      boarding_code: boardingCode,
     })
     .eq('id', existingPayment.booking_id);
 
@@ -84,36 +89,50 @@ export async function POST(req: NextRequest) {
     });
   }
 
-  // Update booking to TICKET_ISSUED
+  // Update booking to TICKET_ISSUED (auto - no operator confirmation needed)
   await admin
     .from('bookings')
     .update({ status: 'TICKET_ISSUED' })
     .eq('id', existingPayment.booking_id);
 
-  // Credit operator wallet
-  const { data: booking } = await admin
-    .from('bookings')
-    .select('route:routes(operator_id, fare), seats_requested')
-    .eq('id', existingPayment.booking_id)
-    .single();
-
-  if (booking) {
-    const route = booking.route as any;
-    const operatorEarnings = Number(route.fare) * booking.seats_requested;
-
-    const { data: wallet } = await admin
-      .from('wallets')
-      .select('pending_balance')
-      .eq('operator_id', route.operator_id)
+  // Send confirmation email to traveler
+  try {
+    const { data: booking } = await admin
+      .from('bookings')
+      .select(`
+        seats_requested, traveler_id,
+        traveler:users!bookings_traveler_id_fkey(email, name),
+        route:routes(
+          fare,
+          general_route:general_routes!routes_general_route_id_fkey(origin_city, destination_city)
+        )
+      `)
+      .eq('id', existingPayment.booking_id)
       .single();
 
-    if (wallet) {
-      await admin
-        .from('wallets')
-        .update({ pending_balance: Number(wallet.pending_balance) + operatorEarnings })
-        .eq('operator_id', route.operator_id);
+    if (booking) {
+      const traveler = booking.traveler as any;
+      const route = booking.route as any;
+      const routeLabel = `${route?.general_route?.origin_city} to ${route?.general_route?.destination_city}`;
+
+      if (traveler?.email) {
+        await sendPaymentSuccessEmail(traveler.email, {
+          route: routeLabel,
+          seats: booking.seats_requested,
+          fare: Number(route?.fare || 0) * booking.seats_requested,
+          boardingCode,
+          bookingId: existingPayment.booking_id,
+          ticketCode: existingTicket ? ticketCode : ticketCode, // Use the code we generated
+        });
+      }
     }
+  } catch (emailErr) {
+    console.error('[webhook] Email send failed (non-fatal):', emailErr);
   }
+
+  // NOTE: Operator wallet is NOT credited on payment.
+  // Settlement happens on trip completion, only for boarded passengers.
 
   return NextResponse.json({ received: true, processed: true });
 }
+

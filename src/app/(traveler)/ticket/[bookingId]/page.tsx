@@ -104,14 +104,25 @@ export default async function TicketPage({ params }: Props) {
             {/* Dotted divider */}
             <div className="border-t-2 border-dashed border-mist dark:border-white/5 my-5 -mx-6" />
 
-            {/* Ticket code */}
-            <div className="text-center mb-5">
-              <p className="text-xs text-foreground/40 font-body mb-2">Show this code to the driver</p>
-              <div className="inline-block px-8 py-4 rounded-2xl bg-forest dark:bg-emerald text-white">
-                <p className="font-mono text-2xl font-bold tracking-widest">
-                  {ticket.ticket_code}
-                </p>
+            {/* Boarding code - primary */}
+            {booking.boarding_code && (
+              <div className="text-center mb-5">
+                <p className="text-xs text-foreground/40 font-body mb-2">Boarding Code - Give this to the driver</p>
+                <div className="inline-block px-8 py-4 rounded-2xl bg-forest dark:bg-emerald text-white">
+                  <p className="font-mono text-2xl font-bold tracking-widest">
+                    {booking.boarding_code}
+                  </p>
+                </div>
+                <p className="text-[10px] text-foreground/40 font-body mt-2">Case-sensitive. 6 characters.</p>
               </div>
+            )}
+
+            {/* Ticket code - secondary reference */}
+            <div className="text-center mb-5">
+              <p className="text-xs text-foreground/40 font-body mb-1">Ticket Reference</p>
+              <p className="font-mono text-sm font-semibold text-foreground/60 tracking-wide">
+                {ticket.ticket_code}
+              </p>
             </div>
 
             {/* Details */}

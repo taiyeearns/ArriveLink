@@ -1,6 +1,7 @@
 import { getMyWallet, getWalletTransactions } from './actions';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { BankAccountSection } from './bank-account-section';
 
 export const dynamic = 'force-dynamic';
 
@@ -55,6 +56,9 @@ export default async function OperatorWalletPage() {
           </div>
         </CardContent>
       </Card>
+
+      {/* Bank account */}
+      <BankAccountSection />
 
       {/* Recent transactions */}
       <div>

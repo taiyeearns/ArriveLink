@@ -94,6 +94,17 @@ export function CreateRouteButton() {
 
           <Input label="Total Seats" name="seats_total" type="number" min="1" required />
 
+          {/* Expected trip duration */}
+          <div className="flex flex-col gap-1.5">
+            <label className="font-body text-sm font-medium text-foreground">Expected Trip Duration</label>
+            <div className="grid grid-cols-2 gap-2">
+              <Input label="" name="duration_hours" type="number" min="0" max="48" placeholder="Hours" defaultValue="1" />
+              <Input label="" name="duration_minutes" type="number" min="0" max="59" placeholder="Minutes" defaultValue="0" />
+            </div>
+            <p className="text-[10px] text-foreground/40 font-body">
+              Used to time-gate trip completion. Default: 1 hour.
+            </p>
+          </div>
           {error && (
             <div className="p-3 rounded-xl bg-error-bg border border-error-border">
               <p className="text-sm text-error font-body">{error}</p>

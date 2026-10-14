@@ -4,12 +4,13 @@ import { Badge } from '@/components/ui/badge';
 import Link from 'next/link';
 import { CancelButton } from './cancel-button';
 import { DisputeButton } from './dispute-button';
+import { RateButton } from './rate-button';
 
 export const dynamic = 'force-dynamic';
 
 const STATUS_CONFIG: Record<string, { label: string; variant: 'live' | 'muted' | 'verified' | 'location' }> = {
   RESERVED: { label: 'Reserved', variant: 'location' },
-  PAID: { label: 'Paid', variant: 'live' },
+  PAID: { label: 'Confirmed', variant: 'live' },
   TICKET_ISSUED: { label: 'Ticket Issued', variant: 'live' },
   BOARDED: { label: 'Boarded', variant: 'verified' },
   COMPLETED: { label: 'Completed', variant: 'verified' },
@@ -136,7 +137,7 @@ export default async function HistoryPage() {
                       )}
 
                       {/* View ticket */}
-                      {['TICKET_ISSUED', 'BOARDED', 'COMPLETED'].includes(booking.status) && (
+                      {['PAID', 'TICKET_ISSUED', 'BOARDED', 'COMPLETED'].includes(booking.status) && (
                         <Link href={`/ticket/${booking.id}`}>
                           <button className="px-4 py-2 bg-forest text-white rounded-xl font-body text-xs font-medium hover:bg-pine transition-colors cursor-pointer">
                             View Ticket
@@ -147,6 +148,11 @@ export default async function HistoryPage() {
                       {/* Dispute */}
                       {['PAID', 'TICKET_ISSUED', 'BOARDED', 'COMPLETED'].includes(booking.status) && (
                         <DisputeButton bookingId={booking.id} />
+                      )}
+
+                      {/* Rate completed trips */}
+                      {booking.status === 'COMPLETED' && (
+                        <RateButton bookingId={booking.id} />
                       )}
                     </div>
                   </div>

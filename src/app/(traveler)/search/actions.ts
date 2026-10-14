@@ -23,7 +23,36 @@ export async function searchRoutes(generalRouteId: string) {
   if (error) throw new Error(error.message);
 
   // Filter out routes from inactive/suspended operators
-  return (data || []).filter((r: any) => r.operator?.status === 'active');
+  const activeRoutes = (data || []).filter((r: any) => r.operator?.status === 'active');
+
+  // Fetch average ratings per operator
+  const operatorIds = [...new Set(activeRoutes.map((r: any) => r.operator?.id).filter(Boolean))];
+  let ratingsMap: Record<string, number> = {};
+
+  if (operatorIds.length > 0) {
+    const { data: ratings } = await admin
+      .from('ratings')
+      .select('operator_id, stars')
+      .in('operator_id', operatorIds);
+
+    if (ratings && ratings.length > 0) {
+      const sums: Record<string, { total: number; count: number }> = {};
+      for (const r of ratings) {
+        if (!sums[r.operator_id]) sums[r.operator_id] = { total: 0, count: 0 };
+        sums[r.operator_id].total += r.stars;
+        sums[r.operator_id].count++;
+      }
+      for (const [opId, s] of Object.entries(sums)) {
+        ratingsMap[opId] = s.total / s.count;
+      }
+    }
+  }
+
+  // Attach avg_rating to each route
+  return activeRoutes.map((r: any) => ({
+    ...r,
+    avg_rating: ratingsMap[r.operator?.id] || null,
+  }));
 }
 
 export async function getSearchRoutes() {
