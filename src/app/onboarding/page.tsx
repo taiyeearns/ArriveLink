@@ -19,13 +19,29 @@ export default function OnboardingPage() {
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-b from-mist via-white to-mist/30 dark:from-dark-surface dark:via-dark-bg dark:to-dark-surface">
       {/* Header */}
-      <header className="px-5 py-4 flex items-center justify-between max-w-3xl mx-auto w-full opacity-0 animate-fade-in" style={{ animationDelay: '800ms', animationFillMode: 'forwards' }}>
-        <div className="w-24">
-          <Link href="/">
-             <Logo variant="full" size="sm" />
+      <header className="px-5 py-5 flex items-center justify-between max-w-3xl mx-auto w-full z-10">
+        <Link href="/" aria-label="Return to home" className="hover:opacity-85 transition-opacity">
+          <Logo variant="full" size="sm" />
+        </Link>
+        <div className="flex items-center gap-3">
+          <ThemeToggle />
+          <Link
+            href="/"
+            aria-label="Close and return to landing page"
+            title="Return to home"
+            className="w-11 h-11 sm:w-12 sm:h-12 rounded-full border border-mist dark:border-white/10 bg-white dark:bg-dark-surface text-forest dark:text-emerald hover:bg-mist dark:hover:bg-pine/25 hover:border-emerald dark:hover:border-emerald shadow-sm hover:shadow-md transition-all duration-200 flex items-center justify-center cursor-pointer group"
+          >
+            <svg
+              className="w-6 h-6 transition-transform duration-200 group-hover:scale-110"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12" />
+            </svg>
           </Link>
         </div>
-        <ThemeToggle />
       </header>
 
       {/* Main Content */}
