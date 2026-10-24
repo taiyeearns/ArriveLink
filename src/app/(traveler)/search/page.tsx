@@ -1,7 +1,6 @@
 import { Suspense } from 'react';
 import { searchRoutes } from './actions';
 import { Card, CardContent } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
 import { SearchForm } from '../search-form';
 import Link from 'next/link';
 import { SearchResultsList } from './search-results-list';
@@ -9,11 +8,39 @@ import { SearchResultsList } from './search-results-list';
 export const dynamic = 'force-dynamic';
 
 interface Props {
-  searchParams: Promise<{ route?: string }>;
+  searchParams: Promise<{
+    from_state?: string;
+    from_city?: string;
+    to_state?: string;
+    to_city?: string;
+    date?: string;
+    time_of_day?: string;
+  }>;
 }
 
 export default async function SearchResultsPage({ searchParams }: Props) {
-  const { route } = await searchParams;
+  const sp = await searchParams;
+  const fromState  = sp.from_state  || '';
+  const fromCity   = sp.from_city   || '';
+  const toState    = sp.to_state    || '';
+  const toCity     = sp.to_city     || '';
+  const date       = sp.date        || '';
+  const timeOfDay  = sp.time_of_day || '';
+
+  const hasSearch = fromState && fromCity && toState && toCity;
+
+  // Human-readable date
+  const dateLabel = date
+    ? new Date(date + 'T00:00:00').toLocaleDateString('en-NG', {
+        weekday: 'short', day: 'numeric', month: 'short', year: 'numeric',
+      })
+    : '';
+
+  const timeLabel: Record<string, string> = {
+    morning: '🌅 Morning (5AM–12PM)',
+    afternoon: '☀️ Afternoon (12–5PM)',
+    evening: '🌙 Evening (5–10PM)',
+  };
 
   return (
     <div className="space-y-6">
@@ -25,6 +52,13 @@ export default async function SearchResultsPage({ searchParams }: Props) {
         </Link>
         <div>
           <h1 className="font-display text-lg font-bold text-foreground">Search Results</h1>
+          {hasSearch && (
+            <p className="text-xs text-foreground/50 font-body">
+              {fromCity}, {fromState} → {toCity}, {toState}
+              {dateLabel && <> · {dateLabel}</>}
+              {timeOfDay && <> · {timeLabel[timeOfDay] || timeOfDay}</>}
+            </p>
+          )}
         </div>
       </div>
 
@@ -40,7 +74,14 @@ export default async function SearchResultsPage({ searchParams }: Props) {
         <div className="mt-3">
           <Card>
             <CardContent className="pt-4 pb-4">
-              <SearchForm defaultRoute={route} />
+              <SearchForm
+                defaultFromState={fromState}
+                defaultFromCity={fromCity}
+                defaultToState={toState}
+                defaultToCity={toCity}
+                defaultDate={date}
+                defaultTimeOfDay={timeOfDay}
+              />
             </CardContent>
           </Card>
         </div>
@@ -61,24 +102,37 @@ export default async function SearchResultsPage({ searchParams }: Props) {
           ))}
         </div>
       }>
-        <SearchResults routeId={route || ''} />
+        <SearchResults
+          fromState={fromState}
+          fromCity={fromCity}
+          toState={toState}
+          toCity={toCity}
+          date={date}
+          timeOfDay={timeOfDay}
+        />
       </Suspense>
     </div>
   );
 }
 
-async function SearchResults({ routeId }: { routeId: string }) {
-  if (!routeId) {
+async function SearchResults({
+  fromState, fromCity, toState, toCity, date, timeOfDay,
+}: {
+  fromState: string; fromCity: string;
+  toState: string; toCity: string;
+  date: string; timeOfDay: string;
+}) {
+  if (!fromState || !fromCity || !toState || !toCity) {
     return (
       <Card>
         <CardContent className="py-8 text-center">
-          <p className="text-sm text-foreground/50 font-body">Select a route to search for available buses.</p>
+          <p className="text-sm text-foreground/50 font-body">Fill in the search form above to find available buses.</p>
         </CardContent>
       </Card>
     );
   }
 
-  const routes = await searchRoutes(routeId);
+  const routes = await searchRoutes({ fromState, fromCity, toState, toCity, date, timeOfDay });
 
   if (routes.length === 0) {
     return (
@@ -91,13 +145,12 @@ async function SearchResults({ routeId }: { routeId: string }) {
           </div>
           <h2 className="font-display text-base font-semibold text-foreground mb-1">No buses found</h2>
           <p className="text-sm text-foreground/50 font-body">
-            No available buses on this route right now. Try a different route.
+            No available buses on this corridor for the selected date and time. Try a different time of day.
           </p>
         </CardContent>
       </Card>
     );
   }
 
-  return <SearchResultsList routes={routes} />;
+  return <SearchResultsList routes={routes} travelDate={date} />;
 }
-

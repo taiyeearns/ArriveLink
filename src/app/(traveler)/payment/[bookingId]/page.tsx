@@ -3,7 +3,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import Link from 'next/link';
 import { PayButton } from './pay-button';
-import { CONVENIENCE_FEE } from '@/lib/constants';
+import { calcConvenienceFee } from '@/lib/constants';
 
 export const dynamic = 'force-dynamic';
 
@@ -39,7 +39,8 @@ export default async function PaymentPage({ params }: Props) {
   const route = booking.route as any;
   const farePerSeat = Number(route.fare);
   const totalFare = farePerSeat * booking.seats_requested;
-  const totalAmount = totalFare + CONVENIENCE_FEE;
+  const convenienceFee = calcConvenienceFee(totalFare);
+  const totalAmount = totalFare + convenienceFee;
 
   const gr = route.general_route;
   const originLabel = route.pickup_terminal
@@ -123,7 +124,7 @@ export default async function PaymentPage({ params }: Props) {
             </div>
             <div className="flex justify-between">
               <span className="text-foreground/50">Convenience fee</span>
-              <span className="font-medium text-foreground">₦{CONVENIENCE_FEE.toLocaleString()}</span>
+              <span className="font-medium text-foreground">₦{convenienceFee.toLocaleString()}</span>
             </div>
             <div className="border-t border-mist pt-2 flex justify-between">
               <span className="font-semibold text-foreground">Total</span>

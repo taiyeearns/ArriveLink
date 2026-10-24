@@ -3,16 +3,18 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import Link from 'next/link';
 import { BookingForm } from './booking-form';
-import { CONVENIENCE_FEE } from '@/lib/constants';
+import { CONVENIENCE_FEE_RATE } from '@/lib/constants';
 
 export const dynamic = 'force-dynamic';
 
 interface Props {
   params: Promise<{ routeId: string }>;
+  searchParams: Promise<{ date?: string }>;
 }
 
-export default async function BookingPage({ params }: Props) {
+export default async function BookingPage({ params, searchParams }: Props) {
   const { routeId } = await params;
+  const { date: travelDate } = await searchParams;
   const route = await getRouteForBooking(routeId);
 
   if (!route) {
@@ -81,6 +83,16 @@ export default async function BookingPage({ params }: Props) {
               <p className="text-xs text-foreground/40 font-body">{gr.destination_state}</p>
             </div>
           </div>
+
+          {/* Travel date banner */}
+          {travelDate && (
+            <div className="mt-3 flex items-center gap-2 text-xs font-body text-pine dark:text-emerald bg-mist dark:bg-emerald/10 rounded-lg px-3 py-2">
+              <svg className="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+              </svg>
+              <span>Travel date: <strong>{new Date(travelDate + 'T00:00:00').toLocaleDateString('en-NG', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}</strong></span>
+            </div>
+          )}
         </CardContent>
       </Card>
 
@@ -95,7 +107,7 @@ export default async function BookingPage({ params }: Props) {
             </div>
             <div className="flex justify-between">
               <span className="text-foreground/50">Convenience fee</span>
-              <span className="font-medium text-foreground">₦{CONVENIENCE_FEE.toLocaleString()}</span>
+              <span className="font-medium text-foreground">{(CONVENIENCE_FEE_RATE * 100).toFixed(0)}% of fare</span>
             </div>
             <div className="flex justify-between text-xs text-foreground/40">
               <span>Seats available</span>
@@ -110,6 +122,7 @@ export default async function BookingPage({ params }: Props) {
         routeId={route.id}
         fare={Number(route.fare)}
         seatsAvailable={route.seats_available}
+        travelDate={travelDate}
       />
     </div>
   );

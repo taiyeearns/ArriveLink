@@ -3,7 +3,10 @@
 // ============================================================================
 
 // Payment
-export const CONVENIENCE_FEE = 200; // ₦200 fixed
+export const CONVENIENCE_FEE_RATE = 0.01; // 1% of fare
+export function calcConvenienceFee(fareAmount: number): number {
+  return Math.round(fareAmount * CONVENIENCE_FEE_RATE);
+}
 
 // Booking: 7-minute reservation window + 2-minute grace period
 export const RESERVATION_WINDOW_MINUTES = 7;

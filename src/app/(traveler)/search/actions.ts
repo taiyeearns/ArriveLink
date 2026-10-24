@@ -2,11 +2,49 @@
 
 import { createAdminClient } from '@/lib/supabase/admin';
 
-export async function searchRoutes(generalRouteId: string) {
-  if (!generalRouteId) return [];
+// Time-of-day → departure time range mapping
+const TIME_RANGES: Record<string, { start: string; end: string }> = {
+  morning:   { start: '05:00', end: '11:59' },
+  afternoon: { start: '12:00', end: '16:59' },
+  evening:   { start: '17:00', end: '21:59' },
+};
+
+export interface SearchParams {
+  fromState: string;
+  fromCity: string;
+  toState: string;
+  toCity: string;
+  date: string;
+  timeOfDay: string;
+}
+
+/**
+ * Searches for available buses based on state/city corridor, travel date, and time of day.
+ * 1. Finds the general_route corridor matching from/to state+city
+ * 2. Queries active routes on that corridor that depart in the requested time window
+ */
+export async function searchRoutes(params: SearchParams) {
+  const { fromState, fromCity, toState, toCity, date, timeOfDay } = params;
+
+  if (!fromState || !fromCity || !toState || !toCity) return [];
 
   const admin = createAdminClient();
-  const { data, error } = await admin
+
+  // Step 1: Find the corridor
+  const { data: corridor, error: corridorError } = await admin
+    .from('general_routes')
+    .select('id')
+    .eq('origin_state', fromState)
+    .eq('origin_city', fromCity)
+    .eq('destination_state', toState)
+    .eq('destination_city', toCity)
+    .eq('active', true)
+    .maybeSingle();
+
+  if (corridorError || !corridor) return [];
+
+  // Step 2: Build the routes query
+  let query = admin
     .from('routes')
     .select(`
       *,
@@ -15,11 +53,21 @@ export async function searchRoutes(generalRouteId: string) {
       ),
       operator:operators!routes_operator_id_fkey(id, business_name, status)
     `)
-    .eq('general_route_id', generalRouteId)
+    .eq('general_route_id', corridor.id)
     .eq('active', true)
-    .gt('seats_available', 0)
-    .order('fare', { ascending: true });
+    .gt('seats_available', 0);
 
+  // Apply time-of-day filter if a valid range is found
+  const timeRange = timeOfDay ? TIME_RANGES[timeOfDay] : null;
+  if (timeRange) {
+    query = query
+      .gte('departure_time', timeRange.start)
+      .lte('departure_time', timeRange.end);
+  }
+
+  query = query.order('departure_time', { ascending: true });
+
+  const { data, error } = await query;
   if (error) throw new Error(error.message);
 
   // Filter out routes from inactive/suspended operators
@@ -48,22 +96,10 @@ export async function searchRoutes(generalRouteId: string) {
     }
   }
 
-  // Attach avg_rating to each route
+  // Attach avg_rating and travel_date context to each route
   return activeRoutes.map((r: any) => ({
     ...r,
     avg_rating: ratingsMap[r.operator?.id] || null,
+    _travel_date: date, // pass date through for booking flow
   }));
-}
-
-export async function getSearchRoutes() {
-  const admin = createAdminClient();
-  const { data, error } = await admin
-    .from('general_routes')
-    .select('id, origin_city, origin_state, destination_city, destination_state')
-    .eq('active', true)
-    .order('origin_state')
-    .order('origin_city');
-
-  if (error) throw new Error(error.message);
-  return data;
 }

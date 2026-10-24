@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import crypto from 'crypto';
 import { createAdminClient } from '@/lib/supabase/admin';
-import { sendPaymentSuccessEmail } from '@/lib/email';
+import { sendPaymentSuccessEmail, sendAdminPaymentEmail } from '@/lib/email';
 
 export async function POST(req: NextRequest) {
   const paystackSecret = process.env.PAYSTACK_SECRET_KEY;
@@ -122,9 +122,19 @@ export async function POST(req: NextRequest) {
           fare: Number(route?.fare || 0) * booking.seats_requested,
           boardingCode,
           bookingId: existingPayment.booking_id,
-          ticketCode: existingTicket ? ticketCode : ticketCode, // Use the code we generated
+          ticketCode: existingTicket ? ticketCode : ticketCode,
         });
       }
+
+      // Notify admin
+      await sendAdminPaymentEmail({
+        status: 'paid',
+        travelerName: traveler?.name || 'Unknown',
+        route: routeLabel,
+        amount: Number(route?.fare || 0) * booking.seats_requested,
+        bookingId: existingPayment.booking_id,
+        reference,
+      });
     }
   } catch (emailErr) {
     console.error('[webhook] Email send failed (non-fatal):', emailErr);

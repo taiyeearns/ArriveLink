@@ -257,3 +257,159 @@ export async function sendSupportTicketReplyEmail(to: string, data: {
 
   await sendEmail({ to, subject: 'Re: ' + data.ticketSubject, html });
 }
+
+// ============================================================================
+// Admin notification emails
+// ============================================================================
+
+const ADMIN_EMAIL = process.env.ADMIN_EMAIL || 'admin@arrivelink.app';
+
+export async function sendAdminNewUserEmail(data: {
+  userName: string;
+  userEmail: string;
+  role: string;
+}) {
+  const html = emailLayout('New User Signup', `
+    <h2 style="margin:0 0 12px;font-size:18px;color:#1a1a1a;">New user registered</h2>
+    <div style="background:#f0f9f4;border-radius:12px;padding:16px;margin:0 0 20px;">
+      <p style="margin:0 0 6px;font-size:12px;color:#888;">Name</p>
+      <p style="margin:0 0 12px;font-size:15px;font-weight:600;color:#1a1a1a;">${data.userName}</p>
+      <p style="margin:0 0 6px;font-size:12px;color:#888;">Email</p>
+      <p style="margin:0 0 12px;font-size:15px;font-weight:600;color:#1a1a1a;">${data.userEmail}</p>
+      <p style="margin:0 0 6px;font-size:12px;color:#888;">Role</p>
+      <p style="margin:0;font-size:15px;font-weight:600;color:#1a1a1a;">${data.role}</p>
+    </div>
+  `);
+  await sendEmail({ to: ADMIN_EMAIL, subject: `New signup: ${data.userName} (${data.role})`, html });
+}
+
+export async function sendAdminNewBookingEmail(data: {
+  travelerName: string;
+  travelerEmail: string;
+  route: string;
+  seats: number;
+  fare: number;
+  bookingId: string;
+}) {
+  const html = emailLayout('New Booking', `
+    <h2 style="margin:0 0 12px;font-size:18px;color:#1a1a1a;">New booking reserved</h2>
+    <div style="background:#f0f9f4;border-radius:12px;padding:16px;margin:0 0 20px;">
+      <p style="margin:0 0 6px;font-size:12px;color:#888;">Traveler</p>
+      <p style="margin:0 0 12px;font-size:15px;font-weight:600;color:#1a1a1a;">${data.travelerName} (${data.travelerEmail})</p>
+      <p style="margin:0 0 6px;font-size:12px;color:#888;">Route</p>
+      <p style="margin:0 0 12px;font-size:15px;font-weight:600;color:#1a1a1a;">${data.route}</p>
+      <p style="margin:0 0 6px;font-size:12px;color:#888;">Seats</p>
+      <p style="margin:0 0 12px;font-size:15px;font-weight:600;color:#1a1a1a;">${data.seats}</p>
+      <p style="margin:0 0 6px;font-size:12px;color:#888;">Fare</p>
+      <p style="margin:0;font-size:15px;font-weight:600;color:#1a4d2e;">N${data.fare.toLocaleString()}</p>
+    </div>
+    <a href="${APP_URL}/admin/bookings" style="display:inline-block;background:#1a4d2e;color:#fff;padding:12px 28px;border-radius:10px;text-decoration:none;font-size:14px;font-weight:600;">
+      View in Admin
+    </a>
+  `);
+  await sendEmail({ to: ADMIN_EMAIL, subject: `New booking: ${data.route} (${data.seats} seat${data.seats !== 1 ? 's' : ''})`, html });
+}
+
+export async function sendAdminPaymentEmail(data: {
+  status: 'paid' | 'failed';
+  travelerName: string;
+  route: string;
+  amount: number;
+  bookingId: string;
+  reference: string;
+}) {
+  const isPaid = data.status === 'paid';
+  const html = emailLayout(isPaid ? 'Payment Received' : 'Payment Failed', `
+    <h2 style="margin:0 0 12px;font-size:18px;color:#1a1a1a;">Payment ${isPaid ? 'confirmed' : 'failed'}</h2>
+    <div style="background:${isPaid ? '#f0f9f4' : '#fff5f5'};border-radius:12px;padding:16px;margin:0 0 20px;">
+      <p style="margin:0 0 6px;font-size:12px;color:#888;">Traveler</p>
+      <p style="margin:0 0 12px;font-size:15px;font-weight:600;color:#1a1a1a;">${data.travelerName}</p>
+      <p style="margin:0 0 6px;font-size:12px;color:#888;">Route</p>
+      <p style="margin:0 0 12px;font-size:15px;font-weight:600;color:#1a1a1a;">${data.route}</p>
+      <p style="margin:0 0 6px;font-size:12px;color:#888;">Amount</p>
+      <p style="margin:0 0 12px;font-size:24px;font-weight:700;color:${isPaid ? '#1a4d2e' : '#cc0000'};">N${data.amount.toLocaleString()}</p>
+      <p style="margin:0 0 6px;font-size:12px;color:#888;">Reference</p>
+      <p style="margin:0;font-size:13px;font-family:monospace;color:#555;">${data.reference}</p>
+    </div>
+    <a href="${APP_URL}/admin/bookings" style="display:inline-block;background:#1a4d2e;color:#fff;padding:12px 28px;border-radius:10px;text-decoration:none;font-size:14px;font-weight:600;">
+      View in Admin
+    </a>
+  `);
+  await sendEmail({ to: ADMIN_EMAIL, subject: `Payment ${isPaid ? 'received' : 'FAILED'}: N${data.amount.toLocaleString()} - ${data.route}`, html });
+}
+
+export async function sendAdminBankAccountEmail(data: {
+  operatorName: string;
+  accountName: string;
+  bankName: string;
+  accountNumber: string;
+  operatorId: string;
+}) {
+  const html = emailLayout('Bank Account Submitted', `
+    <h2 style="margin:0 0 12px;font-size:18px;color:#1a1a1a;">Bank account pending review</h2>
+    <p style="margin:0 0 16px;font-size:14px;color:#555;">An operator has submitted a bank account for settlement review.</p>
+    <div style="background:#f0f9f4;border-radius:12px;padding:16px;margin:0 0 20px;">
+      <p style="margin:0 0 6px;font-size:12px;color:#888;">Operator</p>
+      <p style="margin:0 0 12px;font-size:15px;font-weight:600;color:#1a1a1a;">${data.operatorName}</p>
+      <p style="margin:0 0 6px;font-size:12px;color:#888;">Account Name</p>
+      <p style="margin:0 0 12px;font-size:15px;font-weight:600;color:#1a1a1a;">${data.accountName}</p>
+      <p style="margin:0 0 6px;font-size:12px;color:#888;">Bank</p>
+      <p style="margin:0 0 12px;font-size:15px;font-weight:600;color:#1a1a1a;">${data.bankName}</p>
+      <p style="margin:0 0 6px;font-size:12px;color:#888;">Account Number</p>
+      <p style="margin:0;font-size:15px;font-weight:600;font-family:monospace;color:#1a1a1a;">${data.accountNumber}</p>
+    </div>
+    <a href="${APP_URL}/admin/operators/${data.operatorId}" style="display:inline-block;background:#1a4d2e;color:#fff;padding:12px 28px;border-radius:10px;text-decoration:none;font-size:14px;font-weight:600;">
+      Review Now
+    </a>
+  `);
+  await sendEmail({ to: ADMIN_EMAIL, subject: `Bank account review needed: ${data.operatorName}`, html });
+}
+
+export async function sendAdminDisputeEmail(data: {
+  travelerName: string;
+  subject: string;
+  message: string;
+  bookingId?: string;
+  disputeId: string;
+}) {
+  const html = emailLayout('New Dispute', `
+    <h2 style="margin:0 0 12px;font-size:18px;color:#1a1a1a;">New dispute filed</h2>
+    <div style="background:#fff5f5;border-radius:12px;padding:16px;margin:0 0 20px;border-left:3px solid #cc0000;">
+      <p style="margin:0 0 6px;font-size:12px;color:#888;">Traveler</p>
+      <p style="margin:0 0 12px;font-size:15px;font-weight:600;color:#1a1a1a;">${data.travelerName}</p>
+      <p style="margin:0 0 6px;font-size:12px;color:#888;">Subject</p>
+      <p style="margin:0 0 12px;font-size:15px;font-weight:600;color:#1a1a1a;">${data.subject}</p>
+      ${data.bookingId ? `<p style="margin:0 0 6px;font-size:12px;color:#888;">Booking ID</p><p style="margin:0 0 12px;font-size:13px;font-family:monospace;color:#555;">${data.bookingId}</p>` : ''}
+      <p style="margin:0 0 6px;font-size:12px;color:#888;">Message</p>
+      <p style="margin:0;font-size:14px;color:#333;line-height:1.6;">${data.message}</p>
+    </div>
+    <a href="${APP_URL}/admin/disputes" style="display:inline-block;background:#cc0000;color:#fff;padding:12px 28px;border-radius:10px;text-decoration:none;font-size:14px;font-weight:600;">
+      Resolve Dispute
+    </a>
+  `);
+  await sendEmail({ to: ADMIN_EMAIL, subject: `Dispute: ${data.subject} - ${data.travelerName}`, html });
+}
+
+export async function sendAdminSupportTicketEmail(data: {
+  userName: string;
+  userEmail: string;
+  subject: string;
+  message: string;
+  ticketId: string;
+}) {
+  const html = emailLayout('New Support Ticket', `
+    <h2 style="margin:0 0 12px;font-size:18px;color:#1a1a1a;">New support ticket</h2>
+    <div style="background:#f0f9f4;border-radius:12px;padding:16px;margin:0 0 20px;">
+      <p style="margin:0 0 6px;font-size:12px;color:#888;">From</p>
+      <p style="margin:0 0 12px;font-size:15px;font-weight:600;color:#1a1a1a;">${data.userName} (${data.userEmail})</p>
+      <p style="margin:0 0 6px;font-size:12px;color:#888;">Subject</p>
+      <p style="margin:0 0 12px;font-size:15px;font-weight:600;color:#1a1a1a;">${data.subject}</p>
+      <p style="margin:0 0 6px;font-size:12px;color:#888;">Message</p>
+      <p style="margin:0;font-size:14px;color:#333;line-height:1.6;">${data.message}</p>
+    </div>
+    <a href="${APP_URL}/admin/support" style="display:inline-block;background:#1a4d2e;color:#fff;padding:12px 28px;border-radius:10px;text-decoration:none;font-size:14px;font-weight:600;">
+      View Ticket
+    </a>
+  `);
+  await sendEmail({ to: ADMIN_EMAIL, subject: `Support ticket: ${data.subject}`, html });
+}

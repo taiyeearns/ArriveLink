@@ -163,3 +163,29 @@ export async function deleteOperatorRep(repId: string, userId: string, operatorI
   revalidatePath(`/admin/operators/${operatorId}`);
   return { success: true };
 }
+
+// --------------------------------------------------------------------------
+// Bank accounts
+// --------------------------------------------------------------------------
+
+export async function getOperatorBankAccount(operatorId: string) {
+  const supabase = createAdminClient();
+  const { data } = await supabase
+    .from('bank_accounts')
+    .select('*')
+    .eq('operator_id', operatorId)
+    .maybeSingle();
+  return data;
+}
+
+export async function reviewBankAccount(accountId: string, decision: 'approved' | 'rejected', operatorId: string) {
+  const supabase = createAdminClient();
+  const { error } = await supabase
+    .from('bank_accounts')
+    .update({ status: decision, reviewed_at: new Date().toISOString() })
+    .eq('id', accountId);
+
+  if (error) return { error: error.message };
+  revalidatePath(`/admin/operators/${operatorId}`);
+  return { success: true };
+}

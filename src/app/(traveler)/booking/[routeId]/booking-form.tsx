@@ -5,28 +5,30 @@ import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { createBooking } from '../actions';
-import { CONVENIENCE_FEE } from '@/lib/constants';
+import { calcConvenienceFee } from '@/lib/constants';
 
 interface BookingFormProps {
   routeId: string;
   fare: number;
   seatsAvailable: number;
+  travelDate?: string;
 }
 
-export function BookingForm({ routeId, fare, seatsAvailable }: BookingFormProps) {
+export function BookingForm({ routeId, fare, seatsAvailable, travelDate }: BookingFormProps) {
   const [seats, setSeats] = useState(1);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const router = useRouter();
 
   const totalFare = fare * seats;
-  const totalAmount = totalFare + CONVENIENCE_FEE;
+  const convenienceFee = calcConvenienceFee(totalFare);
+  const totalAmount = totalFare + convenienceFee;
 
   async function handleBook() {
     setError('');
     setLoading(true);
 
-    const result = await createBooking(routeId, seats);
+    const result = await createBooking(routeId, seats, travelDate);
 
     if (result.error) {
       setError(result.error);
@@ -79,7 +81,7 @@ export function BookingForm({ routeId, fare, seatsAvailable }: BookingFormProps)
           </div>
           <div className="flex justify-between text-sm font-body mb-2">
             <span className="text-foreground/50">Convenience fee</span>
-            <span className="text-foreground">₦{CONVENIENCE_FEE.toLocaleString()}</span>
+            <span className="text-foreground">₦{convenienceFee.toLocaleString()}</span>
           </div>
           <div className="border-t border-emerald/20 dark:border-white/5 pt-2 flex justify-between">
             <span className="font-body text-sm font-semibold text-foreground">Total</span>

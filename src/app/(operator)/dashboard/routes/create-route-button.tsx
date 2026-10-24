@@ -1,30 +1,21 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent } from '@/components/ui/card';
-import { createRoute, getGeneralRoutesForSelect } from './actions';
-
-interface GeneralRoute {
-  id: string;
-  origin_city: string;
-  origin_state: string;
-  destination_city: string;
-  destination_state: string;
-}
+import { createRoute } from './actions';
+import { NIGERIA_STATES, getCitiesForState } from '@/lib/nigeria-locations';
 
 export function CreateRouteButton() {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  const [generalRoutes, setGeneralRoutes] = useState<GeneralRoute[]>([]);
+  const [originState, setOriginState] = useState('');
+  const [destState, setDestState] = useState('');
 
-  useEffect(() => {
-    if (open) {
-      getGeneralRoutesForSelect().then(setGeneralRoutes);
-    }
-  }, [open]);
+  const originCities = getCitiesForState(originState);
+  const destCities   = getCitiesForState(destState);
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -57,21 +48,68 @@ export function CreateRouteButton() {
       <CardContent className="pt-5 pb-5">
         <p className="font-label text-foreground/40 mb-4">New Bus Entry</p>
         <form onSubmit={handleSubmit} className="space-y-4">
-          {/* General Route selector */}
-          <div className="flex flex-col gap-1.5">
-            <label className="font-body text-sm font-medium text-foreground">Route Corridor</label>
-            <select
-              name="general_route_id"
-              required
-              className="w-full px-4 py-3 rounded-xl border border-mist bg-white text-sm font-body text-foreground focus:outline-none focus:ring-2 focus:ring-pine/20 focus:border-pine"
-            >
-              <option value="">Select a route corridor</option>
-              {generalRoutes.map((gr) => (
-                <option key={gr.id} value={gr.id}>
-                  {gr.origin_city}, {gr.origin_state} → {gr.destination_city}, {gr.destination_state}
-                </option>
-              ))}
-            </select>
+          {/* Origin */}
+          <div>
+            <p className="font-body text-xs font-semibold text-foreground/40 uppercase tracking-widest mb-2">Origin</p>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div className="flex flex-col gap-1.5">
+                <label className="font-body text-sm font-medium text-foreground">State</label>
+                <select
+                  name="origin_state"
+                  required
+                  value={originState}
+                  onChange={e => setOriginState(e.target.value)}
+                  className="w-full px-4 py-3 rounded-xl border border-mist bg-white text-sm font-body text-foreground focus:outline-none focus:ring-2 focus:ring-pine/20 focus:border-pine"
+                >
+                  <option value="">Select state</option>
+                  {NIGERIA_STATES.map(s => <option key={s.name} value={s.name}>{s.name}</option>)}
+                </select>
+              </div>
+              <div className="flex flex-col gap-1.5">
+                <label className="font-body text-sm font-medium text-foreground">Region / City</label>
+                <select
+                  name="origin_city"
+                  required
+                  disabled={!originState}
+                  className="w-full px-4 py-3 rounded-xl border border-mist bg-white text-sm font-body text-foreground focus:outline-none focus:ring-2 focus:ring-pine/20 focus:border-pine disabled:opacity-50"
+                >
+                  <option value="">{originState ? 'Select region' : 'Select state first'}</option>
+                  {originCities.map(c => <option key={c} value={c}>{c}</option>)}
+                </select>
+              </div>
+            </div>
+          </div>
+
+          {/* Destination */}
+          <div>
+            <p className="font-body text-xs font-semibold text-foreground/40 uppercase tracking-widest mb-2">Destination</p>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div className="flex flex-col gap-1.5">
+                <label className="font-body text-sm font-medium text-foreground">State</label>
+                <select
+                  name="destination_state"
+                  required
+                  value={destState}
+                  onChange={e => setDestState(e.target.value)}
+                  className="w-full px-4 py-3 rounded-xl border border-mist bg-white text-sm font-body text-foreground focus:outline-none focus:ring-2 focus:ring-pine/20 focus:border-pine"
+                >
+                  <option value="">Select state</option>
+                  {NIGERIA_STATES.map(s => <option key={s.name} value={s.name}>{s.name}</option>)}
+                </select>
+              </div>
+              <div className="flex flex-col gap-1.5">
+                <label className="font-body text-sm font-medium text-foreground">Region / City</label>
+                <select
+                  name="destination_city"
+                  required
+                  disabled={!destState}
+                  className="w-full px-4 py-3 rounded-xl border border-mist bg-white text-sm font-body text-foreground focus:outline-none focus:ring-2 focus:ring-pine/20 focus:border-pine disabled:opacity-50"
+                >
+                  <option value="">{destState ? 'Select region' : 'Select state first'}</option>
+                  {destCities.map(c => <option key={c} value={c}>{c}</option>)}
+                </select>
+              </div>
+            </div>
           </div>
 
           {/* Terminal details */}

@@ -1,10 +1,11 @@
-import { getOperator, getOperatorReps } from '../actions';
+import { getOperator, getOperatorReps, getOperatorBankAccount } from '../actions';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import Link from 'next/link';
 import { EditOperatorForm } from './edit-form';
 import { CreateRepForm } from './create-rep-form';
 import { DeleteRepButton } from './delete-rep-button';
+import { BankAccountPanel } from './bank-account-panel';
 
 interface Props {
   params: Promise<{ id: string }>;
@@ -12,9 +13,10 @@ interface Props {
 
 export default async function OperatorDetailPage({ params }: Props) {
   const { id } = await params;
-  const [operator, reps] = await Promise.all([
+  const [operator, reps, bankAccount] = await Promise.all([
     getOperator(id),
     getOperatorReps(id),
+    getOperatorBankAccount(id),
   ]);
 
   return (
@@ -120,6 +122,24 @@ export default async function OperatorDetailPage({ params }: Props) {
                 </div>
               ))}
             </div>
+          )}
+        </CardContent>
+      </Card>
+      {/* Bank Account */}
+      <Card>
+        <CardHeader>
+          <div className="flex items-center gap-2">
+            <h2 className="font-display text-base font-semibold text-foreground">Bank Account</h2>
+            {bankAccount && bankAccount.status === 'pending_review' && (
+              <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold bg-amber-100 text-amber-700 font-body">Review needed</span>
+            )}
+          </div>
+        </CardHeader>
+        <CardContent>
+          {!bankAccount ? (
+            <p className="text-sm text-foreground/40 font-body py-4 text-center">No bank account submitted yet.</p>
+          ) : (
+            <BankAccountPanel account={bankAccount} operatorId={id} />
           )}
         </CardContent>
       </Card>

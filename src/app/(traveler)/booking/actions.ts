@@ -7,6 +7,7 @@ import {
   MAX_CANCELLATIONS,
   CANCELLATION_COOLDOWN_HOURS,
 } from '@/lib/constants';
+import { sendAdminNewBookingEmail } from '@/lib/email';
 
 // --------------------------------------------------------------------------
 // Route join fragment (used in all booking queries)
@@ -42,7 +43,7 @@ export async function getRouteForBooking(routeId: string) {
   return data;
 }
 
-export async function createBooking(routeId: string, seatsRequested: number) {
+export async function createBooking(routeId: string, seatsRequested: number, travelDate?: string) {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return { error: 'Not authenticated' };
@@ -77,9 +78,36 @@ export async function createBooking(routeId: string, seatsRequested: number) {
     p_traveler_id: user.id,
     p_seats: seatsRequested,
     p_expires_at: expiresAt.toISOString(),
+    p_travel_date: travelDate || null,
   });
 
   if (bookingError) return { error: bookingError.message };
+
+  // Notify admin of new booking (non-fatal)
+  try {
+    const { data: routeData } = await admin
+      .from('routes')
+      .select(`
+        fare,
+        general_route:general_routes!routes_general_route_id_fkey(origin_city, destination_city)
+      `)
+      .eq('id', routeId)
+      .single();
+    const { data: userProfile } = await admin
+      .from('users')
+      .select('name, email')
+      .eq('id', user.id)
+      .single();
+    const gr = (routeData as any)?.general_route;
+    await sendAdminNewBookingEmail({
+      travelerName: userProfile?.name || 'Unknown',
+      travelerEmail: userProfile?.email || '',
+      route: gr ? `${gr.origin_city} to ${gr.destination_city}` : 'Unknown route',
+      seats: seatsRequested,
+      fare: Number((routeData as any)?.fare || 0) * seatsRequested,
+      bookingId: (booking as any)?.id || '',
+    });
+  } catch { /* non-fatal */ }
 
   return { data: booking };
 }

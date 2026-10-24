@@ -3,7 +3,7 @@
 import { createAdminClient } from '@/lib/supabase/admin';
 import { createClient } from '@/lib/supabase/server';
 import { revalidatePath } from 'next/cache';
-import { sendSupportTicketReplyEmail } from '@/lib/email';
+import { sendSupportTicketReplyEmail, sendAdminSupportTicketEmail } from '@/lib/email';
 
 // --------------------------------------------------------------------------
 // Get current user info
@@ -98,6 +98,17 @@ export async function createTicket(formData: FormData) {
     .single();
 
   if (error) return { error: error.message };
+
+  // Notify admin (non-fatal)
+  try {
+    await sendAdminSupportTicketEmail({
+      userName: user.name || 'User',
+      userEmail: user.email || '',
+      subject: subject.trim(),
+      message: message.trim(),
+      ticketId: data.id,
+    });
+  } catch { /* non-fatal */ }
 
   revalidatePath('/support');
   revalidatePath('/dashboard/support');

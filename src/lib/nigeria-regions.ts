@@ -1,0 +1,45 @@
+﻿/**
+ * Nigerian states and their key regions/cities.
+ * Used for origin/destination selection in bus route creation.
+ */
+export const NIGERIA_REGIONS: Record<string, string[]> = {
+  'Abia': ['Umuahia', 'Aba', 'Ohafia', 'Arochukwu'],
+  'Adamawa': ['Yola', 'Mubi', 'Numan', 'Ganye'],
+  'Akwa Ibom': ['Uyo', 'Ikot Ekpene', 'Eket', 'Oron'],
+  'Anambra': ['Awka', 'Onitsha', 'Nnewi', 'Ekwulobia', 'Obosi'],
+  'Bauchi': ['Bauchi', 'Azare', 'Misau', 'Katagum'],
+  'Bayelsa': ['Yenagoa', 'Ogbia', 'Brass', 'Sagbama'],
+  'Benue': ['Makurdi', 'Gboko', 'Otukpo', 'Katsina-Ala'],
+  'Borno': ['Maiduguri', 'Biu', 'Konduga', 'Dikwa'],
+  'Cross River': ['Calabar', 'Obudu', 'Ikom', 'Ogoja'],
+  'Delta': ['Asaba', 'Warri', 'Sapele', 'Agbor', 'Ughelli', 'Abraka'],
+  'Ebonyi': ['Abakaliki', 'Afikpo', 'Onueke', 'Ishiagu'],
+  'Edo': ['Benin City', 'Auchi', 'Ekpoma', 'Uromi', 'Ubiaja', 'Afuze', 'Igarra'],
+  'Ekiti': ['Ado-Ekiti', 'Ikere', 'Ilawe', 'Ijero', 'Efon-Alaaye'],
+  'Enugu': ['Enugu', 'Nsukka', 'Awgu', 'Agbani', 'Udi', 'Oji River'],
+  'FCT': ['Abuja', 'Gwagwalada', 'Kuje', 'Bwari', 'Kwali'],
+  'Gombe': ['Gombe', 'Bajoga', 'Billiri', 'Kumo'],
+  'Imo': ['Owerri', 'Okigwe', 'Orlu', 'Oguta', 'Mbaise'],
+  'Jigawa': ['Dutse', 'Hadejia', 'Kazaure', 'Gumel'],
+  'Kaduna': ['Kaduna', 'Zaria', 'Kafanchan', 'Saminaka'],
+  'Kano': ['Kano', 'Wudil', 'Gwarzo', 'Rano'],
+  'Katsina': ['Katsina', 'Daura', 'Funtua', 'Mani'],
+  'Kebbi': ['Birnin Kebbi', 'Argungu', 'Yauri', 'Zuru'],
+  'Kogi': ['Lokoja', 'Ankpa', 'Kabba', 'Okene', 'Idah'],
+  'Kwara': ['Ilorin', 'Offa', 'Omu-Aran', 'Lafiagi'],
+  'Lagos': ['Lagos Island', 'Ikeja', 'Lekki', 'Mushin', 'Surulere', 'Oshodi', 'Apapa', 'Badagry', 'Epe', 'Ikorodu'],
+  'Nasarawa': ['Lafia', 'Keffi', 'Akwanga', 'Karu', 'Nassarawa'],
+  'Niger': ['Minna', 'Suleja', 'Bida', 'Kontagora', 'Lapai'],
+  'Ogun': ['Abeokuta', 'Sagamu', 'Ijebu-Ode', 'Ota', 'Ilaro'],
+  'Ondo': ['Akure', 'Ondo', 'Owo', 'Ore', 'Okitipupa'],
+  'Osun': ['Osogbo', 'Ile-Ife', 'Ilesa', 'Ede', 'Iwo'],
+  'Oyo': ['Ibadan', 'Ogbomoso', 'Oyo', 'Iseyin', 'Saki'],
+  'Plateau': ['Jos', 'Shendam', 'Pankshin', 'Barkin Ladi'],
+  'Rivers': ['Port Harcourt', 'Bonny', 'Degema', 'Ahoada', 'Omoku'],
+  'Sokoto': ['Sokoto', 'Gwadabai', 'Tambuwal', 'Wamako'],
+  'Taraba': ['Jalingo', 'Wukari', 'Bali', 'Takum'],
+  'Yobe': ['Damaturu', 'Gashua', 'Potiskum', 'Nguru'],
+  'Zamfara': ['Gusau', 'Kaura Namoda', 'Anka', 'Talata Mafara'],
+};
+
+export const NIGERIA_STATES = Object.keys(NIGERIA_REGIONS).sort();

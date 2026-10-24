@@ -3,7 +3,7 @@
 import { createAdminClient } from '@/lib/supabase/admin';
 import { createClient } from '@/lib/supabase/server';
 import { revalidatePath } from 'next/cache';
-import { CONVENIENCE_FEE } from '@/lib/constants';
+import { calcConvenienceFee } from '@/lib/constants';
 
 export async function getBookingForPayment(bookingId: string) {
   const supabase = await createClient();
@@ -72,7 +72,8 @@ export async function initializePayment(bookingId: string) {
 
   const route = booking.route as any;
   const fareAmount = Number(route.fare) * booking.seats_requested;
-  const totalAmount = fareAmount + CONVENIENCE_FEE;
+  const convenienceFee = calcConvenienceFee(fareAmount);
+  const totalAmount = fareAmount + convenienceFee;
 
   // Get user email
   const { data: profile } = await admin
@@ -105,7 +106,7 @@ export async function initializePayment(bookingId: string) {
           booking_id: bookingId,
           seats: booking.seats_requested,
           fare_amount: fareAmount,
-          convenience_fee: CONVENIENCE_FEE,
+          convenience_fee: convenienceFee,
         },
       }),
     });
@@ -122,7 +123,7 @@ export async function initializePayment(bookingId: string) {
     await admin.from('payments').insert({
       booking_id: bookingId,
       fare_amount: fareAmount,
-      convenience_fee: CONVENIENCE_FEE,
+      convenience_fee: convenienceFee,
       processing_fee: 0,
       payment_method: 'paystack',
       paystack_reference: reference,

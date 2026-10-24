@@ -52,29 +52,83 @@ export async function getGeneralRoutesForSelect() {
   return data;
 }
 
+/** Find existing or create a new general_route row for a given origin/destination pair. */
+async function createOrFindGeneralRoute(
+  originCity: string,
+  originState: string,
+  destinationCity: string,
+  destinationState: string,
+): Promise<string | null> {
+  const admin = createAdminClient();
+
+  // Try to find existing
+  const { data: existing } = await admin
+    .from('general_routes')
+    .select('id')
+    .eq('origin_city', originCity)
+    .eq('origin_state', originState)
+    .eq('destination_city', destinationCity)
+    .eq('destination_state', destinationState)
+    .maybeSingle();
+
+  if (existing) return existing.id;
+
+  // Create new
+  const { data: created, error } = await admin
+    .from('general_routes')
+    .insert({
+      origin_city: originCity,
+      origin_state: originState,
+      destination_city: destinationCity,
+      destination_state: destinationState,
+      active: true,
+    })
+    .select('id')
+    .single();
+
+  if (error) return null;
+  return created.id;
+}
+
 export async function createRoute(formData: FormData) {
   const operatorId = await getMyOperatorId();
   if (!operatorId) return { error: 'Not authorized' };
 
-  const generalRouteId = formData.get('general_route_id') as string;
-  const pickupTerminal = formData.get('pickup_terminal') as string;
-  const pickupAddress = formData.get('pickup_address') as string;
-  const dropoffTerminal = formData.get('dropoff_terminal') as string;
-  const dropoffAddress = formData.get('dropoff_address') as string;
-  const busNumber = formData.get('bus_number') as string;
-  const fare = parseFloat(formData.get('fare') as string);
-  const departureTime = formData.get('departure_time') as string;
-  const seatsTotal = parseInt(formData.get('seats_total') as string, 10);
-  const durationHours = parseInt(formData.get('duration_hours') as string || '1', 10);
-  const durationMinutes = parseInt(formData.get('duration_minutes') as string || '0', 10);
-  const expectedDuration = (isNaN(durationHours) ? 1 : durationHours) * 60 + (isNaN(durationMinutes) ? 0 : durationMinutes);
+  const originState       = formData.get('origin_state') as string;
+  const originCity        = formData.get('origin_city') as string;
+  const destinationState  = formData.get('destination_state') as string;
+  const destinationCity   = formData.get('destination_city') as string;
+  const pickupTerminal    = formData.get('pickup_terminal') as string;
+  const pickupAddress     = formData.get('pickup_address') as string;
+  const dropoffTerminal   = formData.get('dropoff_terminal') as string;
+  const dropoffAddress    = formData.get('dropoff_address') as string;
+  const busNumber         = formData.get('bus_number') as string;
+  const fare              = parseFloat(formData.get('fare') as string);
+  const departureTime     = formData.get('departure_time') as string;
+  const seatsTotal        = parseInt(formData.get('seats_total') as string, 10);
+  const durationHours     = parseInt(formData.get('duration_hours') as string || '1', 10);
+  const durationMinutes   = parseInt(formData.get('duration_minutes') as string || '0', 10);
+  const expectedDuration  = (isNaN(durationHours) ? 1 : durationHours) * 60 + (isNaN(durationMinutes) ? 0 : durationMinutes);
 
-  if (!generalRouteId) return { error: 'Select a route corridor' };
+  if (!originState?.trim())       return { error: 'Select an origin state' };
+  if (!originCity?.trim())        return { error: 'Select an origin region/city' };
+  if (!destinationState?.trim())  return { error: 'Select a destination state' };
+  if (!destinationCity?.trim())   return { error: 'Select a destination region/city' };
+  if (originState === destinationState && originCity === destinationCity) {
+    return { error: 'Origin and destination cannot be the same' };
+  }
   if (!pickupTerminal?.trim()) return { error: 'Pickup terminal is required' };
   if (isNaN(fare) || fare < 0) return { error: 'Enter a valid fare amount' };
   if (!departureTime) return { error: 'Departure time is required' };
   if (isNaN(seatsTotal) || seatsTotal < 1) return { error: 'Enter a valid number of seats' };
   if (!busNumber?.trim() || !/^\d+$/.test(busNumber.trim())) return { error: 'Bus number is required and must be a whole number' };
+
+  // Resolve or create the general_route
+  const generalRouteId = await createOrFindGeneralRoute(
+    originCity.trim(), originState.trim(),
+    destinationCity.trim(), destinationState.trim(),
+  );
+  if (!generalRouteId) return { error: 'Failed to resolve route corridor. Please try again.' };
 
   const admin = createAdminClient();
   const { data, error } = await admin

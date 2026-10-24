@@ -188,7 +188,7 @@ function LoginForm() {
         ) : surface === 'operator' ? (
           <p className="text-center text-sm text-foreground/50 dark:text-foreground/40 font-body mt-6">
             Want to become an operator?{' '}
-            <a href="mailto:support@arrivelink.com" className="text-foreground font-semibold hover:text-pine dark:hover:text-lime transition-colors">
+            <a href="/contact?subject=List+my+transport+company" className="text-foreground font-semibold hover:text-pine dark:hover:text-lime transition-colors">
               Contact us
             </a>
           </p>

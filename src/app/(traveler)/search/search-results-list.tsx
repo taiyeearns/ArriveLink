@@ -10,6 +10,7 @@ type SortDir = 'asc' | 'desc';
 
 interface SearchResultsListProps {
   routes: any[];
+  travelDate?: string;
 }
 
 function SortButton({
@@ -47,7 +48,7 @@ function SortButton({
   );
 }
 
-export function SearchResultsList({ routes }: SearchResultsListProps) {
+export function SearchResultsList({ routes, travelDate }: SearchResultsListProps) {
   const [sortField, setSortField] = useState<SortField>('price');
   const [sortDir, setSortDir] = useState<SortDir>('asc');
 
@@ -157,7 +158,7 @@ export function SearchResultsList({ routes }: SearchResultsListProps) {
                   </p>
                   <p className="text-[10px] text-foreground/40 font-body">per seat + ₦200 fee</p>
                 </div>
-                <Link href={`/booking/${route.id}`}>
+                <Link href={`/booking/${route.id}${travelDate ? `?date=${travelDate}` : ''}`}>
                   <button className="px-5 py-2.5 bg-forest text-white rounded-xl font-body text-sm font-medium hover:bg-pine transition-colors cursor-pointer">
                     Book Now
                   </button>

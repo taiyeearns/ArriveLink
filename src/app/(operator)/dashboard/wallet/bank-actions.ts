@@ -3,6 +3,7 @@
 import { createAdminClient } from '@/lib/supabase/admin';
 import { createClient } from '@/lib/supabase/server';
 import { revalidatePath } from 'next/cache';
+import { sendAdminBankAccountEmail } from '@/lib/email';
 
 async function getMyOperatorId(): Promise<string | null> {
   const supabase = await createClient();
@@ -72,6 +73,22 @@ export async function submitBankAccount(formData: FormData) {
     .single();
 
   if (error) return { error: error.message };
+
+  // Notify admin (non-fatal)
+  try {
+    const { data: opData } = await admin
+      .from('operators')
+      .select('business_name')
+      .eq('id', operatorId)
+      .single();
+    await sendAdminBankAccountEmail({
+      operatorName: opData?.business_name || 'Unknown Operator',
+      accountName: accountName.trim(),
+      bankName: bankName.trim(),
+      accountNumber: accountNumber.trim(),
+      operatorId,
+    });
+  } catch { /* non-fatal */ }
 
   revalidatePath('/dashboard/wallet');
   return { data };
