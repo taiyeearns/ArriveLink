@@ -147,9 +147,7 @@ function Popup({ op, isPlaceholder, onDismiss }: {
 }) {
   const color = avatarColor(op.business_name);
   const inits = initials(op.business_name);
-  const [mounted, setMounted] = useState(false);
-  useEffect(() => { setMounted(true); }, []);
-  if (!mounted) return null;
+  if (typeof document === 'undefined') return null;
 
   return createPortal(
     <div
@@ -331,8 +329,6 @@ export function PartnerCarousel({ operators }: Props) {
     };
   }, []);
 
-  const edgeBg = '#edf2ee';
-
   return (
     <>
       {/* Popup rendered via portal — full-page blur + centered card */}
@@ -345,10 +341,6 @@ export function PartnerCarousel({ operators }: Props) {
       )}
 
       <div style={{ position: 'relative', width: '100%', overflow: 'hidden' }}>
-        {/* Fade edges */}
-        <div style={{ position: 'absolute', left: 0, top: 0, bottom: 0, width: 120, zIndex: 2, pointerEvents: 'none', background: `linear-gradient(to right, ${edgeBg}, transparent)` }} />
-        <div style={{ position: 'absolute', right: 0, top: 0, bottom: 0, width: 120, zIndex: 2, pointerEvents: 'none', background: `linear-gradient(to left, ${edgeBg}, transparent)` }} />
-
         {/* Scrolling track */}
         <div
           ref={trackRef}
@@ -379,7 +371,7 @@ export function PartnerCarousel({ operators }: Props) {
 
       {isPlaceholder && (
         <p style={{ textAlign: 'center', fontSize: 12, color: 'rgba(26,107,74,0.35)', marginTop: 8, letterSpacing: '0.03em' }}>
-          Example carriers — real partners appear once listed on ArriveLink
+          Example carriers - real partners appear once listed on ArriveLink
         </p>
       )}
     </>

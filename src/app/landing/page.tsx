@@ -7,7 +7,7 @@ import { PartnerCarousel } from './partner-carousel';
 import { getPartnerOperators } from '@/app/operators/[id]/actions';
 
 export const metadata = {
-  title: 'ArriveLink — Stop Going From Park to Park',
+  title: 'ArriveLink - Stop Going From Park to Park',
   description:
     'ArriveLink shows you every transport company, verified prices, and real departure times before you leave your house.',
 };
@@ -45,7 +45,7 @@ export default async function LandingPage() {
             {/* Pill badge */}
             <div className="inline-flex items-center gap-2 bg-white/15 backdrop-blur-sm border border-white/25 rounded-full px-4 py-2 mb-8">
               <span className="w-2 h-2 rounded-full bg-emerald animate-pulse" />
-              <span className="text-white/90 text-sm font-body font-medium">Nigeria's first transparent bus booking platform</span>
+              <span className="text-white/90 text-sm font-body font-medium">Nigeria&apos;s first transparent bus booking platform</span>
             </div>
 
             <h1 className="font-display text-5xl sm:text-7xl lg:text-8xl text-white leading-[1.0] mb-8 drop-shadow-lg">
@@ -159,31 +159,31 @@ export default async function LandingPage() {
                 {
                   step: '01', title: 'Search',
                   body: 'Enter your origin state, city, destination, and when you want to travel.',
-                  color: 'from-emerald/20 to-emerald/5',
+                  color: 'from-emerald/40 to-emerald/15 border-emerald/30 dark:from-emerald/30 dark:to-emerald/10 dark:border-emerald/30',
                 },
                 {
                   step: '02', title: 'Compare',
                   body: 'See every available bus with verified fares, departure times, and operator ratings.',
-                  color: 'from-blue-500/20 to-blue-500/5',
+                  color: 'from-blue-500/40 to-blue-500/15 border-blue-500/30 dark:from-blue-500/30 dark:to-blue-500/10 dark:border-blue-500/30',
                 },
                 {
                   step: '03', title: 'Reserve',
                   body: 'Tap to reserve your seat. You have 15 minutes to pay and lock it in.',
-                  color: 'from-amber-500/20 to-amber-500/5',
+                  color: 'from-amber-500/40 to-amber-500/15 border-amber-500/30 dark:from-amber-500/30 dark:to-amber-500/10 dark:border-amber-500/30',
                 },
                 {
                   step: '04', title: 'Arrive',
                   body: 'Travel with your e-ticket. No surprises. No stress. Just arrive.',
-                  color: 'from-forest/20 to-forest/5',
+                  color: 'from-pine/40 to-forest/15 border-pine/30 dark:from-pine/30 dark:to-forest/10 dark:border-pine/30',
                 },
               ].map((item) => (
                 <li
                   key={item.step}
-                  className={`bg-gradient-to-b ${item.color} border border-mist dark:border-white/10 rounded-3xl p-8`}
+                  className={`bg-gradient-to-b ${item.color} border rounded-3xl p-8 shadow-sm transition-transform duration-200 hover:-translate-y-1`}
                 >
-                  <span className="font-mono text-4xl font-bold text-forest/20 dark:text-white/20 block mb-4">{item.step}</span>
+                  <span className="font-mono text-4xl font-extrabold text-forest/40 dark:text-white/35 block mb-4">{item.step}</span>
                   <h3 className="font-display text-2xl text-forest dark:text-white mb-3">{item.title}</h3>
-                  <p className="text-forest/60 dark:text-white/55 font-body text-base leading-relaxed">{item.body}</p>
+                  <p className="text-forest/80 dark:text-white/75 font-body text-base leading-relaxed">{item.body}</p>
                 </li>
               ))}
             </ol>
@@ -243,12 +243,19 @@ export default async function LandingPage() {
               </p>
 
               <footer className="mt-8 flex items-center gap-4">
-                <div className="w-12 h-12 rounded-2xl bg-forest flex items-center justify-center shrink-0">
-                  <span className="text-white font-display font-bold text-lg">PO</span>
+                <div className="relative w-14 h-14 rounded-2xl overflow-hidden shrink-0 border border-emerald/30 shadow-md">
+                  <Image
+                    src="/praise_obasi.jpg"
+                    alt="Praise Obasi, Founder of ArriveLink"
+                    fill
+                    sizes="56px"
+                    className="object-cover"
+                    style={{ objectPosition: 'center 15%' }}
+                  />
                 </div>
                 <div>
-                  <p className="font-semibold text-forest dark:text-white font-body">Praise Obasi</p>
-                  <p className="text-sm text-forest/50 dark:text-white/40 font-body">Founder, ArriveLink</p>
+                  <p className="font-semibold text-forest dark:text-white font-body text-base">Praise Obasi</p>
+                  <p className="text-sm text-forest/60 dark:text-white/50 font-body">Founder, ArriveLink</p>
                 </div>
               </footer>
             </blockquote>
@@ -265,7 +272,7 @@ export default async function LandingPage() {
               <h2 className="font-display text-4xl sm:text-5xl lg:text-6xl text-white leading-tight mb-4">
                 Ready to change how<br />Nigeria travels?
               </h2>
-              <p className="text-white/50 font-body text-xl">Whether you're catching a bus or running one.</p>
+              <p className="text-white/50 font-body text-xl">Whether you&apos;re catching a bus or running one.</p>
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -312,7 +319,7 @@ export default async function LandingPage() {
                   List your buses.<br />Fill your seats.
                 </h3>
                 <p className="text-white/50 font-body text-base leading-relaxed mb-10 flex-1">
-                  Join Nigeria's fastest growing transport booking platform.
+                  Join Nigeria&apos;s fastest growing transport booking platform.
                   Reach thousands of passengers searching for your routes every day. Free to join.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-3">

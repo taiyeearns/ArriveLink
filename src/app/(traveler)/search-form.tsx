@@ -56,12 +56,12 @@ function SearchableSelect({
             onClick={(e) => e.stopPropagation()}
           />
         ) : (
-          <span className={`flex-1 truncate text-base ${value ? '' : 'opacity-40'}`}>
+          <span className={`flex-1 truncate text-base ${value ? 'font-medium' : (forceLight ? 'text-forest/75 font-normal' : 'text-foreground/70 dark:text-foreground/75 font-normal')}`}>
             {value || placeholder}
           </span>
         )}
         <svg
-          className={`w-3.5 h-3.5 shrink-0 transition-transform ${open ? 'rotate-180' : ''} opacity-40`}
+          className={`w-3.5 h-3.5 shrink-0 transition-transform ${open ? 'rotate-180' : ''} ${forceLight ? 'text-forest/70' : 'text-foreground/60'}`}
           fill="none" stroke="currentColor" viewBox="0 0 24 24"
         >
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
@@ -178,11 +178,11 @@ function CalendarPicker({
           ${base}
         `}
       >
-        <svg className="w-5 h-5 shrink-0 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <svg className={`w-5 h-5 shrink-0 ${forceLight ? 'text-forest/70' : 'text-foreground/60'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
             d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
         </svg>
-        <span className={value ? '' : 'opacity-40'}>
+        <span className={value ? 'font-medium' : (forceLight ? 'text-forest/75 font-normal' : 'text-foreground/70 dark:text-foreground/75 font-normal')}>
           {value ? formatDisplay(value) : 'Pick a date'}
         </span>
       </button>
@@ -256,19 +256,13 @@ function CalendarPicker({
   );
 }
 
-// --- Time of Day --------------------------------------------------------------
 
-const TIME_OF_DAY = [
-  { value: 'morning',   emoji: 'AM', label: 'Morning',   sub: '5AM-12PM'  },
-  { value: 'afternoon', emoji: 'PM', label: 'Afternoon', sub: '12PM-5PM'  },
-  { value: 'evening',   emoji: 'EVE', label: 'Evening',  sub: '5PM-10PM'  },
-];
 
 // --- Label --------------------------------------------------------------------
 
 function Label({ children, forceLight }: { children: React.ReactNode; forceLight?: boolean }) {
   return (
-    <p className={`text-xs font-bold uppercase tracking-widest mb-2.5 ${forceLight ? 'text-forest/50' : 'text-foreground/40'}`}>
+    <p className={`text-xs font-bold uppercase tracking-widest mb-2.5 ${forceLight ? 'text-forest/80' : 'text-foreground/80'}`}>
       {children}
     </p>
   );
@@ -299,8 +293,15 @@ export function SearchForm({
   const [date,      setDate]      = useState(defaultDate);
   const [timeOfDay, setTimeOfDay] = useState(defaultTimeOfDay);
 
-  useEffect(() => { setFromCity(''); }, [fromState]);
-  useEffect(() => { setToCity('');   }, [toState]);
+  function handleFromStateChange(val: string) {
+    setFromState(val);
+    setFromCity('');
+  }
+
+  function handleToStateChange(val: string) {
+    setToState(val);
+    setToCity('');
+  }
 
   const fromCities = getCitiesForState(fromState);
   const toCities   = getCitiesForState(toState);
@@ -343,7 +344,7 @@ export function SearchForm({
           </div>
           <div className="grid grid-cols-2 gap-2">
             <SearchableSelect
-              id="from-state" value={fromState} onChange={setFromState}
+              id="from-state" value={fromState} onChange={handleFromStateChange}
               options={STATE_NAMES} placeholder="State" forceLight={forceLight}
             />
             <SearchableSelect
@@ -369,7 +370,7 @@ export function SearchForm({
           </div>
           <div className="grid grid-cols-2 gap-2">
             <SearchableSelect
-              id="to-state" value={toState} onChange={setToState}
+              id="to-state" value={toState} onChange={handleToStateChange}
               options={STATE_NAMES} placeholder="State" forceLight={forceLight}
             />
             <SearchableSelect
@@ -404,9 +405,9 @@ export function SearchForm({
           <Label forceLight={forceLight}>Time of Day</Label>
           <div className="grid grid-cols-3 gap-2 h-[54px]">
             {[
-              { value: 'morning',   label: 'Morning',   sub: '5AM – 12PM' },
-              { value: 'afternoon', label: 'Afternoon', sub: '12 – 5PM'   },
-              { value: 'evening',   label: 'Evening',   sub: '5 – 10PM'   },
+              { value: 'morning',   label: 'Morning',   sub: '5AM - 12PM' },
+              { value: 'afternoon', label: 'Afternoon', sub: '12 - 5PM'   },
+              { value: 'evening',   label: 'Evening',   sub: '5 - 10PM'   },
             ].map((t) => (
               <button
                 key={t.value}
@@ -418,14 +419,18 @@ export function SearchForm({
                   ${timeOfDay === t.value
                     ? 'bg-forest border-forest text-white shadow-sm'
                     : forceLight
-                      ? 'bg-white border-mist text-forest/60 hover:border-emerald hover:text-forest'
-                      : 'bg-white dark:bg-dark-surface border-mist dark:border-white/10 text-foreground/60 hover:border-emerald'}
+                      ? 'bg-white border-mist text-forest hover:border-emerald'
+                      : 'bg-white dark:bg-dark-surface border-mist dark:border-white/10 text-foreground hover:border-emerald'}
                 `}
               >
-                {timeIcons[t.value]}
+                <span className={timeOfDay === t.value ? 'text-white' : (forceLight ? 'text-forest/75' : 'text-foreground/75')}>
+                  {timeIcons[t.value]}
+                </span>
                 <span className="leading-tight text-center">
                   <span className="block text-sm">{t.label}</span>
-                  <span className="block text-[10px] opacity-70 font-normal">{t.sub}</span>
+                  <span className={`block text-[10px] font-medium ${timeOfDay === t.value ? 'text-white/80' : (forceLight ? 'text-forest/75' : 'text-foreground/75')}`}>
+                    {t.sub}
+                  </span>
                 </span>
               </button>
             ))}
