@@ -1,14 +1,29 @@
-﻿'use client';
+'use client';
 
 import { useState } from 'react';
+import { useSearchParams } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { submitContactForm } from './actions';
 
+const SUBJECT_OPTIONS = [
+  'List my transport company',
+  'Partnership enquiry',
+  'General question',
+  'Other',
+];
+
 export function ContactForm() {
+  const searchParams = useSearchParams();
+  const subjectParam = searchParams.get('subject') || '';
+  const initialSubject = SUBJECT_OPTIONS.find(
+    (opt) => opt.toLowerCase() === subjectParam.toLowerCase()
+  ) || SUBJECT_OPTIONS[0];
+
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState('');
+  const [subject, setSubject] = useState(initialSubject);
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -55,12 +70,13 @@ export function ContactForm() {
         <label className="font-body text-sm font-medium text-foreground">Subject</label>
         <select
           name="subject"
+          value={subject}
+          onChange={(e) => setSubject(e.target.value)}
           className="w-full px-4 py-3 rounded-xl border border-mist dark:border-white/10 bg-white dark:bg-dark-surface text-sm font-body text-foreground focus:outline-none focus:ring-2 focus:ring-pine/20 focus:border-pine"
         >
-          <option value="List my transport company">List my transport company</option>
-          <option value="Partnership enquiry">Partnership enquiry</option>
-          <option value="General question">General question</option>
-          <option value="Other">Other</option>
+          {SUBJECT_OPTIONS.map((opt) => (
+            <option key={opt} value={opt}>{opt}</option>
+          ))}
         </select>
       </div>
 

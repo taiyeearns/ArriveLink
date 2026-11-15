@@ -1,4 +1,5 @@
-﻿import { LandingHeader } from '@/app/landing/landing-header';
+import { Suspense } from 'react';
+import { LandingHeader } from '@/app/landing/landing-header';
 import { LandingFooter } from '@/app/landing/landing-footer';
 import { ContactForm } from './contact-form';
 
@@ -37,8 +38,8 @@ export default function ContactPage() {
                     </svg>
                   ),
                   label: 'Email us',
-                  value: 'support@arrivelink.app',
-                  href: 'mailto:support@arrivelink.app',
+                  value: 'arrivelink@gmail.com',
+                  href: 'mailto:arrivelink@gmail.com',
                 },
                 {
                   icon: (
@@ -87,7 +88,20 @@ export default function ContactPage() {
 
             {/* Form */}
             <div className="lg:col-span-3">
-              <ContactForm />
+              <Suspense fallback={
+                <div className="animate-pulse space-y-5">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div className="h-12 bg-mist dark:bg-dark-surface rounded-xl" />
+                    <div className="h-12 bg-mist dark:bg-dark-surface rounded-xl" />
+                  </div>
+                  <div className="h-12 bg-mist dark:bg-dark-surface rounded-xl" />
+                  <div className="h-12 bg-mist dark:bg-dark-surface rounded-xl" />
+                  <div className="h-36 bg-mist dark:bg-dark-surface rounded-xl" />
+                  <div className="h-12 bg-forest/20 rounded-xl" />
+                </div>
+              }>
+                <ContactForm />
+              </Suspense>
             </div>
           </div>
         </div>

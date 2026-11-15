@@ -262,7 +262,7 @@ export async function sendSupportTicketReplyEmail(to: string, data: {
 // Admin notification emails
 // ============================================================================
 
-const ADMIN_EMAIL = process.env.ADMIN_EMAIL || 'admin@arrivelink.app';
+const ADMIN_EMAIL = process.env.ADMIN_EMAIL || 'arrivelink@gmail.com';
 
 export async function sendAdminNewUserEmail(data: {
   userName: string;

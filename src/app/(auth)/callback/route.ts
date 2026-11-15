@@ -26,6 +26,27 @@ export async function GET(request: Request) {
         if (profile?.role === 'admin') {
           return NextResponse.redirect(`${origin}/admin`);
         } else if (profile?.role === 'operator_rep') {
+          // New operator signup - notify admin (non-fatal)
+          try {
+            const admin = createAdminClient();
+            const { data: fullProfile } = await admin
+              .from('users')
+              .select('name, email, role, created_at')
+              .eq('id', user.id)
+              .single();
+            if (fullProfile) {
+              const createdAt = fullProfile.created_at ? new Date(fullProfile.created_at) : null;
+              const isNew = createdAt && (Date.now() - createdAt.getTime()) < 5 * 60 * 1000;
+              if (isNew) {
+                await sendAdminNewUserEmail({
+                  userName: fullProfile.name || user.email?.split('@')[0] || 'New User',
+                  userEmail: fullProfile.email || user.email || '',
+                  role: fullProfile.role || 'operator_rep',
+                });
+              }
+            }
+          } catch { /* non-fatal */ }
+
           return NextResponse.redirect(`${origin}/dashboard`);
         } else {
           // New traveler signup - notify admin (non-fatal)

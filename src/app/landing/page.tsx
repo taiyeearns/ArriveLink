@@ -330,10 +330,10 @@ export default async function LandingPage() {
                     List Your Company
                   </Link>
                   <Link
-                    href="/dashboard"
+                    href="/contact"
                     className="flex-1 flex items-center justify-center px-6 py-4 border border-white/20 text-white rounded-2xl font-body font-semibold text-base hover:bg-white/10 transition-all"
                   >
-                    Operator Dashboard
+                    Contact Us
                   </Link>
                 </div>
               </div>

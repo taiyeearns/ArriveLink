@@ -1,19 +1,19 @@
-﻿'use server';
+'use server';
 
 const RESEND_API_KEY = process.env.RESEND_API_KEY;
-const ADMIN_EMAIL = process.env.ADMIN_EMAIL || 'support@arrivelink.app';
+const ADMIN_EMAIL = process.env.ADMIN_EMAIL || 'arrivelink@gmail.com';
 
 export async function submitContactForm(formData: FormData) {
-  const name    = formData.get('name') as string;
-  const email   = formData.get('email') as string;
+  const name = formData.get('name') as string;
+  const email = formData.get('email') as string;
   const company = formData.get('company') as string;
   const subject = (formData.get('subject') as string) || 'Operator Enquiry';
   const message = formData.get('message') as string;
 
-  if (!name?.trim())    return { error: 'Name is required' };
-  if (!email?.trim())   return { error: 'Email is required' };
+  if (!name?.trim()) return { error: 'Name is required' };
+  if (!email?.trim()) return { error: 'Email is required' };
   if (!message?.trim()) return { error: 'Message is required' };
-  if (!RESEND_API_KEY)  return { error: 'Email service not configured' };
+  if (!RESEND_API_KEY) return { error: 'Email service not configured' };
 
   const rows = [
     '<tr><td>Name</td><td>' + name.trim() + '</td></tr>',

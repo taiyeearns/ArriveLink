@@ -96,17 +96,17 @@ export function LandingFooter() {
               ))}
               {/* Email links must use <a> not Next Link */}
               <li>
-                <a href="mailto:hello@arrivelink.ng" className="text-sm text-white/60 hover:text-white transition-colors font-body">
+                <a href="mailto:arrivelink@gmail.com" className="text-sm text-white/60 hover:text-white transition-colors font-body">
                   Contact Us
                 </a>
               </li>
               <li>
-                <a href="mailto:support@arrivelink.ng" className="text-sm text-white/60 hover:text-white transition-colors font-body">
+                <a href="mailto:arrivelink@gmail.com" className="text-sm text-white/60 hover:text-white transition-colors font-body">
                   Support
                 </a>
               </li>
               <li>
-                <a href="mailto:refunds@arrivelink.ng" className="text-sm text-white/60 hover:text-white transition-colors font-body">
+                <a href="mailto:arrivelink@gmail.com" className="text-sm text-white/60 hover:text-white transition-colors font-body">
                   Refund Requests
                 </a>
               </li>
