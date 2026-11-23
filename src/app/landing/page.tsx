@@ -2,6 +2,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { LandingHeader } from './landing-header';
 import { LandingFooter } from './landing-footer';
+import { WaitlistFab } from './waitlist-fab';
 
 export const metadata = {
   title: 'ArriveLink - Stop Going From Park to Park',
@@ -15,19 +16,6 @@ export default function LandingPage() {
       <LandingHeader />
 
       <main>
-
-        {/* ════════════════════════════════════════════════════════════════
-            LAUNCH BANNER
-        ════════════════════════════════════════════════════════════════ */}
-        <div className="fixed top-18 sm:top-20 left-0 right-0 z-40 bg-gradient-to-r from-emerald to-pine text-white text-center py-3 px-5 shadow-lg">
-          <Link href="/waitlist" className="inline-flex items-center gap-2 font-body font-semibold text-sm sm:text-base hover:opacity-90 transition-opacity">
-            <span className="w-2 h-2 rounded-full bg-white animate-pulse" />
-            Booking opens 10 Dec. Join the waitlist
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-            </svg>
-          </Link>
-        </div>
 
         {/* ════════════════════════════════════════════════════════════════
             HERO
@@ -77,7 +65,7 @@ export default function LandingPage() {
                 Be the first to book your December holiday travel. Join the waitlist and we will notify you the moment booking goes live.
               </p>
               <Link
-                href="/waitlist"
+                href="/signup?redirect=%2Fwaitlist"
                 className="inline-flex items-center gap-2 px-8 py-4 bg-forest text-white rounded-2xl font-body font-bold text-lg hover:bg-pine transition-all shadow-lg hover:shadow-xl active:scale-[0.98]"
               >
                 Join the Waitlist
@@ -296,13 +284,13 @@ export default function LandingPage() {
                 </p>
                 <div className="flex flex-col sm:flex-row gap-3">
                   <Link
-                    href="/waitlist"
+                    href="/signup?redirect=%2Fwaitlist"
                     className="flex-1 flex items-center justify-center px-6 py-4 bg-emerald text-forest rounded-2xl font-body font-bold text-base hover:bg-emerald/90 transition-all shadow-lg hover:shadow-emerald/20 active:scale-[0.98]"
                   >
                     Join the Waitlist
                   </Link>
                   <Link
-                    href="/waitlist"
+                    href="/signup?redirect=%2Fwaitlist"
                     className="flex-1 flex items-center justify-center px-6 py-4 border border-white/20 text-white rounded-2xl font-body font-semibold text-base hover:bg-white/10 transition-all"
                   >
                     Learn More
@@ -333,7 +321,7 @@ export default function LandingPage() {
                     Contact Us
                   </Link>
                   <Link
-                    href="/waitlist"
+                    href="/signup?redirect=%2Fwaitlist"
                     className="flex-1 flex items-center justify-center px-6 py-4 border border-white/20 text-white rounded-2xl font-body font-semibold text-base hover:bg-white/10 transition-all"
                   >
                     Join the Waitlist
@@ -359,6 +347,9 @@ export default function LandingPage() {
         </section>
 
       </main>
+
+      {/* Floating waitlist CTA - bottom right, sticks on all scroll */}
+      <WaitlistFab />
 
       <LandingFooter />
     </div>

@@ -117,6 +117,15 @@ function LoginForm() {
           </p>
         </div>
 
+        {/* December waitlist promo */}
+        {surface === 'traveler' && !isVerified && !authErrorParam && (
+          <div className="mb-6 p-4 rounded-xl bg-emerald/10 dark:bg-emerald/20 border border-emerald/30 text-center">
+            <p className="text-sm font-body font-medium text-emerald">
+              Booking opens 10 Dec. Sign in to join the waitlist and be first to book!
+            </p>
+          </div>
+        )}
+
         {isVerified && (
           <div className="mb-6 p-4 rounded-xl bg-mist dark:bg-pine/20 border border-emerald/30 text-center">
             <p className="text-sm font-body font-medium text-emerald">

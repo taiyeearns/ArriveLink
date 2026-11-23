@@ -1,3 +1,5 @@
+import { redirect } from 'next/navigation';
+import { createClient } from '@/lib/supabase/server';
 import { LandingHeader } from '@/app/landing/landing-header';
 import { LandingFooter } from '@/app/landing/landing-footer';
 import { TallyEmbed } from './tally-embed';
@@ -7,7 +9,15 @@ export const metadata = {
   description: 'Booking opens 10 December. Join the waitlist and be the first to book your December holiday travel on ArriveLink.',
 };
 
-export default function WaitlistPage() {
+export default async function WaitlistPage() {
+  // Require authentication - redirect to signup if not logged in
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+
+  if (!user) {
+    redirect('/signup?redirect=%2Fwaitlist');
+  }
+
   return (
     <div className="flex flex-col min-h-screen bg-white dark:bg-dark-bg">
       <LandingHeader />

@@ -8,7 +8,7 @@ import { ThemeToggle } from '@/components/ui/theme-toggle';
 const NAV_LINKS = [
   { href: '/#how-it-works', label: 'How it works' },
   { href: '/contact', label: 'For Operators' },
-  { href: '/waitlist', label: 'Join Waitlist' },
+  { href: '/signup?redirect=%2Fwaitlist', label: 'Join Waitlist' },
 ];
 
 export function LandingHeader() {
