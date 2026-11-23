@@ -1,10 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { SearchForm } from '@/app/(traveler)/search-form';
 import { LandingHeader } from './landing-header';
 import { LandingFooter } from './landing-footer';
-import { PartnerCarousel } from './partner-carousel';
-import { getPartnerOperators } from '@/app/operators/[id]/actions';
 
 export const metadata = {
   title: 'ArriveLink - Stop Going From Park to Park',
@@ -12,9 +9,7 @@ export const metadata = {
     'ArriveLink shows you every transport company, verified prices, and real departure times before you leave your house.',
 };
 
-export default async function LandingPage() {
-  const operators = await getPartnerOperators();
-
+export default function LandingPage() {
   return (
     <div className="flex flex-col bg-white dark:bg-dark-bg">
       <LandingHeader />
@@ -22,10 +17,23 @@ export default async function LandingPage() {
       <main>
 
         {/* ════════════════════════════════════════════════════════════════
+            LAUNCH BANNER
+        ════════════════════════════════════════════════════════════════ */}
+        <div className="fixed top-18 sm:top-20 left-0 right-0 z-40 bg-gradient-to-r from-emerald to-pine text-white text-center py-3 px-5 shadow-lg">
+          <Link href="/waitlist" className="inline-flex items-center gap-2 font-body font-semibold text-sm sm:text-base hover:opacity-90 transition-opacity">
+            <span className="w-2 h-2 rounded-full bg-white animate-pulse" />
+            Booking opens 10 Dec. Join the waitlist
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+            </svg>
+          </Link>
+        </div>
+
+        {/* ════════════════════════════════════════════════════════════════
             HERO
         ════════════════════════════════════════════════════════════════ */}
         <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-          {/* Background image — slightly blurred with overlay */}
+          {/* Background image - slightly blurred with overlay */}
           <div className="absolute inset-0 pointer-events-none select-none">
             <Image
               src="/hero.png"
@@ -52,16 +60,34 @@ export default async function LandingPage() {
               Stop Going<br />
               Park to Park.
             </h1>
-            <p className="text-lg sm:text-xl text-white/70 font-body font-medium tracking-wide mb-16">
+            <p className="text-lg sm:text-xl text-white/70 font-body font-medium tracking-wide mb-10">
               Book with ArriveLink.
             </p>
 
-            {/* Search form card — isolated stacking context so calendar opens above trust chips */}
-            <div className="relative bg-white/98 backdrop-blur border border-white/30 rounded-3xl p-6 sm:p-8 shadow-2xl text-left max-w-3xl mx-auto" style={{ zIndex: 20, isolation: 'isolate' }}>
-              <SearchForm forceLight />
+            {/* December launch CTA - replaces search form */}
+            <div className="relative bg-white/98 backdrop-blur border border-white/30 rounded-3xl p-8 sm:p-10 shadow-2xl max-w-2xl mx-auto text-center" style={{ zIndex: 20, isolation: 'isolate' }}>
+              <div className="inline-flex items-center gap-2 bg-emerald/10 rounded-full px-4 py-2 mb-5">
+                <span className="w-2 h-2 rounded-full bg-emerald animate-pulse" />
+                <span className="text-emerald text-sm font-body font-semibold">Coming 10 December 2026</span>
+              </div>
+              <h2 className="font-display text-2xl sm:text-3xl text-forest mb-3 leading-tight">
+                Booking opens soon.
+              </h2>
+              <p className="text-forest/60 font-body text-base mb-8 max-w-md mx-auto">
+                Be the first to book your December holiday travel. Join the waitlist and we will notify you the moment booking goes live.
+              </p>
+              <Link
+                href="/waitlist"
+                className="inline-flex items-center gap-2 px-8 py-4 bg-forest text-white rounded-2xl font-body font-bold text-lg hover:bg-pine transition-all shadow-lg hover:shadow-xl active:scale-[0.98]"
+              >
+                Join the Waitlist
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                </svg>
+              </Link>
             </div>
 
-            {/* Trust chips — sit below the search card's stacking context */}
+            {/* Trust chips */}
             <div className="mt-8" style={{ position: 'relative', zIndex: 5 }}>
               <ul className="flex flex-wrap items-center justify-center gap-x-8 gap-y-3 text-sm font-body">
                 {['Verified prices', 'Real departure times', 'Terminal locations confirmed'].map((label) => (
@@ -89,7 +115,7 @@ export default async function LandingPage() {
 
 
         {/* ════════════════════════════════════════════════════════════════
-            PROBLEM SECTION — "Sound Familiar?"
+            PROBLEM SECTION - "Sound Familiar?"
         ════════════════════════════════════════════════════════════════ */}
         <section className="min-h-screen flex items-center bg-[#0F1C14] px-5 py-24">
           <div className="max-w-6xl mx-auto w-full">
@@ -192,34 +218,12 @@ export default async function LandingPage() {
 
 
         {/* ════════════════════════════════════════════════════════════════
-            PARTNER CARRIERS CAROUSEL
-        ════════════════════════════════════════════════════════════════ */}
+            PARTNER CARRIERS CAROUSEL - Hidden until real operators onboard
+        ════════════════════════════════════════════════════════════════
         <section className="min-h-screen flex flex-col items-center justify-center bg-mist/40 dark:bg-dark-surface px-5 py-24 overflow-hidden">
-          <div className="w-full max-w-6xl mx-auto text-center mb-16">
-            <p className="text-emerald text-sm uppercase tracking-widest font-semibold font-body mb-4">Our Transport Partners</p>
-            <h2 className="font-display text-4xl sm:text-5xl lg:text-6xl text-forest dark:text-white mb-6 leading-tight">
-              Every major carrier.<br />One platform.
-            </h2>
-            <p className="text-forest/55 dark:text-white/50 font-body text-lg sm:text-xl max-w-xl mx-auto">
-              Hover over any company to see their profile and book with them directly.
-            </p>
-          </div>
-
-          {/* Full-bleed carousel */}
-          <div className="w-full">
-            <PartnerCarousel operators={operators} />
-          </div>
-
-          <Link
-            href="/search"
-            className="mt-16 inline-flex items-center gap-2 px-8 py-4 bg-forest text-white rounded-2xl font-body font-semibold text-lg hover:bg-pine transition-all shadow-lg hover:shadow-xl active:scale-[0.98]"
-          >
-            Find a Bus Now
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-            </svg>
-          </Link>
+          ...
         </section>
+        */}
 
 
         {/* ════════════════════════════════════════════════════════════════
@@ -264,7 +268,7 @@ export default async function LandingPage() {
 
 
         {/* ════════════════════════════════════════════════════════════════
-            DUAL CTA
+            DUAL CTA - December Campaign
         ════════════════════════════════════════════════════════════════ */}
         <section className="min-h-screen flex items-center px-5 py-24 bg-[#0F1C14]">
           <div className="max-w-6xl mx-auto w-full">
@@ -285,24 +289,23 @@ export default async function LandingPage() {
                 </div>
                 <span className="text-emerald text-xs font-body uppercase tracking-widest font-semibold mb-3">For Travellers</span>
                 <h3 className="font-display text-3xl sm:text-4xl text-white mb-4 leading-tight">
-                  Book your next<br />journey now.
+                  Book your December<br />travel early.
                 </h3>
                 <p className="text-white/50 font-body text-base leading-relaxed mb-10 flex-1">
-                  Search across every listed transport company. Compare fares.
-                  Reserve your seat instantly. No phone calls. No surprises.
+                  Be the first to know when booking goes live. Join the waitlist and secure the best fares for the holiday season.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-3">
                   <Link
-                    href="/onboarding"
+                    href="/waitlist"
                     className="flex-1 flex items-center justify-center px-6 py-4 bg-emerald text-forest rounded-2xl font-body font-bold text-base hover:bg-emerald/90 transition-all shadow-lg hover:shadow-emerald/20 active:scale-[0.98]"
                   >
-                    Create Free Account
+                    Join the Waitlist
                   </Link>
                   <Link
-                    href="/"
+                    href="/waitlist"
                     className="flex-1 flex items-center justify-center px-6 py-4 border border-white/20 text-white rounded-2xl font-body font-semibold text-base hover:bg-white/10 transition-all"
                   >
-                    Search Buses
+                    Learn More
                   </Link>
                 </div>
               </div>
@@ -324,16 +327,16 @@ export default async function LandingPage() {
                 </p>
                 <div className="flex flex-col sm:flex-row gap-3">
                   <Link
-                    href="/onboarding?role=operator"
+                    href="/contact"
                     className="flex-1 flex items-center justify-center px-6 py-4 bg-white text-forest rounded-2xl font-body font-bold text-base hover:bg-white/90 transition-all shadow-lg active:scale-[0.98]"
                   >
-                    List Your Company
+                    Contact Us
                   </Link>
                   <Link
-                    href="/contact"
+                    href="/waitlist"
                     className="flex-1 flex items-center justify-center px-6 py-4 border border-white/20 text-white rounded-2xl font-body font-semibold text-base hover:bg-white/10 transition-all"
                   >
-                    Contact Us
+                    Join the Waitlist
                   </Link>
                 </div>
               </div>
@@ -343,7 +346,7 @@ export default async function LandingPage() {
             <div className="mt-16 grid grid-cols-3 gap-6 text-center">
               {[
                 { stat: '36+', label: 'States covered' },
-                { stat: '15min', label: 'Seat reservation window' },
+                { stat: '10 Dec', label: 'Booking goes live' },
                 { stat: '100%', label: 'Verified operators' },
               ].map(({ stat, label }) => (
                 <div key={stat}>

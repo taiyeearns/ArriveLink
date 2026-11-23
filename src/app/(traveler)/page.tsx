@@ -1,6 +1,6 @@
+import Link from 'next/link';
 import { Card, CardContent } from '@/components/ui/card';
 import { Logo } from '@/components/ui/logo';
-import { SearchForm } from './search-form';
 
 export const dynamic = 'force-dynamic';
 
@@ -21,11 +21,28 @@ export default function TravelerHomePage() {
         </p>
       </div>
 
-      {/* Search card */}
+      {/* Booking opens soon card - replaces search form */}
       <Card className="shadow-lg border-0">
-        <CardContent className="pt-6 pb-6">
-          <p className="font-label text-foreground/40 mb-4">Find your ride</p>
-          <SearchForm />
+        <CardContent className="pt-8 pb-8 text-center">
+          <div className="inline-flex items-center gap-2 bg-emerald/10 dark:bg-emerald/20 rounded-full px-4 py-2 mb-5">
+            <span className="w-2 h-2 rounded-full bg-emerald animate-pulse" />
+            <span className="text-emerald text-sm font-body font-semibold">Coming 10 December</span>
+          </div>
+          <h2 className="font-display text-xl font-bold text-foreground mb-2">
+            Booking opens soon
+          </h2>
+          <p className="text-sm text-foreground/50 dark:text-foreground/40 font-body mb-6 max-w-xs mx-auto">
+            Join the waitlist and we will notify you the moment you can search and book buses on ArriveLink.
+          </p>
+          <Link
+            href="/waitlist"
+            className="inline-flex items-center gap-2 px-6 py-3.5 bg-forest dark:bg-emerald text-white dark:text-forest rounded-xl font-body font-bold text-base hover:bg-pine dark:hover:bg-emerald/90 transition-all shadow-md active:scale-[0.98]"
+          >
+            Join the Waitlist
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+            </svg>
+          </Link>
         </CardContent>
       </Card>
 
