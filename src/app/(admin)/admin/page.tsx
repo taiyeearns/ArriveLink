@@ -8,13 +8,14 @@ export const dynamic = 'force-dynamic';
 export default async function AdminDashboardPage() {
   const supabase = createAdminClient();
 
-  const [operatorsRes, routesRes, bookingsRes, usersRes, disputesRes, walletsRes] = await Promise.all([
+  const [operatorsRes, routesRes, bookingsRes, usersRes, disputesRes, walletsRes, waitlistRes] = await Promise.all([
     supabase.from('operators').select('id', { count: 'exact', head: true }),
     supabase.from('general_routes').select('id', { count: 'exact', head: true }),
     supabase.from('bookings').select('id', { count: 'exact', head: true }),
     supabase.from('users').select('id', { count: 'exact', head: true }),
     supabase.from('disputes').select('id', { count: 'exact', head: true }).is('resolved_at', null),
     supabase.from('wallets').select('pending_balance'),
+    supabase.from('waitlist').select('id', { count: 'exact', head: true }),
   ]);
 
   const totalPending = (walletsRes.data || []).reduce((sum: number, w: any) => sum + Number(w.pending_balance), 0);
@@ -26,6 +27,7 @@ export default async function AdminDashboardPage() {
     { label: 'Bookings', value: bookingsRes.count ?? 0, href: '/admin/bookings', color: 'text-pine' },
     { label: 'Open Disputes', value: disputesRes.count ?? 0, href: '/admin/disputes', color: 'text-error' },
     { label: 'Pending Settlement', value: `₦${totalPending.toLocaleString()}`, href: '/admin/settlement', color: 'text-amber-500' },
+    { label: 'Waitlist Signups', value: waitlistRes.count ?? 0, href: '/admin/waitlist', color: 'text-emerald' },
   ];
 
   return (

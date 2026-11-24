@@ -15,4 +15,4 @@
 
 UPDATE public.users
 SET role = 'admin'
-WHERE email = 'admin@arrivelink.com';
+WHERE email = 'arrivelink@gmail.com';

@@ -1,23 +1,13 @@
-import { redirect } from 'next/navigation';
-import { createClient } from '@/lib/supabase/server';
 import { LandingHeader } from '@/app/landing/landing-header';
 import { LandingFooter } from '@/app/landing/landing-footer';
-import { TallyEmbed } from './tally-embed';
+import { WaitlistForm } from './waitlist-form';
 
 export const metadata = {
   title: 'Join the Waitlist - ArriveLink',
   description: 'Booking opens 10 December. Join the waitlist and be the first to book your December holiday travel on ArriveLink.',
 };
 
-export default async function WaitlistPage() {
-  // Require authentication - redirect to signup if not logged in
-  const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
-
-  if (!user) {
-    redirect('/signup?redirect=%2Fwaitlist');
-  }
-
+export default function WaitlistPage() {
   return (
     <div className="flex flex-col min-h-screen bg-white dark:bg-dark-bg">
       <LandingHeader />
@@ -38,9 +28,9 @@ export default async function WaitlistPage() {
             </p>
           </div>
 
-          {/* Tally form embed */}
+          {/* Form */}
           <div className="bg-mist/30 dark:bg-dark-surface border border-mist dark:border-white/10 rounded-3xl p-6 sm:p-8">
-            <TallyEmbed />
+            <WaitlistForm />
           </div>
 
         </div>
