@@ -6,7 +6,7 @@
 // Transactional emails for booking events, boarding, trip completion, etc.
 
 const RESEND_API_KEY = process.env.RESEND_API_KEY;
-const FROM_EMAIL = 'ArriveLink <onboarding@resend.dev>';
+const FROM_EMAIL = 'ArriveLink <noreply@arrivelink.app>';
 const APP_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://www.arrivelink.app';
 
 interface SendEmailParams {

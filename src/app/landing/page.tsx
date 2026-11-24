@@ -65,7 +65,7 @@ export default function LandingPage() {
                 Be the first to book your December holiday travel. Join the waitlist and we will notify you the moment booking goes live.
               </p>
               <Link
-                href="/signup?redirect=%2Fwaitlist"
+                href="/waitlist"
                 className="inline-flex items-center gap-2 px-8 py-4 bg-forest text-white rounded-2xl font-body font-bold text-lg hover:bg-pine transition-all shadow-lg hover:shadow-xl active:scale-[0.98]"
               >
                 Join the Waitlist
@@ -284,13 +284,13 @@ export default function LandingPage() {
                 </p>
                 <div className="flex flex-col sm:flex-row gap-3">
                   <Link
-                    href="/signup?redirect=%2Fwaitlist"
+                    href="/waitlist"
                     className="flex-1 flex items-center justify-center px-6 py-4 bg-emerald text-forest rounded-2xl font-body font-bold text-base hover:bg-emerald/90 transition-all shadow-lg hover:shadow-emerald/20 active:scale-[0.98]"
                   >
                     Join the Waitlist
                   </Link>
                   <Link
-                    href="/signup?redirect=%2Fwaitlist"
+                    href="/waitlist"
                     className="flex-1 flex items-center justify-center px-6 py-4 border border-white/20 text-white rounded-2xl font-body font-semibold text-base hover:bg-white/10 transition-all"
                   >
                     Learn More
@@ -321,7 +321,7 @@ export default function LandingPage() {
                     Contact Us
                   </Link>
                   <Link
-                    href="/signup?redirect=%2Fwaitlist"
+                    href="/waitlist"
                     className="flex-1 flex items-center justify-center px-6 py-4 border border-white/20 text-white rounded-2xl font-body font-semibold text-base hover:bg-white/10 transition-all"
                   >
                     Join the Waitlist
